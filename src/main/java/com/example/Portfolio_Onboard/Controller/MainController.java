@@ -14,6 +14,49 @@ public class MainController {
         return "index";
     }
 
+    @GetMapping("/asia")
+    public String getAsia(){
+
+        return "asia";
+    }
+
+    @GetMapping("/europe")
+    public String getEurope(){
+
+        return "europe";
+    }
+
+    @GetMapping("/northAmerica")
+    public String getNorthAmerica(){
+
+        return "northAmerica";
+    }
+
+    @GetMapping("/southAmerica")
+    public String getSouthAmerica(){
+
+        return "southAmerica";
+    }
+
+    @GetMapping("/oceania")
+    public String getOceania(){
+
+        return "oceania";
+    }
+
+    @GetMapping("/notice")
+    public String getNotice(){
+
+        return "notice";
+    }
+
+    @GetMapping("/createBoard")
+    public String getCreateBoard(){
+
+        return "createBoard";
+    }
+
+
     @GetMapping("/board")
     public String getBoard(){
 

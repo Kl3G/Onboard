@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>index</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://kit.fontawesome.com/b3af913a6d.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css"/>
+    <script type="text/javascript" src="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
+    <link rel="stylesheet" href="/css/index.css">
+</head>
+
+<body>
+
+<header class="main__header">
+    <div class="container__header">
+        <div class="header__logo">
+            <a href="/index">
+                Onboard
+            </a>
+        </div>
+        <div class="header__form">
+            <form action="/search" method="get">
+                <input class="header__search" type="text" name="keyword" spellcheck="false">
+                <button class="header__button"type="submit ">
+                    <i class="fa-solid fa-magnifying-glass header__icon"></i>
+                </button>
+            </form>
+        </div>
+    </div>
+</header>
+
+
+<nav class="main__nav">
+    <div class="container__nav">
+        <ul class="nav__ul">
+            <li style="flex: 0.8;">
+                <div>
+                    <a href="/Asia">아시아</a>
+                </div>
+            </li>
+            <li style="flex: 0.65;">
+                <div>
+                    <a href="/Europe">유럽</a>
+                </div>
+            </li>
+            <li>
+                <div>
+                    <a href="/NorthAmerica">북아메리카</a>
+                </div>
+            </li>
+            <li>
+                <div>
+                    <a href="/SouthAmerica">남아메리카</a>
+                </div>
+            </li>
+            <li >
+                <div>
+                    <a href="/Oceania">오세아니아</a>
+                </div>
+            </li>
+            <li>
+                <div>
+                    <a href="/Notice">공지사항</a>
+                </div>
+            </li>
+        </ul>
+        <div class="slick-class">
+            <div> 전체보드수 4263개 </div>
+            <div> 전체게시글 12835개 </div>
+            <div> 전체댓글수 902 </div>
+        </div>
+    </div>
+</nav>
+
+<main class="main__main">
+    <div class="container__main">
+        <section class="main__section">
+            <div style="flex: 1; padding-bottom: 10px; border-bottom: 2px solid #2E58B9;">실시간 인기글</div>
+            <div style="flex: 4;">사진1</div>
+            <div style="flex: 17.5;">모든 대륙 전체글(순서대로)</div>
+        </section>
+
+        <aside class="main__aside">
+            <div style="flex: 1;">
+                로그인
+            </div>
+            <div style="flex: 4;">
+                달력, 광고, 공지
+            </div>
+        </aside>
+    </div>
+</main>
+
+<footer class="main__footer">
+    <div>
+        <ul class="footer__ul">
+            <li>
+                회사소개
+                <span>|</span>
+            </li>
+            <li>
+                이용약관
+                <span>|</span>
+            </li>
+            <li>
+                개인정보처리방침
+                <span>|</span>
+            </li>
+            <li>
+                청소년보호정책
+            </li>
+        </ul>
+    </div>
+    <span style="font-size: 12px;">Copyright ⓒ 2024 - 2025 ondoard. All rights reserved.</span>
+</footer>
+
+<script type="text/javascript">
+    $(document).ready(function(){
+      $('.slick-class').slick({
+          infinite: false,
+          slidesToShow: 1,
+          slickPlay: true,
+          arrows: false,
+          autoplay: true,
+          autoplaySpeed: 2000
+        });
+    });
+</script>
+</body>
+</html>

@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Asia</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://kit.fontawesome.com/b3af913a6d.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css"/>
+    <script type="text/javascript" src="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
+    <link rel="stylesheet" href="/css/index.css">
+</head>
+
+<body>
+
+<header class="main__header">
+    <div class="container__header">
+        <div class="header__logo">
+            <a href="/index">
+                Onboard
+            </a>
+        </div>
+        <div class="header__form">
+            <form action="/search" method="get">
+                <input class="header__search" type="text" name="keyword" spellcheck="false">
+                <button class="header__button"type="submit ">
+                    <i class="fa-solid fa-magnifying-glass header__icon"></i>
+                </button>
+            </form>
+        </div>
+    </div>
+</header>
+
+
+<nav class="main__nav">
+    <div class="container__nav">
+        <ul class="nav__ul">
+            <li style="flex: 0.8;">
+                <div>
+                    <a href="/asia">아시아</a>
+                </div>
+            </li>
+            <li style="flex: 0.65;">
+                <div>
+                    <a href="/europe">유럽</a>
+                </div>
+            </li>
+            <li>
+                <div>
+                    <a href="/northAmerica">북아메리카</a>
+                </div>
+            </li>
+            <li>
+                <div>
+                    <a href="/southAmerica">남아메리카</a>
+                </div>
+            </li>
+            <li >
+                <div>
+                    <a href="/oceania">오세아니아</a>
+                </div>
+            </li>
+            <li>
+                <div>
+                    <a href="/notice">공지사항</a>
+                </div>
+            </li>
+        </ul>
+        <div class="slick-class">
+            <div> 전체보드수 4263개 </div>
+            <div> 전체게시글 12835개 </div>
+            <div> 전체댓글수 902 </div>
+        </div>
+    </div>
+</nav>
+
+<main class="main__main">
+    <div class="container__main">
+        <section class="main__section">
+            <div style="flex: 1; padding-top: 10px; border-bottom: 2px solid #2E58B9;">
+                <div>
+                    인기글
+                </div>
+                <div style="flex: 1; padding: 3px; justify-content: flex-end;">
+                    <button class="button__boardCreate" type="button" onclick="location.href='/createBoard';">
+                        보드  만들기
+                    </button>
+                </div>
+            </div>
+            <div style="flex: 4; padding-top: 6px; padding-bottom: 6px;" >
+                사진1
+            </div>
+            <div style="flex: 1; padding-top: 10px; padding-left: 9px; background-color: #f3f3f3; color: #2E58B9; font-weight: bold;">
+                아시아 (3)
+            </div>
+            <div style="flex: 17.5;">
+                <div style="border: solid 1px #ccc; border-right: none;">
+                    <ul>
+                        <li>
+                            <a href="/Board">방콕 랭커스터 호텔</a>
+                        </li>
+                        <li>
+                            <a href="/Board">방콕 수완나품 공항</a>
+                        </li>
+                        <li>
+                            <a href="/Board">베트남 쌀국수</a>
+                        </li>
+                    </ul>
+                </div>
+                <div style="border: solid 1px #ccc; border-right: none;">
+                    <ul>
+                        <li>
+
+                        </li>
+                    </ul>
+                </div>
+                <div style="border: solid 1px #ccc; border-right: none;">
+                    <ul>
+                        <li>
+
+                        </li>
+                    </ul>
+                </div>
+                <div style="border: solid 1px #ccc; border-right: none;">
+                    <ul>
+                        <li>
+
+                        </li>
+                    </ul>
+                </div>
+                <div style="border: solid 1px #ccc;">
+                    <ul>
+                        <li>
+
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <aside class="main__aside" style="gap: 20px;">
+            <div class="login__div" style="flex: 1; display: flex; flex-direction: column; padding: 10px 0;">
+                <form style="flex: 1; display: flex; padding: 0 10px;">
+                    <fieldset style="flex: 1; display: flex; gap: 10px;">
+                        <legend>로그인</legend>
+                        <div style="flex: 1; display: flex; flex-direction: column; gap: 15px;">
+                            <input type="text" style="background-color: #f3f3f3; border: none; height: 37px;">
+                            <input type="text" style="background-color: #f3f3f3; border: none; height: 37px;">
+                        </div>
+                        <div style="flex: 0.5; display: flex; flex-direction: column; justify-content: flex-end;">
+                            <button style="background-color: #2E58B9; color: white; height: 37px; border: none;
+                            font-weight: bold;">
+                                로그인
+                            </button>
+                        </div>
+                    </fieldset>
+                </form>
+                <div style="flex: 1; font-size: 12px; margin: 0 10px; margin-top: 10px; padding-top: 9px; display: flex;
+                justify-content: center; border-top: 1px dashed #2E58B9; gap: 20px;">
+                    <a href="join">회원가입</a>
+                    <a href="find">아이디 or 비밀번호 찾기</a>
+                </div>
+            </div>
+            <div style="flex: 5; display: flex; flex-direction: column;">
+                <div style="height: 306.5px; width: 250px;"><img src="/img/fly.jpg" style="height: 306.5px; width: 250px;"></div>
+                <div style="height: 306.5px; width: 250px;"><img src="/img/fly3.jpg" style="height: 306.5px; width: 250px;"></div>
+            </div>
+        </aside>
+    </div>
+</main>
+
+<footer class="main__footer">
+    <div>
+        <ul class="footer__ul">
+            <li>
+                회사소개
+                <span>|</span>
+            </li>
+            <li>
+                이용약관
+                <span>|</span>
+            </li>
+            <li>
+                개인정보처리방침
+                <span>|</span>
+            </li>
+            <li>
+                청소년보호정책
+            </li>
+        </ul>
+    </div>
+    <span style="font-size: 12px;">Copyright ⓒ 2024 - 2025 ondoard. All rights reserved.</span>
+</footer>
+
+<script type="text/javascript">
+    $(document).ready(function(){
+      $('.slick-class').slick({
+          infinite: false,
+          slidesToShow: 1,
+          slickPlay: true,
+          arrows: false,
+          autoplay: true,
+          autoplaySpeed: 2000
+        });
+    });
+</script>
+</body>
+</html>

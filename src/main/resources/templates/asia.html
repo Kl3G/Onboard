@@ -18,6 +18,9 @@
             <a href="/index">
                 Onboard
             </a>
+            <a href="/index" style="font-size: 12px;">
+                모두의 보드, 즐거운 여행
+            </a>
         </div>
         <div class="header__form">
             <form action="/search" method="get">
@@ -76,7 +79,7 @@
 <main class="main__main">
     <div class="container__main">
         <section class="main__section">
-            <div style="flex: 1; padding-top: 10px; border-bottom: 2px solid #2E58B9;">
+            <div class="main__divTop">
                 <div>
                     인기글
                 </div>
@@ -86,10 +89,10 @@
                     </button>
                 </div>
             </div>
-            <div style="flex: 4; padding-top: 6px; padding-bottom: 6px;" >
+            <div class="main__divMid">
                 사진1
             </div>
-            <div style="flex: 1; padding-top: 10px; padding-left: 9px; background-color: #f3f3f3; color: #2E58B9; font-weight: bold;">
+            <div class="main__divBotTitle">
                 아시아 (3)
             </div>
             <div style="flex: 17.5;">
@@ -137,32 +140,36 @@
             </div>
         </section>
 
-        <aside class="main__aside" style="gap: 20px;">
-            <div class="login__div" style="flex: 1; display: flex; flex-direction: column; padding: 10px 0;">
-                <form style="flex: 1; display: flex; padding: 0 10px;">
-                    <fieldset style="flex: 1; display: flex; gap: 10px;">
+        <aside class="main__aside">
+            <div class="aside__loginDiv">
+                <form class="aside__loginForm">
+                    <fieldset>
                         <legend>로그인</legend>
-                        <div style="flex: 1; display: flex; flex-direction: column; gap: 15px;">
-                            <input type="text" style="background-color: #f3f3f3; border: none; height: 37px;">
-                            <input type="text" style="background-color: #f3f3f3; border: none; height: 37px;">
+                        <div class="aside__loginLeft">
+                            <input type="text">
+                            <input type="password">
+                            <!--<input> 요소는 기본적으로 설정된 최소 크기가 있습니다. 만약 너비나 높이가 설정되지 않으면, Flexbox는 이 기본 크기를 기준으로 계산하게 되는데, 이 경우 flex: 1;이 유효하게 작동하지 않습니다.
+                            기본적으로 입력 필드가 너무 작게 설정되면 Flexbox는 해당 요소의 크기를 조정할 수 없게 됩니다.-->
                         </div>
-                        <div style="flex: 0.5; display: flex; flex-direction: column; justify-content: flex-end;">
-                            <button style="background-color: #2E58B9; color: white; height: 37px; border: none;
-                            font-weight: bold;">
+                        <div class="aside__loginRight">
+                            <button>
                                 로그인
                             </button>
                         </div>
                     </fieldset>
                 </form>
-                <div style="flex: 1; font-size: 12px; margin: 0 10px; margin-top: 10px; padding-top: 9px; display: flex;
-                justify-content: center; border-top: 1px dashed #2E58B9; gap: 20px;">
+                <div class="aside__loginFormUnder">
                     <a href="join">회원가입</a>
                     <a href="find">아이디 or 비밀번호 찾기</a>
                 </div>
             </div>
-            <div style="flex: g5; display: flex; flex-direction: column;">
-                <div style="height: 306.5px; width: 250px;"><img src="/img/fly.jpg" style="height: 306.5px; width: 250px;"></div>
-                <div style="height: 306.5px; width: 250px;"><img src="/img/fly3.jpg" style="height: 306.5px; width: 250px;"></div>
+            <div style="flex: 5; display: flex; flex-direction: column;">
+                <div style="height: 306.5px; width: 250px;">
+                    <img src="/img/fly.jpg" style="height: 306.5px; width: 250px;">
+                </div>
+                <div style="height: 306.5px; width: 250px;">
+                    <img src="/img/fly3.jpg" style="height: 306.5px; width: 250px;">
+                </div>
             </div>
         </aside>
     </div>

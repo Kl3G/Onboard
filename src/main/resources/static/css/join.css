@@ -1,0 +1,199 @@
+*{
+    padding: 0;
+    margin: 0;
+}
+
+a:link {color: white; text-decoration: none;}
+a:visited {color: white;}
+a:hover {color: white;}
+a:active {color: white;}
+
+p {
+
+    margin-top: 5px;
+    font-size: 12px;
+    color: #666666;
+}
+
+input {
+
+    width: 400px; height: 35px;
+    padding: 0 10px;
+    font-size: 15px;
+}
+
+.group {
+
+    margin-top: 30px;
+}
+
+button {
+
+    background-color: #666666;
+    border: 1px solid black;
+    border-radius: 3px;
+    color: white;
+    width: 100px;
+    height: 35px;
+}
+
+header {
+
+    display: block;
+    background-color: #29367c;
+    display: flex;
+    justify-content: center;
+    box-sizing: border-box;
+    padding-top: 50px;
+    padding-bottom: 20px;
+}
+
+.divLogo__header {
+
+    background-color: #29367c;
+    text-align: center;
+    max-width: 357.5px;
+    min-width: 357.5px;
+    margin-left: auto;
+    /*padding-left: auto;
+    padding-right: auto;*/
+    font-weight: bold; /* 볼드 처리 */
+    font-size: 40px; /* 글씨 크기 설정 */
+    font-style: italic; /* 기울임꼴 설정 */
+    color: white;
+}
+
+.divTitle__header {
+
+    background-color: #29367c;
+    text-align: center;
+    max-width: 357.5px;
+    min-width: 357.5px;
+    margin-right: auto;
+    /*padding-left: auto;
+    padding-right: auto;*/
+    font-weight: bold; /* 볼드 처리 */
+    font-size: 20px; /* 글씨 크기 설정 */
+    font-style: italic; /* 기울임꼴 설정 */
+    color: white;
+    display: flex; /* Flexbox 활성화 */
+    justify-content: center; /* 수평 중앙 정렬 */
+    align-items: center;
+
+}
+
+main {
+
+    display: block;
+    display: flex;
+    flex-direction: column;
+    height: calc(1000px - 100px);
+    margin: 0 auto;
+    min-width: 800px;
+    max-width: 800px;
+}
+
+section {
+
+    min-width: 800px;
+    max-width: 800px;
+    display: flex;
+    flex-direction: column;
+}
+
+.divTitle__section {
+
+    flex: 0.3;
+    display: flex;
+    font-size: 15px;
+    padding-bottom: 10px;
+    margin-top: 50px;
+    margin-bottom: 20px;
+    border-bottom: 3px solid #29367c;
+    min-width: 800px;
+    max-width: 800px;
+}
+
+.form__section {
+
+    min-width: 800px;
+    max-width: 800px;
+    flex: 5;
+    display: flex;
+    flex-direction: column;
+}
+
+.fieldset__section {
+
+    box-sizing: border-box;
+    display: flex; flex-direction: column; flex: 1;
+    padding: 50px 80px; border: 1px solid #ccc; border-radius: 5px;
+}
+
+fieldset div{
+
+    display: flex;
+}
+
+.msgBox {
+
+    display: flex; flex-direction: column;
+}
+
+.title__form {
+
+    max-width: 150px;
+    min-width: 150px;
+    font-size: 14px;
+    color: #333;
+    font-weight: bold;
+    justify-content: center;
+}
+
+legend {
+
+    position: absolute;
+    width: 1px; height: 1px; margin: -1px; padding: 0; border: 0;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+}
+
+.divButton__section {
+    flex: 0.3;
+    display: flex;
+    min-width: 800px;
+    max-width: 800px;
+}
+
+
+.main__footer {
+
+    margin-top: 50px;
+    position: relative;
+    bottom: 20px;
+    width: 100%;
+    text-align: center;
+}
+
+.footer__ul {
+
+    display: flex;
+    list-style-type: none;
+    padding: 0;
+    justify-content: center;
+    font-size: 14px;
+}
+
+.footer__ul li {
+
+    position: relative; margin-right: 20px;
+}
+
+.footer__ul span {
+
+    position: absolute; right: -10px; top: 0;
+}
+
+footer {
+
+}

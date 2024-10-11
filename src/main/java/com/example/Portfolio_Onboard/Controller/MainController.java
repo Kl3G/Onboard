@@ -56,6 +56,11 @@ public class MainController {
         return "createBoard";
     }
 
+    @GetMapping("/join")
+    public String getJoin(){
+
+        return "join";
+    }
 
     @GetMapping("/board")
     public String getBoard(){

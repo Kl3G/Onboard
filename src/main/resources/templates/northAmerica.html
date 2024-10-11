@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>index</title>
+    <title>northAmerica</title>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://kit.fontawesome.com/b3af913a6d.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css"/>
@@ -17,6 +17,9 @@
         <div class="header__logo">
             <a href="/index">
                 Onboard
+            </a>
+            <a href="/index" style="font-size: 12px;">
+                모두의 보드, 즐거운 여행
             </a>
         </div>
         <div class="header__form">
@@ -36,32 +39,32 @@
         <ul class="nav__ul">
             <li style="flex: 0.8;">
                 <div>
-                    <a href="/Asia">아시아</a>
+                    <a href="/asia">아시아</a>
                 </div>
             </li>
             <li style="flex: 0.65;">
                 <div>
-                    <a href="/Europe">유럽</a>
+                    <a href="/europe">유럽</a>
                 </div>
             </li>
             <li>
                 <div>
-                    <a href="/NorthAmerica">북아메리카</a>
+                    <a href="/northAmerica">북아메리카</a>
                 </div>
             </li>
             <li>
                 <div>
-                    <a href="/SouthAmerica">남아메리카</a>
+                    <a href="/southAmerica">남아메리카</a>
                 </div>
             </li>
             <li >
                 <div>
-                    <a href="/Oceania">오세아니아</a>
+                    <a href="/oceania">오세아니아</a>
                 </div>
             </li>
             <li>
                 <div>
-                    <a href="/Notice">공지사항</a>
+                    <a href="/notice">공지사항</a>
                 </div>
             </li>
         </ul>
@@ -76,17 +79,97 @@
 <main class="main__main">
     <div class="container__main">
         <section class="main__section">
-            <div style="flex: 1; padding-bottom: 10px; border-bottom: 2px solid #2E58B9;">실시간 인기글</div>
-            <div style="flex: 4;">사진1</div>
-            <div style="flex: 17.5;">모든 대륙 전체글(순서대로)</div>
+            <div class="main__divTop">
+                <div>
+                    인기글
+                </div>
+                <div style="flex: 1; padding: 3px; justify-content: flex-end;">
+                    <button class="button__boardCreate" type="button" onclick="location.href='/createBoard';">
+                        보드  만들기
+                    </button>
+                </div>
+            </div>
+            <div class="main__divMid">
+                사진1
+            </div>
+            <div class="main__divBotTitle">
+                북아메리카 (3)
+            </div>
+            <div style="flex: 17.5;">
+                <div style="border: solid 1px #ccc; border-right: none;">
+                    <ul>
+                        <li>
+                            <a href="/Board">방콕 랭커스터 호텔</a>
+                        </li>
+                        <li>
+                            <a href="/Board">방콕 수완나품 공항</a>
+                        </li>
+                        <li>
+                            <a href="/Board">베트남 쌀국수</a>
+                        </li>
+                    </ul>
+                </div>
+                <div style="border: solid 1px #ccc; border-right: none;">
+                    <ul>
+                        <li>
+
+                        </li>
+                    </ul>
+                </div>
+                <div style="border: solid 1px #ccc; border-right: none;">
+                    <ul>
+                        <li>
+
+                        </li>
+                    </ul>
+                </div>
+                <div style="border: solid 1px #ccc; border-right: none;">
+                    <ul>
+                        <li>
+
+                        </li>
+                    </ul>
+                </div>
+                <div style="border: solid 1px #ccc;">
+                    <ul>
+                        <li>
+
+                        </li>
+                    </ul>
+                </div>
+            </div>
         </section>
 
         <aside class="main__aside">
-            <div style="flex: 1;">
-                로그인
+            <div class="aside__loginDiv">
+                <form class="aside__loginForm">
+                    <fieldset>
+                        <legend>로그인</legend>
+                        <div class="aside__loginLeft">
+                            <input type="text">
+                            <input type="password">
+                            <!--<input> 요소는 기본적으로 설정된 최소 크기가 있습니다. 만약 너비나 높이가 설정되지 않으면, Flexbox는 이 기본 크기를 기준으로 계산하게 되는데, 이 경우 flex: 1;이 유효하게 작동하지 않습니다.
+                            기본적으로 입력 필드가 너무 작게 설정되면 Flexbox는 해당 요소의 크기를 조정할 수 없게 됩니다.-->
+                        </div>
+                        <div class="aside__loginRight">
+                            <button>
+                                로그인
+                            </button>
+                        </div>
+                    </fieldset>
+                </form>
+                <div class="aside__loginFormUnder">
+                    <a href="join">회원가입</a>
+                    <a href="find">아이디 or 비밀번호 찾기</a>
+                </div>
             </div>
-            <div style="flex: 4;">
-                달력, 광고, 공지
+            <div style="flex: 5; display: flex; flex-direction: column;">
+                <div style="height: 306.5px; width: 250px;">
+                    <img src="/img/fly.jpg" style="height: 306.5px; width: 250px;">
+                </div>
+                <div style="height: 306.5px; width: 250px;">
+                    <img src="/img/fly3.jpg" style="height: 306.5px; width: 250px;">
+                </div>
             </div>
         </aside>
     </div>

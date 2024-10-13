@@ -46,6 +46,7 @@ header {
     box-sizing: border-box;
     padding-top: 50px;
     padding-bottom: 20px;
+    min-width: 800px;
 }
 
 .divLogo__header {

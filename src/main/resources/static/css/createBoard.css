@@ -225,6 +225,7 @@
         border-radius: 3px;
         padding: 10px;
         box-sizing: border-box;
+        margin-bottom: 30px;
     }
 
     section form {

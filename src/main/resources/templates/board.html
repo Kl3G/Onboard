@@ -3,8 +3,222 @@
 <head>
     <meta charset="UTF-8">
     <title>Board</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://kit.fontawesome.com/b3af913a6d.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css"/>
+    <script type="text/javascript" src="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
+    <link rel="stylesheet" href="/css/board.css">
 </head>
+
 <body>
 
+<header class="main__header">
+    <div class="container__header">
+        <div class="header__logo">
+            <a href="/index">
+                Onboard
+            </a>
+            <a href="/index" style="font-size: 12px;">
+                모두의 보드, 즐거운 여행
+            </a>
+        </div>
+        <div class="header__form">
+            <form action="/search" method="get">
+                <input class="header__search" type="text" name="keyword" spellcheck="false">
+                <button class="header__button"type="submit ">
+                    <i class="fa-solid fa-magnifying-glass header__icon"></i>
+                </button>
+            </form>
+        </div>
+    </div>
+</header>
+
+
+<nav class="main__nav">
+    <div class="container__nav">
+        <ul class="nav__ul">
+            <li style="flex: 0.8;">
+                <div>
+                    <a href="/asia">아시아</a>
+                </div>
+            </li>
+            <li style="flex: 0.65;">
+                <div>
+                    <a href="/europe">유럽</a>
+                </div>
+            </li>
+            <li>
+                <div>
+                    <a href="/northAmerica">북아메리카</a>
+                </div>
+            </li>
+            <li>
+                <div>
+                    <a href="/southAmerica">남아메리카</a>
+                </div>
+            </li>
+            <li >
+                <div>
+                    <a href="/oceania">오세아니아</a>
+                </div>
+            </li>
+            <li>
+                <div>
+                    <a href="/notice">공지사항</a>
+                </div>
+            </li>
+        </ul>
+        <div class="slick-class">
+            <div> 전체보드수 4263개 </div>
+            <div> 전체게시글 12835개 </div>
+            <div> 전체댓글수 902 </div>
+        </div>
+    </div>
+</nav>
+
+<main class="main__main">
+    <div class="container__main">
+        <section class="main__section">
+            <div class="main__divTop">
+                <div style="font-size: 24px; color: #29367c;">
+                    방콕 랭커스터 호텔 보드
+                </div>
+            </div>
+            <div class="main__divMid">
+                보드 사진, 소개, 매니저 이름
+            </div>
+            <table style="display: table;">
+                <colgroup>
+                    <col style="width:7%">
+                    <col style="width:6%">
+                    <col style="width:51%">
+                    <col style="width:18%">
+                    <col style="width:6%">
+                    <col style="width:6%">
+                    <col style="width:6%">
+                </colgroup>
+                <thead>
+                    <tr>
+                        <th scope="col">번호</th>
+                        <th scope="col">말머리</th>
+                        <th scope="col">제목</th>
+                        <th scope="col">글쓴이</th>
+                        <th scope="col">작성일</th>
+                        <th scope="col">조회</th>
+                        <th scope="col">추천</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>1</td>
+                        <td>공지</td>
+                        <td>긴급</td>
+                        <td>매니저</td>
+                        <td>오늘</td>
+                        <td>0</td>
+                        <td>0</td>
+                    </tr>
+                    <tr>
+                        <td>1</td>
+                        <td>공지</td>
+                        <td>긴급</td>
+                        <td>매니저</td>
+                        <td>오늘</td>
+                        <td>0</td>
+                        <td>0</td>
+                    </tr>
+                    <tr>
+                        <td>1</td>
+                        <td>공지</td>
+                        <td>긴급</td>
+                        <td>매니저</td>
+                        <td>오늘</td>
+                        <td>0</td>
+                        <td>0</td>
+                    </tr>
+                    <tr>
+                        <td>1</td>
+                        <td>공지</td>
+                        <td>긴급</td>
+                        <td>매니저</td>
+                        <td>오늘</td>
+                        <td>0</td>
+                        <td>0</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <aside class="main__aside">
+            <div class="aside__loginDiv">
+                <form class="aside__loginForm">
+                    <fieldset>
+                        <legend>로그인</legend>
+                        <div class="aside__loginLeft">
+                            <input type="text">
+                            <input type="password">
+                            <!-- <input> 요소는 기본적으로 설정된 최소 크기가 있습니다. 만약 너비나 높이가 설정되지 않으면,
+                            Flexbox는 이 기본 크기를 기준으로 계산하게 되는데, 이 경우 flex: 1;이 유효하게 작동하지 않습니다.
+                            기본적으로 입력 필드가 너무 작게 설정되면 Flexbox는 해당 요소의 크기를 조정할 수 없게 됩니다.-->
+                        </div>
+                        <div class="aside__loginRight">
+                            <button>
+                                로그인
+                            </button>
+                        </div>
+                    </fieldset>
+                </form>
+                <div class="aside__loginFormUnder">
+                    <a href="join">회원가입</a>
+                    <a href="find">아이디 or 비밀번호 찾기</a>
+                </div>
+            </div>
+            <div style="flex: 5; display: flex; flex-direction: column;">
+                <div style="height: 306.5px; width: 250px;">
+                    <img src="/img/fly.jpg" style="height: 306.5px; width: 250px;">
+                </div>
+                <div style="height: 306.5px; width: 250px;">
+                    <img src="/img/fly3.jpg" style="height: 306.5px; width: 250px;">
+                </div>
+            </div>
+        </aside>
+    </div>
+</main>
+
+<footer class="main__footer">
+    <div>
+        <ul class="footer__ul">
+            <li>
+                회사소개
+                <span>|</span>
+            </li>
+            <li>
+                이용약관
+                <span>|</span>
+            </li>
+            <li>
+                개인정보처리방침
+                <span>|</span>
+            </li>
+            <li>
+                청소년보호정책
+            </li>
+        </ul>
+    </div>
+    <span style="font-size: 12px;">Copyright ⓒ 2024 - 2025 ondoard. All rights reserved.</span>
+</footer>
+
+<script type="text/javascript">
+    $(document).ready(function(){
+      $('.slick-class').slick({
+          infinite: false,
+          slidesToShow: 1,
+          slickPlay: true,
+          arrows: false,
+          autoplay: true,
+          autoplaySpeed: 2000
+        });
+    });
+</script>
 </body>
 </html>

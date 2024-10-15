@@ -42,11 +42,11 @@ header {
     display: block;
     background-color: #29367c;
     display: flex;
+    min-width: 800px;
     justify-content: center;
     box-sizing: border-box;
     padding-top: 50px;
     padding-bottom: 20px;
-    min-width: 800px;
 }
 
 .divLogo__header {
@@ -56,10 +56,8 @@ header {
     max-width: 357.5px;
     min-width: 357.5px;
     margin-left: auto;
-    /*padding-left: auto;
-    padding-right: auto;*/
-    font-weight: bold; /* 볼드 처리 */
-    font-size: 40px; /* 글씨 크기 설정 */
+    font-weight: bold;
+    font-size: 40px;
     font-style: italic; /* 기울임꼴 설정 */
     color: white;
 }
@@ -71,13 +69,11 @@ header {
     max-width: 357.5px;
     min-width: 357.5px;
     margin-right: auto;
-    /*padding-left: auto;
-    padding-right: auto;*/
-    font-weight: bold; /* 볼드 처리 */
-    font-size: 20px; /* 글씨 크기 설정 */
+    font-weight: bold;
+    font-size: 20px;
     font-style: italic; /* 기울임꼴 설정 */
     color: white;
-    display: flex; /* Flexbox 활성화 */
+    display: flex;
     justify-content: center; /* 수평 중앙 정렬 */
     align-items: center;
 

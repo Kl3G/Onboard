@@ -1,59 +1,29 @@
 package com.example.Portfolio_Onboard.Controller;
 
+import com.example.Portfolio_Onboard.DTO.DTOJoin;
+import com.example.Portfolio_Onboard.Service.ServiceJoinLogin;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 //@RequestMapping("/member")
 public class MainController {
 
+    private final ServiceJoinLogin serviceJoinLogin;
+
+    @Autowired
+    MainController(ServiceJoinLogin serviceJoinLogin){
+
+        this.serviceJoinLogin = serviceJoinLogin;
+    }
+
     @GetMapping("/index")
     public String getIndex(){
 
         return "index";
-    }
-
-    @GetMapping("/asia")
-    public String getAsia(){
-
-        return "asia";
-    }
-
-    @GetMapping("/europe")
-    public String getEurope(){
-
-        return "europe";
-    }
-
-    @GetMapping("/northAmerica")
-    public String getNorthAmerica(){
-
-        return "northAmerica";
-    }
-
-    @GetMapping("/southAmerica")
-    public String getSouthAmerica(){
-
-        return "southAmerica";
-    }
-
-    @GetMapping("/oceania")
-    public String getOceania(){
-
-        return "oceania";
-    }
-
-    @GetMapping("/notice")
-    public String getNotice(){
-
-        return "notice";
-    }
-
-    @GetMapping("/createBoard")
-    public String getCreateBoard(){
-
-        return "createBoard";
     }
 
     @GetMapping("/join")
@@ -62,9 +32,48 @@ public class MainController {
         return "join";
     }
 
+    @PostMapping("/join_proc")
+    public String setJoin(DTOJoin dtoJoin){
+
+        return serviceJoinLogin.setJoin(dtoJoin);
+    }
+
     @GetMapping("/board")
     public String getBoard(){
 
         return "board";
+    }
+
+    @GetMapping("/createBoard")
+    public String getCreateBoard(){
+
+        return "createBoard";
+    }
+
+    @GetMapping(value= {"/asia", "/europe", "/northAmerica", "/southAmerica", "/oceania"})
+    public String getAsia(@RequestParam(value = "country") int num){
+
+        String country = "";
+
+        switch(num){
+
+            case 1 : country = "/asia";
+            break;
+            case 2 : country = "/europe";
+            break;
+            case 3 : country = "/northAmerica";
+            break;
+            case 4 : country = "/southAmerica";
+            break;
+            case 5 : country =  "/oceania";
+        }
+
+        return country;
+    }
+
+    @GetMapping("/notice")
+    public String getNotice(){
+
+        return "notice";
     }
 }

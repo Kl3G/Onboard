@@ -22,10 +22,20 @@
         font-size: 12px;
     }
 
+    tr {
+
+        height: 25px;
+        max-height: 25px;
+        vertical-align: middle;
+        text-align: center;
+        font-size: 12px;
+    }
+
     td {
 
         height: 25px;
-        border-width: 2px 0 1px;
+        max-height: 25px;
+        border-width: 0px 0 1px;
         border-style: solid;
         border-color: #29367c;
         vertical-align: middle;

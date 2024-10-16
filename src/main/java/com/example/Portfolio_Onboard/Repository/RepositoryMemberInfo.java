@@ -5,5 +5,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface RepositoryMemberInfo extends JpaRepository<EntityMemberInfo, String> {
 
-
+    EntityMemberInfo findByUserid(String userid);
 }

@@ -4,8 +4,12 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
+import java.util.Collection;
 import java.util.Date;
+import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -13,7 +17,7 @@ import java.util.UUID;
 @Table(name="member_info")
 @AllArgsConstructor
 @NoArgsConstructor
-public class EntityMemberInfo {
+public class EntityMemberInfo implements UserDetails {
 
     @Id
     private String userid;
@@ -21,4 +25,19 @@ public class EntityMemberInfo {
     private String nick;
     private String mail;
     private Date regdate;
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return List.of();
+    }
+
+    @Override
+    public String getPassword() {
+        return this.pwd;
+    }
+
+    @Override
+    public String getUsername() {
+        return this.userid;
+    }
 }

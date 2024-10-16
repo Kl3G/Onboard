@@ -1,6 +1,7 @@
 package com.example.Portfolio_Onboard.Controller;
 
 import com.example.Portfolio_Onboard.DTO.DTOJoin;
+import com.example.Portfolio_Onboard.DTO.DTOLogin;
 import com.example.Portfolio_Onboard.Service.ServiceJoinLogin;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -38,6 +39,12 @@ public class MainController {
         return serviceJoinLogin.setJoin(dtoJoin);
     }
 
+    @PostMapping("/login_proc")
+    public String setLogin(DTOLogin dtoLogin){
+
+        return "sd";
+    }
+
     @GetMapping("/board")
     public String getBoard(){
 
@@ -50,22 +57,22 @@ public class MainController {
         return "createBoard";
     }
 
-    @GetMapping(value= {"/asia", "/europe", "/northAmerica", "/southAmerica", "/oceania"})
+    @GetMapping(value= {"/world/asia", "/world/europe", "/world/northAmerica", "/world/southAmerica", "/world/oceania"})
     public String getAsia(@RequestParam(value = "country") int num){
 
         String country = "";
 
         switch(num){
 
-            case 1 : country = "/asia";
+            case 1 : country = "/world/asia";
             break;
-            case 2 : country = "/europe";
+            case 2 : country = "/world/europe";
             break;
-            case 3 : country = "/northAmerica";
+            case 3 : country = "/world/northAmerica";
             break;
-            case 4 : country = "/southAmerica";
+            case 4 : country = "/world/southAmerica";
             break;
-            case 5 : country =  "/oceania";
+            case 5 : country =  "/world/oceania";
         }
 
         return country;

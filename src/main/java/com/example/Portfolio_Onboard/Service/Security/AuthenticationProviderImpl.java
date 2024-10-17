@@ -30,20 +30,15 @@ public class AuthenticationProviderImpl implements AuthenticationProvider {
         String userid = (String) authentication.getPrincipal();
         String pwd = (String) authentication.getCredentials();
 
-        log.warn(userid);
-        log.warn(pwd);
-
         UserDetails user = userDetailsService.loadUserByUsername(userid);
 
         if (user == null){
 
-            log.warn("없는 아이디");
             throw new UsernameNotFoundException("없는 아이디..");
         }
 
         if(!pwd.equals(user.getPassword())){
 
-            log.warn("비밀번호 오류");
             throw new BadCredentialsException("비밀번호 오류..");
         }
 

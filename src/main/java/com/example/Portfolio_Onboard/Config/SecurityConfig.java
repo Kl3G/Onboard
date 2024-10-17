@@ -1,5 +1,6 @@
 package com.example.Portfolio_Onboard.Config;
 
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -30,12 +31,17 @@ public class SecurityConfig {
                 .anyRequest().authenticated()
         );
 
-        http.formLogin(login -> login
+        http.formLogin(login -> login // 로그인 요청 처리 시 HTTP 응답 상태 코드를 설정하는 역할을 합니다.
+                // 그리고 HTTP 응답 상태를 ajax의 response 변수에 전달하고 그것을 바탕으로 다양한 동작을 실행합니다.
 
                 .loginPage("/index")
                 .loginProcessingUrl("/login_proc")
                 .defaultSuccessUrl("/index", true) // 로그인 성공 후 이동할 페이지
-                .failureUrl("/index?error=true") // 로그인 실패 후 출력 url
+                //.failureUrl("/index?error=true") // 로그인 실패 후 출력 url
+                .failureHandler((request, response, exception) -> {
+                    response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+                    // 실패 시 401 반환하고 어떠한 세션도 생성하지 않는다.
+                })
                 .permitAll()
         );
 

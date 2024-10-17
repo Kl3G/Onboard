@@ -18,7 +18,6 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String userid) throws UsernameNotFoundException {
 
-        log.error(repositoryMemberInfo.findByUserid(userid));
         return repositoryMemberInfo.findByUserid(userid);
     }
 }

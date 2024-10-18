@@ -1,4 +1,4 @@
-package com.example.Portfolio_Onboard.Service.Security;
+package com.example.Portfolio_Onboard.Config;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;

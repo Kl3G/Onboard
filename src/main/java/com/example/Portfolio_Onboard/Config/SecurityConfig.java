@@ -20,7 +20,8 @@ public class SecurityConfig {
         log.warn("SecurityFilterChain");
 
         //http.cors(AbstractHttpConfigurer::disable).csrf(AbstractHttpConfigurer::disable);
-        http.csrf(AbstractHttpConfigurer::disable);
+        //http.csrf(AbstractHttpConfigurer::disable);
+        //다른 페이지 로그인 방지
 
         http.authorizeHttpRequests( authorize -> authorize // 권한부여
 

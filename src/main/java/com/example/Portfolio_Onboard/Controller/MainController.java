@@ -3,7 +3,7 @@ package com.example.Portfolio_Onboard.Controller;
 import com.example.Portfolio_Onboard.DTO.DTOJoin;
 import com.example.Portfolio_Onboard.DTO.DTOLogin;
 import com.example.Portfolio_Onboard.Service.ServiceJoinLogin;
-import lombok.extern.slf4j.Slf4j;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-@Slf4j
+@Log4j2
 @Controller
 //@RequestMapping("/member")
 public class MainController {

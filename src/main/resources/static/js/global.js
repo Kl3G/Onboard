@@ -74,9 +74,15 @@ function handleLoginSubmit(event) {
             join.hide(); // 회원가입 링크 숨기기
             find.hide(); // 비밀번호 찾기 링크 숨기기
             logoutBtn.show(); // 로그아웃 링크 표시
-
-            // 빈 div에 원하는 내용을 추가합니다.
-            emptySpace.html('<p>안녕하세요!<br>'+userid+'님 반갑습니다.</p>');
+            fetch('/api/get-nick')
+            .then(response => response.text())
+            .then(nick => {
+                if (nick) {
+                    // nick 값이 존재할 경우 처리
+                    emptySpace.html('<span>안녕하세요!</span><br><span style="font-weight: bold;">' + nick + '</span>님');
+                }
+            })
+                .catch(error => console.error('nick 값을 가져오는 중 오류 발생:', error));
         } else if (response.status === 401) {
             // response.status: 서버가 반환한 HTTP 상태 코드를 숫자로 제공합니다.
             // 예를 들어, 로그인 성공 시 200, 실패 시 401이 될 수 있습니다.
@@ -105,6 +111,15 @@ window.onload = function() {
         .then(status => {
             if (status === 'logged_in') {
                 // 로그인 상태일 때 보여줄 내용
+                fetch('/api/get-nick')
+                    .then(response => response.text())
+                    .then(nick => {
+                        if (nick) {
+                            // nick 값이 존재할 경우 처리
+                            emptySpace.html('<span>안녕하세요!</span><br><span style="font-weight: bold;">' + nick + '</span>님');
+                        }
+                    })
+                    .catch(error => console.error('nick 값을 가져오는 중 오류 발생:', error));
 
                 loginForm = $('#loginForm');
                 emptySpace = $('#emptySpace');

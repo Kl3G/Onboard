@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Asia</title>
@@ -84,7 +84,8 @@
                     인기글
                 </div>
                 <div style="flex: 1; padding: 3px; justify-content: flex-end;">
-                    <button class="button__boardCreate" type="button" onclick="location.href='/createBoard';">
+                    <button class="button__boardCreate" type="button"
+                            onclick="location.href='/createBoard?place=1';">
                         보드  만들기
                     </button>
                 </div>
@@ -93,19 +94,14 @@
                 사진1
             </div>
             <div class="main__divBotTitle">
-                아시아 (3)
+                아시아 &thinsp; <span th:text="'(' + ${boardCount} + ')'"></span>
             </div>
             <div style="flex: 17.5;">
                 <div style="border: solid 1px #ccc; border-right: none;">
                     <ul>
-                        <li>
-                            <a href="/Board">방콕 랭커스터 호텔</a>
-                        </li>
-                        <li>
-                            <a href="/Board">방콕 수완나품 공항</a>
-                        </li>
-                        <li>
-                            <a href="/Board">베트남 쌀국수</a>
+                        <li th:each="board : ${boards}"
+                            th:if="${board.place.equals('1')}">
+                            <a href="/Board" th:text="${board.b_name}">호텔 이름</a>
                         </li>
                     </ul>
                 </div>

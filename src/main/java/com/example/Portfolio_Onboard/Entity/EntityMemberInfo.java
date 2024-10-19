@@ -10,11 +10,10 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
-import java.util.UUID;
 
 @Entity
 @Data
-@Table(name="member_info")
+@Table(name = "member_info")
 @AllArgsConstructor
 @NoArgsConstructor
 public class EntityMemberInfo implements UserDetails {
@@ -40,4 +39,5 @@ public class EntityMemberInfo implements UserDetails {
     public String getUsername() {
         return this.userid;
     }
+
 }

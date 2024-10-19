@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>createBoard</title>
@@ -96,39 +96,39 @@
                 </p>
             </div>
         </div>
-        <form>
+        <form action="/createBoard_proc" method="post">
             <fieldset>
                 <legend>보드 만들기</legend>
-                <input type="hidden" id="id" name="id" >
-                <input type="hidden" id="nick" name="nick">
+                <input type="hidden" id="userid" name="userid" th:value="${userid}">
+                <input type="hidden" id="nick" name="nick" th:value="${nick}">
                 <div class="worldGroup div">
                     <div class="title">지역</div>
-                    <select>
-                        <option id="asia" name="asia">아시아</option>
-                        <option id="europe" name="europe">유럽</option>
-                        <option id="northAmerica" name="northAmerica">북아메리카</option>
-                        <option id="southAmerica" name="southAmerica">남아메리카</option>
-                        <option id="oceania" name="oceania">오세아니아</option>
+                    <select id="place" name="place">
+                        <option id="asia" value="1">아시아</option>
+                        <option id="europe" value="2">유럽</option>
+                        <option id="northAmerica" value="3">북아메리카</option>
+                        <option id="southAmerica" value="4">남아메리카</option>
+                        <option id="oceania" value="5">오세아니아</option>
                     </select>
                 </div>
                 <div class="titleGroup div">
                     <div class="title">이름</div>
-                    <input type="text">
+                    <input type="text" id="b_name" name="b_name">
                 </div>
                 <div class="introGroup div">
                     <div class="title">설명</div>
-                    <input type="text">
+                    <input type="text" id="intro" name="intro">
                 </div>
                 <div class="reasonGroup div">
                     <div class="title">개설 이유</div>
-                    <input type="text">
+                    <input type="text" id="reason" name="reason">
                 </div>
             </fieldset>
+            <div class="ButtonDiv__section">
+                <button>취소</button>
+                <button style="background-color: #29367c;">만들기</button>
+            </div>
         </form>
-        <div class="ButtonDiv__section">
-            <button>취소</button>
-            <button style="background-color: #29367c;">만들기</button>
-        </div>
     </section>
 </main>
 

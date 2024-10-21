@@ -38,7 +38,20 @@ public class MainController {
     }
 
     @GetMapping("/index")
-    public String getIndex(){
+    public String getIndex(Model model){
+
+        List<DTOBoardView> boardList = serviceWorld.list(); // DTOBoardView 리스트 가져옴
+        int boardCount = 0; // 갯수를 세기 위한 변수
+
+        // DTOBoardView 리스트에서 place 값과 num 값을 비교
+        for (DTOBoardView board : boardList) {
+            if (board != null) { // num과 board의 place 비교
+                boardCount++; // 일치할 경우 카운트 증가
+            }
+        }
+
+        model.addAttribute("boardCount", boardCount); // 보드 갯수 추가
+        model.addAttribute("boards", boardList);
 
         return "index";
     }
@@ -103,6 +116,7 @@ public class MainController {
             break;
             case "5" : country =  "/world/oceania";
         }
+
         List<DTOBoardView> boardList = serviceWorld.list(); // DTOBoardView 리스트 가져옴
         int boardCount = 0; // 갯수를 세기 위한 변수
 

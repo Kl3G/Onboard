@@ -97,38 +97,11 @@
                 남아메리카 &thinsp; <span th:text="'(' + ${boardCount} + ')'"></span>
             </div>
             <div style="flex: 17.5;">
-                <div style="border: solid 1px #ccc; border-right: none;">
+                <div class="custom-div" th:each="i : ${#numbers.sequence(1, 4)}">
                     <ul>
-                        <li th:each="board : ${boards}" th:if="${board.place.equals('4')}">
-                            <a href="/Board" th:text="${board.b_name}">호텔 이름</a>
-                        </li>
-                    </ul>
-                </div>
-                <div style="border: solid 1px #ccc; border-right: none;">
-                    <ul>
-                        <li>
-
-                        </li>
-                    </ul>
-                </div>
-                <div style="border: solid 1px #ccc; border-right: none;">
-                    <ul>
-                        <li>
-
-                        </li>
-                    </ul>
-                </div>
-                <div style="border: solid 1px #ccc; border-right: none;">
-                    <ul>
-                        <li>
-
-                        </li>
-                    </ul>
-                </div>
-                <div style="border: solid 1px #ccc;">
-                    <ul>
-                        <li>
-
+                        <li th:each="board, stat : ${boards}"
+                            th:if="${stat.index < (i * 24)} and ${stat.index >= ((i - 1) * 24)} and ${board.place.equals('4')}">
+                            <a href="/board"><span th:text="${#strings.length(board.b_name) > 17 ? board.b_name.substring(0, 17) + '...' : board.b_name}"></span></a>
                         </li>
                     </ul>
                 </div>

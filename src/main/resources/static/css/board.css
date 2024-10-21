@@ -8,7 +8,6 @@
 
         table-layout: fixed;
         border-collapse: collapse;
-        height: 100%;
     }
 
     th {
@@ -242,11 +241,13 @@
     .main__divTop { /*인기글과 보드만들기 버튼 감싸는*/
 
         flex: 1; padding-top: 10px; border-bottom: 2px solid #29367c;
+        max-height: 62px;
     }
 
     .main__divMid { /*인기글 사진*/
 
         flex: 5; padding-top: 6px; padding-bottom: 6px;
+        max-height: 172px;
     }
 
     .main__section div div{

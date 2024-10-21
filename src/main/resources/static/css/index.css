@@ -222,6 +222,15 @@
         flex: 1;
     }
 
+    .custom-div {
+        border: solid 1px #ccc;
+        border-right: none;
+    }
+
+    .custom-div:last-child {
+        border-right: solid 1px #ccc;
+    }
+
     .main__section div div ul{
 
         font-size: 12px;

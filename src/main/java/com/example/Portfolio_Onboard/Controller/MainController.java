@@ -21,6 +21,7 @@ import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
 import java.util.List;
+import java.util.jar.Attributes;
 
 @Slf4j
 @Controller
@@ -69,8 +70,10 @@ public class MainController {
     }
 
     @GetMapping("/board")
-    public String getBoard(){
+    public String getBoard(@RequestParam("b_idx") Long b_idx, Model model){
 
+        model.addAttribute("boardInfo", serviceWorld.boardInfo(b_idx));
+        // index.html 파일에서 생성한 url의 파라미터를 model로 board에 전달해 준다.
         return "board";
     }
 
@@ -100,21 +103,21 @@ public class MainController {
     }
 
     @GetMapping(value= {"/world/asia", "/world/europe", "/world/northAmerica", "/world/southAmerica", "/world/oceania"})
-    public String getAsia(@RequestParam(value = "country") String num, Model model){
+    public String getAsia(@RequestParam(value = "place") String num, Model model){
 
-        String country = "";
+        String place = "";
 
         switch(num){
 
-            case "1" : country = "/world/asia";
+            case "1" : place = "/world/asia";
             break;
-            case "2" : country = "/world/europe";
+            case "2" : place = "/world/europe";
             break;
-            case "3" : country = "/world/northAmerica";
+            case "3" : place = "/world/northAmerica";
             break;
-            case "4" : country = "/world/southAmerica";
+            case "4" : place = "/world/southAmerica";
             break;
-            case "5" : country =  "/world/oceania";
+            case "5" : place =  "/world/oceania";
         }
 
         List<DTOBoardView> boardList = serviceWorld.list(); // DTOBoardView 리스트 가져옴
@@ -130,7 +133,7 @@ public class MainController {
         model.addAttribute("boardCount", boardCount); // 보드 갯수 추가
         model.addAttribute("boards", boardList);
 
-        return country;
+        return place;
     }
 
     @GetMapping("/notice")

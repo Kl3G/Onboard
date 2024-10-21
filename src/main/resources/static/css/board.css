@@ -248,6 +248,12 @@
 
         flex: 5; padding-top: 6px; padding-bottom: 6px;
         max-height: 172px;
+        display: flex;
+    }
+
+    .main__divMid > div {
+
+        max-width: 258.338px;
     }
 
     .main__section div div{

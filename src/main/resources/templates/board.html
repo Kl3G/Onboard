@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Board</title>
@@ -80,12 +80,13 @@
     <div class="container__main">
         <section class="main__section">
             <div class="main__divTop">
-                <div style="font-size: 24px; color: #29367c; max-height: 48px;">
-                    방콕 랭커스터 호텔 보드
+                <div style="font-size: 24px; color: #29367c; max-height: 48px;" th:text="${boardInfo.b_name}">
                 </div>
             </div>
             <div class="main__divMid">
-                보드 사진, 소개, 매니저 이름
+                <div class="boardCover" style="background-image: url('/img/bangkok.jpg'); background-size: cover; background-size: 90%; background-repeat: no-repeat; background-position: center;"></div>
+                <div class="boardIntro" th:text="${boardInfo.intro}"></div>
+                <div class="boardManager" th:utext="'매니저:' + ${boardInfo.nick} + '(' + ${boardInfo.userid} +')' + '<br>' + ${boardInfo.regdate}"></div>
             </div>
             <table>
                 <colgroup>

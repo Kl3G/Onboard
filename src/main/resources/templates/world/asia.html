@@ -39,27 +39,27 @@
         <ul class="nav__ul">
             <li style="flex: 0.8;">
                 <div>
-                    <a href="/world/asia?country=1">아시아</a>
+                    <a href="/world/asia?place=1">아시아</a>
                 </div>
             </li>
             <li style="flex: 0.65;">
                 <div>
-                    <a href="/world/europe?country=2">유럽</a>
+                    <a href="/world/europe?place=2">유럽</a>
                 </div>
             </li>
             <li>
                 <div>
-                    <a href="/world/northAmerica?country=3">북아메리카</a>
+                    <a href="/world/northAmerica?place=3">북아메리카</a>
                 </div>
             </li>
             <li>
                 <div>
-                    <a href="/world/southAmerica?country=4">남아메리카</a>
+                    <a href="/world/southAmerica?place=4">남아메리카</a>
                 </div>
             </li>
             <li >
                 <div>
-                    <a href="/world/oceania?country=5">오세아니아</a>
+                    <a href="/world/oceania?place=5">오세아니아</a>
                 </div>
             </li>
             <li>
@@ -100,9 +100,11 @@
                 <div class="custom-div" th:each="i : ${#numbers.sequence(1, 4)}">
                     <ul>
                         <li th:each="board, stat : ${boards}"
-                            th:if="${stat.index < (i * 24)} and ${stat.index >= ((i - 1) * 24)} and ${board.place.equals('1')}"
-                            th:utext="'<script>console.log(' + ${stat.index} + ');</script>'">
-                            <a href="/board" th:text="${board.b_name.length() > 17 ? #strings.substring(board.b_name, 0, 17) + '...' : board.b_name}">호텔 이름</a>
+                            th:if="${stat.index < (i * 24)} and ${stat.index >= ((i - 1) * 24)}">
+                            <!--th:utext="'<script>console.log(' + ${stat.index} + ');</script>'"-->
+                            <a th:href="@{/board(b_idx=${board.b_idx})}">
+                                <span th:text="${#strings.length(board.b_name) > 17 ? board.b_name.substring(0, 17) + '...' : board.b_name}"></span>
+                            </a>
                         </li>
                     </ul>
                 </div>

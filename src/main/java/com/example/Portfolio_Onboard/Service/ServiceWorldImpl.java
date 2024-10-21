@@ -56,8 +56,9 @@ public class ServiceWorldImpl implements ServiceWorld {
 
     @Override
     public List<DTOBoardView> list2(String place) {
+
         List<EntityWorld> boards = null;
-        boards = repoWorld.findAll();
+        boards = repoWorld.findByPlace(place);
 
         List<DTOBoardView> dtoBoardView = null;
         dtoBoardView = boards.stream()

@@ -120,7 +120,7 @@ public class MainController {
             case "5" : place =  "/world/oceania";
         }
 
-        List<DTOBoardView> boardList = serviceWorld.list(); // DTOBoardView 리스트 가져옴
+        List<DTOBoardView> boardList = serviceWorld.list2(num); // DTOBoardView 리스트 가져옴
         int boardCount = 0; // 갯수를 세기 위한 변수
 
         // DTOBoardView 리스트에서 place 값과 num 값을 비교

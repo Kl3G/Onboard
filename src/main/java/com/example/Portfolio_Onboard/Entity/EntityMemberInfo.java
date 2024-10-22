@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
@@ -25,6 +26,9 @@ public class EntityMemberInfo implements UserDetails {
     private String mail;
     private Date regdate;
 
+    @OneToMany(mappedBy = "memberInfo", fetch = FetchType.LAZY) //기본설정
+    private List<EntityWorld> worldList = new ArrayList<>();
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of();
@@ -39,5 +43,4 @@ public class EntityMemberInfo implements UserDetails {
     public String getUsername() {
         return this.userid;
     }
-
 }

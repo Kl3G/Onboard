@@ -3,14 +3,15 @@ package com.example.Portfolio_Onboard.Service;
 import com.example.Portfolio_Onboard.DTO.DTOBoardInfo;
 import com.example.Portfolio_Onboard.DTO.DTOBoardView;
 import com.example.Portfolio_Onboard.DTO.DTOCreateBoard;
+import com.example.Portfolio_Onboard.Entity.EntityMemberInfo;
 import com.example.Portfolio_Onboard.Entity.EntityWorld;
+import com.example.Portfolio_Onboard.Repository.RepoMemberInfo;
 import com.example.Portfolio_Onboard.Repository.RepoWorld;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -18,18 +19,25 @@ import java.util.stream.Collectors;
 @Service
 public class ServiceWorldImpl implements ServiceWorld {
 
+    private RepoMemberInfo repoMemberInfo;
     private RepoWorld repoWorld;
 
     @Autowired
-    ServiceWorldImpl(RepoWorld repoWorld){
+    ServiceWorldImpl(RepoWorld repoWorld, RepoMemberInfo repoMemberInfo){
 
+        this.repoMemberInfo = repoMemberInfo;
         this.repoWorld = repoWorld;
     }
 
     @Override
     public String setWorld(DTOCreateBoard dtoCreateBoard) {
 
-        repoWorld.save(dtoCreateBoard.entityWorld());
+        EntityMemberInfo memberInfo = repoMemberInfo.findByUserid(dtoCreateBoard.getUserid());
+        // 세션에 담겨 있던 userid를 model로 createBoard.html에 전달,
+        // form을 submit할 때 @PostMapping("/createBoard_proc") 실행되고 dtoCreateBoard에 바인딩된다.
+        // userid
+
+        repoWorld.save(dtoCreateBoard.entityWorld(memberInfo));
 
         return "redirect:/index";
     }
@@ -81,7 +89,7 @@ public class ServiceWorldImpl implements ServiceWorld {
 
         DTOBoardInfo boardInfo = new DTOBoardInfo();
         if (entityWorld.isPresent()) {
-            boardInfo.setUserid(entityWorld.get().getUserid());
+            boardInfo.setUserid(entityWorld.get().getMemberInfo().getUserid());
             boardInfo.setNick(entityWorld.get().getNick());
             boardInfo.setB_name(entityWorld.get().getB_name());
             boardInfo.setIntro(entityWorld.get().getIntro());

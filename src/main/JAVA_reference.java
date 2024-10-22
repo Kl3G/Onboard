@@ -382,7 +382,22 @@ package com.example.Sep20Join;/*
     여러 줄의 실행문	중괄호 있음    return 없이 처리 가능 (반환값이 없을 경우)
 
 
-  25.
+  25. Date(날짜) 출력형태 바꾸기
+    String text = regdate.substring(2,10); // 연월일, regdate의 2번째 문자부터 출력하고 10번째 문자부터는 출력하지 않고 자른다.
+	//newtext = newtext.replaceAll("-", ""); // - 가 있는 부분이 공백이 된다.
+    String newtext[] = text.trim().split("-"); // text 변수에 담겨 있는 문자열의 - 부분마다 잘라서 배열에 담는다.
+
+    String time = regdate.substring(10,19); // 시간, regdate의 10번째 문자부터 출력하고 19번째 문자부터는 출력하지 않고 자른다.
+    //newtext = newtext.replaceAll(":", ""); // : 가 있는 부분이 공백이 된다.
+    String newtime[] = time.trim().split(":"); // time 변수에 담겨 있는 문자열의 : 부분마다 잘라서 배열에 담는다.
+
+    <tr>
+        <td>번호</td><td><%=num--%></td>
+        <td>제목</td><td><a href="view.jsp?seq=<%=seq%>"><%= title %></a></td>
+        <td>이름</td><td><%=name%></td>
+        <td>이메일</td><td><%=mail%>@<%=mail2%></td>
+        <td>등록일</td><td><%= newtext[1] %>월<%= newtext[2] %>일&nbsp;<!--&ensp;&emsp;--><%= newtime[0] %>:<%= newtime[1] %></td>
+    </tr>
 
 
   26.

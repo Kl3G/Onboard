@@ -1,9 +1,11 @@
 package com.example.Portfolio_Onboard.Controller;
 
+import com.example.Portfolio_Onboard.DTO.DTOBoardInfo;
 import com.example.Portfolio_Onboard.DTO.DTOBoardView;
 import com.example.Portfolio_Onboard.DTO.DTOJoin;
 import com.example.Portfolio_Onboard.DTO.DTOCreateBoard;
 import com.example.Portfolio_Onboard.Service.ServiceJoin;
+import com.example.Portfolio_Onboard.Service.ServiceTest;
 import com.example.Portfolio_Onboard.Service.ServiceWorld;
 import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
@@ -19,9 +21,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
-
 import java.util.List;
-import java.util.jar.Attributes;
 
 @Slf4j
 @Controller
@@ -30,12 +30,14 @@ public class MainController {
 
     private final ServiceJoin serviceJoin;
     private final ServiceWorld serviceWorld;
+    private final ServiceTest serviceTest;
 
     @Autowired
-    MainController(ServiceJoin serviceJoin, ServiceWorld serviceWorld){
+    MainController(ServiceJoin serviceJoin, ServiceWorld serviceWorld, ServiceTest serviceTest){
 
         this.serviceJoin = serviceJoin;
         this.serviceWorld = serviceWorld;
+        this.serviceTest = serviceTest;
     }
 
     @GetMapping("/index")
@@ -72,6 +74,11 @@ public class MainController {
     @GetMapping("/board")
     public String getBoard(@RequestParam("b_idx") Long b_idx, Model model){
 
+        DTOBoardInfo boardInfo = serviceWorld.boardInfo(b_idx);
+        String regdate = String.valueOf(boardInfo.getRegdate());
+        String date = regdate.substring(0,10); // 연월일, regdate의 0번째 문자부터 출력하고 10번째 문자부터 출력하지 않고 자른다.
+
+        model.addAttribute("date", date);
         model.addAttribute("boardInfo", serviceWorld.boardInfo(b_idx));
         // index.html 파일에서 생성한 url의 파라미터를 model로 board에 전달해 준다.
         return "board";
@@ -103,7 +110,7 @@ public class MainController {
     }
 
     @GetMapping(value= {"/world/asia", "/world/europe", "/world/northAmerica", "/world/southAmerica", "/world/oceania"})
-    public String getAsia(@RequestParam(value = "place") String num, Model model){
+    public String getWorld(@RequestParam(value = "place") String num, Model model){
 
         String place = "";
 
@@ -136,6 +143,22 @@ public class MainController {
         return place;
     }
 
+    @GetMapping("/write")
+    public String getWrite(){
+
+
+
+        return "write";
+    }
+
+    @PostMapping("/write_proc")
+    public String setWrite(){
+
+
+
+        return "";
+    }
+
     @GetMapping("/notice")
     public String getNotice(){
 
@@ -161,5 +184,11 @@ public class MainController {
             return ResponseEntity.ok(nick);
         }
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
+    }
+
+    @GetMapping("/test")
+    public String test(){
+
+        return serviceTest.test();
     }
 }

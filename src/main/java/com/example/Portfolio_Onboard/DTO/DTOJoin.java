@@ -17,6 +17,6 @@ public class DTOJoin {
 
     public EntityMemberInfo entityMemberInfo(){
 
-        return new EntityMemberInfo(userid, pwd, nick, mail, new Date());
+        return new EntityMemberInfo(userid, pwd, nick, mail, new Date(), null);
     }
 }

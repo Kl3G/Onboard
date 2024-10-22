@@ -84,24 +84,23 @@
                 </div>
             </div>
             <div class="main__divMid">
-                <div class="boardCover" style="background-image: url('/img/bangkok.jpg'); background-size: cover; background-size: 90%; background-repeat: no-repeat; background-position: center;"></div>
+                <div class="boardCoverImg"></div>
                 <div class="boardIntro" th:text="${boardInfo.intro}"></div>
                 <div class="boardManager">
-                    <div th:utext="'매니저:' + ${boardInfo.nick} + '(' + ${boardInfo.userid} +')' + '<br>' + ${boardInfo.regdate}">
-                        <!--.info_cont .tit::before {
-                        content: "★";
-                        color: red;
-                        margin-right: 5px;
-                        }-->
-
-                    </div>
                     <div>
-
+                        <strong>매니저</strong>
+                        <span th:text="${boardInfo.nick} + '(' + ${boardInfo.userid} +')'"></span>
                     </div>
+                    <!--<div>
+                    </div>-->
                     <div>
-
+                        <strong>개설일</strong>
+                        <span th:text="${date}"></span>
                     </div>
                 </div>
+            </div>
+            <div class="main__divButton">
+                <button onclick="location.href='/write'">글쓰기</button>
             </div>
             <table>
                 <colgroup>
@@ -190,11 +189,9 @@
                 </div>
             </div>
             <div style="flex: 5; display: flex; flex-direction: column;">
-                <div style="height: 306.5px; width: 250px;">
-                    <img src="/img/fly.jpg" style="height: 306.5px; width: 250px;">
+                <div style="flex: 1; background-image: url('/img/fly.jpg'); background-size: cover; background-repeat: no-repeat; background-position: center;">
                 </div>
-                <div style="height: 306.5px; width: 250px;">
-                    <img src="/img/fly3.jpg" style="height: 306.5px; width: 250px;">
+                <div style="flex: 1; background-image: url('/img/fly3.jpg'); background-size: cover; background-repeat: no-repeat; background-position: center;">
                 </div>
             </div>
         </aside>

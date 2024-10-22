@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import java.util.Date;
 
@@ -19,7 +20,11 @@ public class EntityWorld {
     @SequenceGenerator(name = "b_idx", sequenceName = "b_idx", allocationSize = 1)
     private Long b_idx;
 
-    private String userid;
+    @ManyToOne
+    @JoinColumn(name = "userid")
+    @ToString.Exclude
+    private EntityMemberInfo memberInfo;
+
     private String nick;
     private String place;
     private String b_name;

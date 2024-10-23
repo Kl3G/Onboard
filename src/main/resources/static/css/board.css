@@ -337,6 +337,11 @@
         border-top: 1px dashed #29367c; gap: 20px;
     }
 
+    .emptySpace {
+
+        text-align: center;
+    }
+
     fieldset {
 
         flex: 1; display: flex; gap: 10px;

@@ -1,9 +1,7 @@
 package com.example.Portfolio_Onboard.Controller;
 
-import com.example.Portfolio_Onboard.DTO.DTOBoardInfo;
-import com.example.Portfolio_Onboard.DTO.DTOBoardView;
-import com.example.Portfolio_Onboard.DTO.DTOJoin;
-import com.example.Portfolio_Onboard.DTO.DTOCreateBoard;
+import com.example.Portfolio_Onboard.DTO.*;
+import com.example.Portfolio_Onboard.Service.ServiceCreatePost;
 import com.example.Portfolio_Onboard.Service.ServiceJoin;
 import com.example.Portfolio_Onboard.Service.ServiceTest;
 import com.example.Portfolio_Onboard.Service.ServiceWorld;
@@ -17,10 +15,14 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
+
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.util.List;
 
 @Slf4j
@@ -30,13 +32,15 @@ public class MainController {
 
     private final ServiceJoin serviceJoin;
     private final ServiceWorld serviceWorld;
+    private final ServiceCreatePost serviceCreatePost;
     private final ServiceTest serviceTest;
 
     @Autowired
-    MainController(ServiceJoin serviceJoin, ServiceWorld serviceWorld, ServiceTest serviceTest){
+    MainController(ServiceJoin serviceJoin, ServiceWorld serviceWorld, ServiceCreatePost serviceCreatePost, ServiceTest serviceTest){
 
         this.serviceJoin = serviceJoin;
         this.serviceWorld = serviceWorld;
+        this.serviceCreatePost = serviceCreatePost;
         this.serviceTest = serviceTest;
     }
 
@@ -76,9 +80,11 @@ public class MainController {
 
         DTOBoardInfo boardInfo = serviceWorld.boardInfo(b_idx);
         String regdate = String.valueOf(boardInfo.getRegdate());
-        String date = regdate.substring(0,10); // 연월일, regdate의 0번째 문자부터 출력하고 10번째 문자부터 출력하지 않고 자른다.
+        String date = regdate.substring(0,10);
+        // 연월일, regdate의 0번째 문자부터 출력하고 10번째 문자부터 출력하지 않고 자른다.
 
         model.addAttribute("date", date);
+        log.error(String.valueOf(boardInfo));
         model.addAttribute("boardInfo", serviceWorld.boardInfo(b_idx));
         // index.html 파일에서 생성한 url의 파라미터를 model로 board에 전달해 준다.
         return "board";
@@ -143,20 +149,53 @@ public class MainController {
         return place;
     }
 
-    @GetMapping("/write")
-    public String getWrite(){
+    @GetMapping("/createPost")
+    public String getCreatePost(@RequestParam("b_idx") Long b_idx, Model model){
 
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
+        if (authentication != null && authentication.isAuthenticated()) {
+            HttpSession session = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest().getSession();
 
-        return "write";
+            // 세션에서 userid와 nick 값을 가져온다
+            String userid = (String) session.getAttribute("userid");
+            String nick = (String) session.getAttribute("nick");
+
+            if(userid == null){
+
+                userid = "ㅇㅇ";
+                nick = "ㅇㅇ";
+            }
+
+            model.addAttribute("userid", userid);
+            model.addAttribute("nick", nick);
+        }
+
+        InetAddress local = null;
+        try {
+            local = InetAddress.getLocalHost();
+        }
+        catch ( UnknownHostException e ) {
+            e.printStackTrace();
+        }
+
+        if( local == null ) {
+            String ip = "";
+        }
+        else {
+            String ip = local.getHostAddress();
+            model.addAttribute("ip", ip);
+        }
+
+        model.addAttribute("b_idx", b_idx);
+
+        return "createPost";
     }
 
-    @PostMapping("/write_proc")
-    public String setWrite(){
+    @PostMapping("/createPost_proc")
+    public String setCreatePost(@ModelAttribute DTOCreatePost dtoCreatePost) {
 
-
-
-        return "";
+        return serviceCreatePost.setPost(dtoCreatePost);
     }
 
     @GetMapping("/notice")
@@ -189,6 +228,6 @@ public class MainController {
     @GetMapping("/test")
     public String test(){
 
-        return serviceTest.test();
+        return serviceTest.test2();
     }
 }

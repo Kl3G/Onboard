@@ -1,6 +1,7 @@
 package com.example.Portfolio_Onboard.Repository;
 
 import com.example.Portfolio_Onboard.DTO.DTOBoardView;
+import com.example.Portfolio_Onboard.Entity.EntityMemberInfo;
 import com.example.Portfolio_Onboard.Entity.EntityWorld;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;

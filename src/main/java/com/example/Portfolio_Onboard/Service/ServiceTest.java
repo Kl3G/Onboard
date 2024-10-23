@@ -6,4 +6,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 public interface ServiceTest {
 
     String test();
+    String test2();
 }

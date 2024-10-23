@@ -89,6 +89,7 @@ public class ServiceWorldImpl implements ServiceWorld {
 
         DTOBoardInfo boardInfo = new DTOBoardInfo();
         if (entityWorld.isPresent()) {
+            boardInfo.setB_idx(entityWorld.get().getB_idx());
             boardInfo.setUserid(entityWorld.get().getMemberInfo().getUserid());
             boardInfo.setNick(entityWorld.get().getNick());
             boardInfo.setB_name(entityWorld.get().getB_name());

@@ -24,7 +24,8 @@ public class SecurityConfig {
 
         http.authorizeHttpRequests( authorize -> authorize // 권한부여
 
-                .requestMatchers("/", "/board/**", "/join/**", "/world/**",
+                .requestMatchers("/", "/board/**", "/join/**", "/world/**", "/createPost/**",
+                        "/createPost_proc/**",
                         "/css/**", "/js/**", "/img/**", "/webjars/**", "/login_proc/**").permitAll() // 누구든지 접속 가능
                 .requestMatchers("/createBoard/**").hasRole("USER") // USER는 "/createBoard" 접속 가능
                 .requestMatchers("/notice/**").hasRole("MANAGER") // MANAGER는 "/notice" 접속 가능

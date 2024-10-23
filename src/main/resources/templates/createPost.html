@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>createPost</title>
+</head>
+<body>
+    <form action="/createPost_proc" method="post">
+
+        <input type="hidden" name="b_idx" th:value="${b_idx}">
+        <input type="hidden" name="userid" th:value="${userid}">
+        <input type="text" name="p_pwd">
+        <input type="hidden" name="nick" th:value="${nick}">
+        <select id="category" name="category">
+            <option id="general" value="1">일반</option>
+            <option id="news" value="2">뉴스</option>
+            <option id="notice" value="3">공지</option>
+        </select>
+        <input type="text" name="title">
+        <input type="text" name="text">
+        <input type="hidden" name="userip" th:value="${ip}">
+        <button>취소</button>
+        <button>등록</button>
+    </form>
+</body>
+</html>

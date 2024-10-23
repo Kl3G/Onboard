@@ -8,6 +8,7 @@ import java.util.Date;
 @Data
 public class DTOBoardInfo {
 
+    private Long b_idx;
     private String userid;
     private String nick;
     private String b_name;

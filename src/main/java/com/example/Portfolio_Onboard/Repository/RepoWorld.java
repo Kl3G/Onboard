@@ -12,12 +12,12 @@ import java.util.Optional;
 
 public interface RepoWorld extends JpaRepository<EntityWorld, Long> {
 
-    Optional<EntityWorld> findById(Long b_idx);
+    Optional<EntityWorld> findById(Long bidx);
 
     @Query("SELECT w FROM EntityWorld w WHERE w.place = :place")
-    /*@Query("SELECT new com.example.Portfolio_Onboard.DTO.DTOBoardView(w.b_idx, w.nick, w.place, w.b_name) " +
+    /*@Query("SELECT new com.example.Portfolio_Onboard.DTO.DTOBoardView(w.bidx, w.nick, w.place, w.b_name) " +
             "FROM EntityWorld w WHERE w.place = :place")*/
-    /*@Query("SELECT new com.example.DTOBoardView(w.b_idx, w.b_name) FROM EntityWorld w WHERE w.place = :place")
+    /*@Query("SELECT new com.example.DTOBoardView(w.bidx, w.b_name) FROM EntityWorld w WHERE w.place = :place")
     List<DTOBoardView> findByPlace(@Param("place") String place);*/
     List<EntityWorld> findByPlace(@Param("place") String place);
 

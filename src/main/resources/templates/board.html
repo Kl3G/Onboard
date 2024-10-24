@@ -80,7 +80,7 @@
     <div class="container__main">
         <section class="main__section">
             <div class="main__divTop">
-                <div style="font-size: 24px; color: #29367c; max-height: 48px;" th:text="${boardInfo.b_name}">
+                <div style="font-size: 24px; color: #29367c; max-height: 48px; font-family: 'Segoe UI'; font-weight: bold" th:text="${boardInfo.b_name}">
                 </div>
             </div>
             <div class="main__divMid">
@@ -100,7 +100,7 @@
                 </div>
             </div>
             <div class="main__divButton">
-                <button th:onclick="|location.href='@{/createPost(b_idx=${boardInfo.b_idx})}'|">글쓰기</button>
+                <button th:onclick="|location.href='@{/createPost(bidx=${boardInfo.bidx})}'|">글쓰기</button>
             </div>
             <table>
                 <colgroup>
@@ -124,41 +124,20 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td>1</td>
-                        <td>공지</td>
-                        <td>긴급</td>
-                        <td>매니저</td>
-                        <td>오늘</td>
-                        <td>0</td>
-                        <td>0</td>
-                    </tr>
-                    <tr>
-                        <td>1</td>
-                        <td>공지</td>
-                        <td>긴급</td>
-                        <td>매니저</td>
-                        <td>오늘</td>
-                        <td>0</td>
-                        <td>0</td>
-                    </tr>
-                    <tr>
-                        <td>1</td>
-                        <td>공지</td>
-                        <td>긴급</td>
-                        <td>매니저</td>
-                        <td>오늘</td>
-                        <td>0</td>
-                        <td>0</td>
-                    </tr>
-                    <tr>
-                        <td>1</td>
-                        <td>공지</td>
-                        <td>긴급</td>
-                        <td>매니저</td>
-                        <td>오늘</td>
-                        <td>0</td>
-                        <td>0</td>
+                    <tr th:each="post : ${postList}">
+                        <td> number </td>
+                        <td th:switch="${post.category}" style="font-weight: bold;">
+                            <span th:case="'1'">일반</span>
+                            <span th:case="'2'">뉴스</span>
+                            <span th:case="'3'">공지</span>
+                        </td>
+                        <td>
+                            <a th:href="@{/post(pidx=${post.pidx})}" th:text="${post.title}"></a>
+                        </td>
+                        <td th:text="${post.nick} + (${post.nick == 'ㅇㅇ'} ? '(' + ${#strings.substring(post.userip, 0, 7)} + ')' : '')"></td>
+                        <td th:text="${#strings.replace(#strings.substring(post.regdate, 2, 10), '-', '/')}"></td>
+                        <td th:text="${post.view_count}"></td>
+                        <td th:text="${post.good_count}"></td>
                     </tr>
                 </tbody>
             </table>

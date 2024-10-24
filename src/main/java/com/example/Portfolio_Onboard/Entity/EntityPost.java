@@ -16,14 +16,16 @@ import java.util.Date;
 public class EntityPost {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "p_idx")
-    @SequenceGenerator(name = "p_idx", sequenceName = "p_idx", allocationSize = 1)
-    private Long p_idx;
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "pidx")
+    @SequenceGenerator(name = "pidx", sequenceName = "p_idx", allocationSize = 1)
+    private Long pidx;
 
     @ManyToOne
-    @JoinColumn(name = "b_idx")
+    @JoinColumn(name = "bidx")
     @ToString.Exclude
     private EntityWorld board; // 보드 외래키
+    /* DB에서 레코드를 가져와서 그 레코드의 기본키를 @JoinColumn에 입력한다.
+    따라서, DB에 레코드가 반드시 존재해야만 @JoinColumn에 데이터를 입력할 수 있다. */
 
     @ManyToOne
     @JoinColumn(name = "userid")

@@ -8,7 +8,7 @@ import java.util.Date;
 @Data
 public class DTOBoardView {
 
-    private Long b_idx;
+    private Long bidx;
     private String place;
     private String b_name;
 }

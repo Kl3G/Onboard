@@ -16,9 +16,9 @@ import java.util.Date;
 public class EntityWorld {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "b_idx")
-    @SequenceGenerator(name = "b_idx", sequenceName = "b_idx", allocationSize = 1)
-    private Long b_idx;
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "bidx")
+    @SequenceGenerator(name = "bidx", sequenceName = "b_idx", allocationSize = 1)
+    private Long bidx;
 
     @ManyToOne
     @JoinColumn(name = "userid")

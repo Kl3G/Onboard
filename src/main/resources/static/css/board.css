@@ -39,7 +39,8 @@
         border-color: #29367c;
         vertical-align: middle;
         text-align: center;
-        font-size: 12px;
+        font-size: 11px;
+        font-family: tahoma
     }
 
     .slick-class {

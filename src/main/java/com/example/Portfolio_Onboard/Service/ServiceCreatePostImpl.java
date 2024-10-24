@@ -30,13 +30,15 @@ public class ServiceCreatePostImpl implements ServiceCreatePost{
     public String setPost(DTOCreatePost dtoCreatePost) {
 
         EntityMemberInfo MemberInfo = repoMemberInfo.findByUserid(dtoCreatePost.getUserid());
+        Optional<EntityWorld> optionalBoard = repoWorld.findById(dtoCreatePost.getBidx());
 
-        Optional<EntityWorld> optionalBoard = repoWorld.findById(dtoCreatePost.getB_idx());
         log.error("asd");
-        log.error(dtoCreatePost.getB_idx());
+        log.error(dtoCreatePost.getBidx());
+
         if (optionalBoard.isPresent()) {
+
             EntityWorld board = optionalBoard.get();
-            repoPost.save(dtoCreatePost.entityPost(MemberInfo, board));
+            repoPost.save(dtoCreatePost.entityPost(MemberInfo, board, repoMemberInfo));
             // board를 사용하여 작업 수행
         }
 

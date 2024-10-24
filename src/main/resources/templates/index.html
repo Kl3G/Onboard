@@ -103,10 +103,10 @@
                     <ul>
                         <li th:each="board, stat : ${boards}"
                             th:if="${stat.index < (i * 24)} and ${stat.index >= ((i - 1) * 24)}">
-                            <a th:href="@{/board(b_idx=${board.b_idx})}">
+                            <a th:href="@{/board(bidx=${board.bidx})}">
                                 <span th:text="${#strings.length(board.b_name) > 17 ? board.b_name.substring(0, 17) + '...' : board.b_name}"></span>
                             </a>
-                            <!--board는 DTOBoardView의 객체이고, 그 안에서 b_idx 값을 꺼내 url에 파라미터로 넣어준다-->
+                            <!--board는 DTOBoardView의 객체이고, 그 안에서 bidx 값을 꺼내 url에 파라미터로 넣어준다-->
                         </li>
                     </ul>
                 </div>

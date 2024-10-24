@@ -76,17 +76,19 @@ public class MainController {
     }
 
     @GetMapping("/board")
-    public String getBoard(@RequestParam("b_idx") Long b_idx, Model model){
+    public String getBoard(@RequestParam("bidx") Long bidx, Model model){
 
-        DTOBoardInfo boardInfo = serviceWorld.boardInfo(b_idx);
+        DTOBoardInfo boardInfo = serviceWorld.boardInfo(bidx);
         String regdate = String.valueOf(boardInfo.getRegdate());
         String date = regdate.substring(0,10);
         // 연월일, regdate의 0번째 문자부터 출력하고 10번째 문자부터 출력하지 않고 자른다.
 
         model.addAttribute("date", date);
         log.error(String.valueOf(boardInfo));
-        model.addAttribute("boardInfo", serviceWorld.boardInfo(b_idx));
+        model.addAttribute("boardInfo", serviceWorld.boardInfo(bidx));
         // index.html 파일에서 생성한 url의 파라미터를 model로 board에 전달해 준다.
+        model.addAttribute("postList", serviceWorld.postList(bidx));
+        // 보드의 게시글 리스트 출력
         return "board";
     }
 
@@ -150,7 +152,7 @@ public class MainController {
     }
 
     @GetMapping("/createPost")
-    public String getCreatePost(@RequestParam("b_idx") Long b_idx, Model model){
+    public String getCreatePost(@RequestParam("bidx") Long bidx, Model model){
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
@@ -187,7 +189,7 @@ public class MainController {
             model.addAttribute("ip", ip);
         }
 
-        model.addAttribute("b_idx", b_idx);
+        model.addAttribute("bidx", bidx);
 
         return "createPost";
     }
@@ -196,6 +198,14 @@ public class MainController {
     public String setCreatePost(@ModelAttribute DTOCreatePost dtoCreatePost) {
 
         return serviceCreatePost.setPost(dtoCreatePost);
+    }
+
+    @GetMapping("/post{pidx}")
+    public String getPost(@RequestParam("pidx") Long pidx){
+
+        serviceWorld.incrementViewCount(pidx);
+
+        return "post";
     }
 
     @GetMapping("/notice")

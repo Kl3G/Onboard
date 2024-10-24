@@ -3,12 +3,14 @@ package com.example.Portfolio_Onboard.Service;
 import com.example.Portfolio_Onboard.DTO.DTOBoardInfo;
 import com.example.Portfolio_Onboard.DTO.DTOBoardView;
 import com.example.Portfolio_Onboard.DTO.DTOCreateBoard;
+import com.example.Portfolio_Onboard.DTO.DTOPostView;
 import com.example.Portfolio_Onboard.Entity.EntityMemberInfo;
+import com.example.Portfolio_Onboard.Entity.EntityPost;
 import com.example.Portfolio_Onboard.Entity.EntityWorld;
 import com.example.Portfolio_Onboard.Repository.RepoMemberInfo;
+import com.example.Portfolio_Onboard.Repository.RepoPost;
 import com.example.Portfolio_Onboard.Repository.RepoWorld;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -19,14 +21,15 @@ import java.util.stream.Collectors;
 @Service
 public class ServiceWorldImpl implements ServiceWorld {
 
-    private RepoMemberInfo repoMemberInfo;
-    private RepoWorld repoWorld;
+    private final RepoMemberInfo repoMemberInfo;
+    private final RepoWorld repoWorld;
+    private final RepoPost repoPost;
 
-    @Autowired
-    ServiceWorldImpl(RepoWorld repoWorld, RepoMemberInfo repoMemberInfo){
+    ServiceWorldImpl(RepoWorld repoWorld, RepoMemberInfo repoMemberInfo, RepoPost repoPost){
 
         this.repoMemberInfo = repoMemberInfo;
         this.repoWorld = repoWorld;
+        this.repoPost = repoPost;
     }
 
     @Override
@@ -52,7 +55,7 @@ public class ServiceWorldImpl implements ServiceWorld {
         dtoBoardView = boards.stream()
                 .map((EntityWorld board) -> {
                     DTOBoardView view = new DTOBoardView();
-                    view.setB_idx(board.getB_idx());
+                    view.setBidx(board.getBidx());
                     view.setB_name(board.getB_name());
                     view.setPlace(board.getPlace());
                     return view;
@@ -72,7 +75,7 @@ public class ServiceWorldImpl implements ServiceWorld {
         dtoBoardView = boards.stream()
                 .map((EntityWorld board) -> {
                     DTOBoardView view = new DTOBoardView();
-                    view.setB_idx(board.getB_idx());
+                    view.setBidx(board.getBidx());
                     view.setB_name(board.getB_name());
                     view.setPlace(board.getPlace());
                     return view;
@@ -83,13 +86,13 @@ public class ServiceWorldImpl implements ServiceWorld {
     }
 
     @Override
-    public DTOBoardInfo boardInfo(Long b_idx) {
+    public DTOBoardInfo boardInfo(Long bidx) {
 
-        Optional<EntityWorld> entityWorld = repoWorld.findById(b_idx);
+        Optional<EntityWorld> entityWorld = repoWorld.findById(bidx);
 
         DTOBoardInfo boardInfo = new DTOBoardInfo();
         if (entityWorld.isPresent()) {
-            boardInfo.setB_idx(entityWorld.get().getB_idx());
+            boardInfo.setBidx(entityWorld.get().getBidx());
             boardInfo.setUserid(entityWorld.get().getMemberInfo().getUserid());
             boardInfo.setNick(entityWorld.get().getNick());
             boardInfo.setB_name(entityWorld.get().getB_name());
@@ -100,5 +103,37 @@ public class ServiceWorldImpl implements ServiceWorld {
         }
 
         return boardInfo;
+    }
+
+    @Override
+    public List<DTOPostView> postList(Long bidx) {
+
+        List<EntityPost> posts = null;
+        posts = repoPost.findByBoard_Bidx(bidx);
+
+        List<DTOPostView> postList = null;
+        postList = posts.stream()
+            .map((EntityPost post) -> {
+                DTOPostView view = new DTOPostView();
+                view.setPidx(post.getPidx());
+                view.setCategory(post.getCategory());
+                view.setNick(post.getNick());
+                view.setUserip(post.getUserip());
+                view.setTitle(post.getTitle());
+                view.setRegdate(post.getRegdate());
+                view.setView_count(post.getView_count());
+                view.setGood_count(post.getGood_count());
+                return view;
+            })
+            .collect(Collectors.toList());
+
+        return postList;
+    }
+
+    public void incrementViewCount(Long pidx) {
+        // 포스트를 찾아서 view_count를 증가시킵니다.
+        EntityPost post = repoPost.findById(pidx).orElseThrow(() -> new RuntimeException("Post not found"));
+        post.setView_count(post.getView_count() + 1);
+        repoPost.save(post);
     }
 }

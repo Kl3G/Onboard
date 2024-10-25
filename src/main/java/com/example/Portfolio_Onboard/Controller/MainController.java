@@ -246,6 +246,41 @@ public class MainController {
     @GetMapping("/post")
     public String getPost(@RequestParam("pidx") Long pidx, @RequestParam("bidx") Long bidx, Model model){
 
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication != null && authentication.isAuthenticated()) {
+            HttpSession session = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest().getSession();
+
+            // 세션에서 userid와 nick 값을 가져온다
+            String userid = (String) session.getAttribute("userid");
+            String nick = (String) session.getAttribute("nick");
+
+            if(userid == null){
+
+                userid = "ㅇㅇ";
+                nick = "ㅇㅇ";
+            }
+
+            model.addAttribute("userid", userid);
+            model.addAttribute("nick", nick);
+        }
+
+        InetAddress local = null;
+        try {
+            local = InetAddress.getLocalHost();
+        }
+        catch ( UnknownHostException e ) {
+            e.printStackTrace();
+        }
+
+        if( local == null ) {
+            String userip = "";
+        }
+        else {
+            String userip = local.getHostAddress();
+            model.addAttribute("userip", userip);
+        }
+
+
         serviceWorld.incrementViewCount(pidx); // 조회수 증가, 카운트
 
         DTOBoardInfo boardInfo = serviceWorld.boardInfo(bidx);
@@ -258,9 +293,16 @@ public class MainController {
         // index.html 파일에서 생성한 url의 파라미터를 model로 board에 전달해 준다.
         model.addAttribute("postList", serviceWorld.postList(bidx));
         // 보드의 게시글 리스트 출력
+
         model.addAttribute("post", serviceWorld.postView(pidx));
 
         return "post";
+    }
+
+    @PostMapping("/comment_proc")
+    public String setComment(DTOCreateComment dtoCreateComment){
+
+
     }
 
     @GetMapping("/notice")

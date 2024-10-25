@@ -10,6 +10,7 @@ import java.util.List;
 public class DTOPostView {
 
     private Long pidx;
+    private Long bidx;
     private String nick;
     private String userip;
     private String category;

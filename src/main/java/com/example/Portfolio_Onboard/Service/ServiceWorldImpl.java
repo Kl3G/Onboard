@@ -116,6 +116,7 @@ public class ServiceWorldImpl implements ServiceWorld {
             .map((EntityPost post) -> {
                 DTOPostView view = new DTOPostView();
                 view.setPidx(post.getPidx());
+                view.setBidx(post.getBoard().getBidx());
                 view.setCategory(post.getCategory());
                 view.setNick(post.getNick());
                 view.setUserip(post.getUserip());
@@ -130,10 +131,34 @@ public class ServiceWorldImpl implements ServiceWorld {
         return postList;
     }
 
+    @Override
     public void incrementViewCount(Long pidx) {
         // 포스트를 찾아서 view_count를 증가시킵니다.
         EntityPost post = repoPost.findById(pidx).orElseThrow(() -> new RuntimeException("Post not found"));
         post.setView_count(post.getView_count() + 1);
         repoPost.save(post);
+    }
+
+    @Override
+    public List<EntityPost> countPost() {
+
+        List<EntityPost> posts = null;
+        posts = repoPost.findAll();
+
+        return posts;
+    }
+
+    @Override
+    public EntityPost postView(Long pidx) {
+
+        Optional<EntityPost> entityPost = repoPost.findById(pidx);
+        EntityPost post = null;
+
+        if (entityPost.isPresent()) {
+
+            post = entityPost.get();
+        }
+
+        return post;
     }
 }

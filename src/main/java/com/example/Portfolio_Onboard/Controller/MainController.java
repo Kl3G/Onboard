@@ -1,11 +1,13 @@
 package com.example.Portfolio_Onboard.Controller;
 
 import com.example.Portfolio_Onboard.DTO.*;
+import com.example.Portfolio_Onboard.Entity.EntityPost;
 import com.example.Portfolio_Onboard.Service.ServiceCreatePost;
 import com.example.Portfolio_Onboard.Service.ServiceJoin;
 import com.example.Portfolio_Onboard.Service.ServiceTest;
 import com.example.Portfolio_Onboard.Service.ServiceWorld;
 import jakarta.servlet.http.HttpSession;
+import lombok.extern.log4j.Log4j2;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -25,7 +27,7 @@ import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.List;
 
-@Slf4j
+@Log4j2
 @Controller
 //@RequestMapping("/member")
 public class MainController {
@@ -57,6 +59,16 @@ public class MainController {
             }
         }
 
+        List<EntityPost> postList = serviceWorld.countPost();
+        int postCount = 0;
+
+        for (EntityPost post : postList) {
+            if (post != null) { // num과 board의 place 비교
+                postCount++; // 일치할 경우 카운트 증가
+            }
+        }
+
+        model.addAttribute("postCount", postCount);
         model.addAttribute("boardCount", boardCount); // 보드 갯수 추가
         model.addAttribute("boards", boardList);
 
@@ -83,6 +95,27 @@ public class MainController {
         String date = regdate.substring(0,10);
         // 연월일, regdate의 0번째 문자부터 출력하고 10번째 문자부터 출력하지 않고 자른다.
 
+        List<DTOBoardView> boardList = serviceWorld.list(); // DTOBoardView 리스트 가져옴
+        int boardCount = 0; // 갯수를 세기 위한 변수
+
+        // DTOBoardView 리스트에서 place 값과 num 값을 비교
+        for (DTOBoardView board : boardList) {
+            if (board != null) { // num과 board의 place 비교
+                boardCount++; // 일치할 경우 카운트 증가
+            }
+        }
+
+        List<EntityPost> postList = serviceWorld.countPost();
+        int postCount = 0;
+
+        for (EntityPost post : postList) {
+            if (post != null) { // num과 board의 place 비교
+                postCount++; // 일치할 경우 카운트 증가
+            }
+        }
+
+        model.addAttribute("postCount", postCount);
+        model.addAttribute("boardCount", boardCount);
         model.addAttribute("date", date);
         log.error(String.valueOf(boardInfo));
         model.addAttribute("boardInfo", serviceWorld.boardInfo(bidx));
@@ -145,6 +178,16 @@ public class MainController {
             }
         }
 
+        List<EntityPost> postList = serviceWorld.countPost();
+        int postCount = 0;
+
+        for (EntityPost post : postList) {
+            if (post != null) { // num과 board의 place 비교
+                postCount++; // 일치할 경우 카운트 증가
+            }
+        }
+
+        model.addAttribute("postCount", postCount);
         model.addAttribute("boardCount", boardCount); // 보드 갯수 추가
         model.addAttribute("boards", boardList);
 
@@ -200,10 +243,22 @@ public class MainController {
         return serviceCreatePost.setPost(dtoCreatePost);
     }
 
-    @GetMapping("/post{pidx}")
-    public String getPost(@RequestParam("pidx") Long pidx){
+    @GetMapping("/post")
+    public String getPost(@RequestParam("pidx") Long pidx, @RequestParam("bidx") Long bidx, Model model){
 
-        serviceWorld.incrementViewCount(pidx);
+        serviceWorld.incrementViewCount(pidx); // 조회수 증가, 카운트
+
+        DTOBoardInfo boardInfo = serviceWorld.boardInfo(bidx);
+        String regdate = String.valueOf(boardInfo.getRegdate());
+
+        String date = regdate.substring(0,10);// 연월일, regdate의 0번째 문자부터 출력하고 10번째 문자부터 출력하지 않고 자른다.
+
+        model.addAttribute("date", date);
+        model.addAttribute("boardInfo", serviceWorld.boardInfo(bidx));
+        // index.html 파일에서 생성한 url의 파라미터를 model로 board에 전달해 준다.
+        model.addAttribute("postList", serviceWorld.postList(bidx));
+        // 보드의 게시글 리스트 출력
+        model.addAttribute("post", serviceWorld.postView(pidx));
 
         return "post";
     }

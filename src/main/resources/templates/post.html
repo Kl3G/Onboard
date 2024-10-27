@@ -86,17 +86,34 @@
           <!--보드 이름 옆의 B 아이콘 출력-->
         </div>
       </div>
-      <div class="postTitle__main" style="border-top: 2px solid #29367c; box-sizing: border-box;">
-        <span th:text="${post.title}">게시글 제목</span><br>
-        <span th:text="${post.nick} + (${post.nick == 'ㅇㅇ'} ? '(' + ${#strings.substring(post.userip, 0, 7)} + ')' : '')">
-          닉네임</span><span th:text="${post.regdate}">닉네임(ip), 등록일</span>
+
+      <div class="postTitle__main">
+        <div style="font-size: 14px; font-weight: bold;">
+          <span th:text="${post.category == '1' ? '[일반]' : (post.category == '2' ? '[뉴스]' : (post.category == '3' ? '[공지]' : '기타')) }">게시글 제목</span>
+          <span th:text="${post.title}"></span>
+        </div>
+        <div style="font-size: 13px;">
+          <span th:text="${post.nick} + (${post.nick == 'ㅇㅇ'} ? '(' + ${#strings.substring(post.userip, 0, 7)} + ')' : '')">
+            닉네임</span>
+          <span th:text="' ㅣ ' + ${post.regdate}"></span>
+        </div>
       </div>
+
       <div class="postText__main" th:text="${post.text}">
         게시글 내용
       </div>
+
       <div>
-        <div>(전체 댓글 카운트 div)</div>
-        <div>(댓글 table)</div>
+        <div th:text="${commentCount}"></div>
+        <div>
+          <ul>
+            <li th:each="comment : ${commentList}" style="display: flex;">
+              <span th:text="${comment.nick}"></span>
+              <p th:text="${comment.text}"></p>
+              <span th:text="${comment.regdate}"></span>
+            </li>
+          </ul>
+        </div>
       </div>
 
       <form action="/comment_proc" method="post">
@@ -106,7 +123,7 @@
           <input type="hidden" name="userid" th:value="${userid}">
           <input type="hidden" name="userip" th:value="${userip}">
           <input type="hidden" name="nick" th:value="${nick}">
-          <input type="password" name="cPwd">
+          <input type="password" name="cpwd">
         </div>
         <div>
           <input type="text" name="text">

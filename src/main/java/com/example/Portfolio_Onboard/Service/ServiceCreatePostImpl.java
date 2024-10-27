@@ -38,7 +38,7 @@ public class ServiceCreatePostImpl implements ServiceCreatePost{
         if (optionalBoard.isPresent()) {
 
             EntityWorld board = optionalBoard.get();
-            repoPost.save(dtoCreatePost.entityPost(MemberInfo, board, repoMemberInfo));
+            repoPost.save(dtoCreatePost.entityPost(MemberInfo, board/*, repoMemberInfo*/));
             // board를 사용하여 작업 수행
         }
 

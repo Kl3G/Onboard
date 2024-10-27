@@ -2,10 +2,7 @@ package com.example.Portfolio_Onboard.Controller;
 
 import com.example.Portfolio_Onboard.DTO.*;
 import com.example.Portfolio_Onboard.Entity.EntityPost;
-import com.example.Portfolio_Onboard.Service.ServiceCreatePost;
-import com.example.Portfolio_Onboard.Service.ServiceJoin;
-import com.example.Portfolio_Onboard.Service.ServiceTest;
-import com.example.Portfolio_Onboard.Service.ServiceWorld;
+import com.example.Portfolio_Onboard.Service.*;
 import jakarta.servlet.http.HttpSession;
 import lombok.extern.log4j.Log4j2;
 import lombok.extern.slf4j.Slf4j;
@@ -36,14 +33,16 @@ public class MainController {
     private final ServiceWorld serviceWorld;
     private final ServiceCreatePost serviceCreatePost;
     private final ServiceTest serviceTest;
+    private final ServiceComment serviceComment;
 
     @Autowired
-    MainController(ServiceJoin serviceJoin, ServiceWorld serviceWorld, ServiceCreatePost serviceCreatePost, ServiceTest serviceTest){
+    MainController(ServiceJoin serviceJoin, ServiceWorld serviceWorld, ServiceCreatePost serviceCreatePost, ServiceTest serviceTest, ServiceComment serviceComment){
 
         this.serviceJoin = serviceJoin;
         this.serviceWorld = serviceWorld;
         this.serviceCreatePost = serviceCreatePost;
         this.serviceTest = serviceTest;
+        this.serviceComment = serviceComment;
     }
 
     @GetMapping("/index")
@@ -208,7 +207,7 @@ public class MainController {
 
             if(userid == null){
 
-                userid = "ㅇㅇ";
+                userid = "guest";
                 nick = "ㅇㅇ";
             }
 
@@ -256,7 +255,7 @@ public class MainController {
 
             if(userid == null){
 
-                userid = "ㅇㅇ";
+                userid = "guest";
                 nick = "ㅇㅇ";
             }
 
@@ -284,17 +283,21 @@ public class MainController {
         serviceWorld.incrementViewCount(pidx); // 조회수 증가, 카운트
 
         DTOBoardInfo boardInfo = serviceWorld.boardInfo(bidx);
-        String regdate = String.valueOf(boardInfo.getRegdate());
 
+        String regdate = String.valueOf(boardInfo.getRegdate());
         String date = regdate.substring(0,10);// 연월일, regdate의 0번째 문자부터 출력하고 10번째 문자부터 출력하지 않고 자른다.
 
         model.addAttribute("date", date);
+
         model.addAttribute("boardInfo", serviceWorld.boardInfo(bidx));
         // index.html 파일에서 생성한 url의 파라미터를 model로 board에 전달해 준다.
         model.addAttribute("postList", serviceWorld.postList(bidx));
         // 보드의 게시글 리스트 출력
 
-        model.addAttribute("post", serviceWorld.postView(pidx));
+        model.addAttribute("post", serviceWorld.postView(pidx)); // 게시글 데이터 전송
+        model.addAttribute("commentCount", serviceComment.countComments(pidx)); // 댓글 갯수 카운트
+        model.addAttribute("commentList", serviceComment.getCommentList(pidx));
+
 
         return "post";
     }
@@ -302,7 +305,7 @@ public class MainController {
     @PostMapping("/comment_proc")
     public String setComment(DTOCreateComment dtoCreateComment){
 
-
+        return serviceComment.setComment(dtoCreateComment);
     }
 
     @GetMapping("/notice")

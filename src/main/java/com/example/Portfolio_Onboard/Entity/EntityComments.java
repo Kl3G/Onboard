@@ -30,9 +30,9 @@ public class EntityComments {
     @ToString.Exclude
     private EntityMemberInfo memberInfo;
 
-    private String cPwd;
+    private String cpwd;
     private String nick;
     private String text;
-    private String ip;
+    private String userip;
     private Date regdate;
 }

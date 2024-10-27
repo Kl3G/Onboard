@@ -19,4 +19,5 @@ public interface ServiceWorld {
     void incrementViewCount(Long pidx); // 조회수 카운트
     List<EntityPost> countPost(); //전체게시물 카운트
     EntityPost postView(Long pidx);
+
 }

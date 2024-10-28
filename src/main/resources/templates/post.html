@@ -140,7 +140,9 @@
                   <!--대댓글 출력-->
                   <ul style="list-style-type: none;">
                     <li th:each="childcomment : ${comment.childcommentList}" style="border: 1px solid #ddd; background-color: #fafafa;">
+                      <span th:text="${childcomment.nick}"></span>
                       <span th:text="${childcomment.text}"></span>
+                      <span th:text="${childcomment.regdate}"></span>
                     </li>
                   </ul>
                   <!--대댓글 출력-->

@@ -36,7 +36,7 @@ function submitComment() {
 }*/
 
 function toggleCommentForm(button) {
-    const formComment = button.nextElementSibling.nextElementSibling; // 버튼 바로 다음에 위치한 폼
+    const formComment = button.parentElement.nextElementSibling; // 버튼 바로 다음에 위치한 폼
 
     /* ** 참고 **
     1. document.getElementById("formComment");
@@ -50,6 +50,12 @@ function toggleCommentForm(button) {
     따라서, 여러 댓글 폼을 각 댓글 요소에 넣어야 할 경우 더 적합합니다.
     HTML에서 li 내의 댓글에 따라 폼이 개별적으로 위치하고 있으므로,
     이 방식을 사용하면 버튼을 클릭할 때마다 각 댓글에 해당하는 폼을 정확히 접근할 수 있습니다.
+
+    3. const formComment = button.nextElementSibling.nextElementSibling.nextElementSibling;
+    실행되지 않는 이유는 nextElementSibling을 사용했기 때문입니다.
+    nextElementSibling은 현재 요소의 바로 다음 형제 요소를 가리킵니다.
+    이 경우, <div> 안에 있는 button 요소 다음에는 <div> (댓글 입력 폼) 요소가 존재하고,
+    그 다음에 더 이상 형제 요소가 없기 때문에 세 번째 nextElementSibling은 null이 됩니다.
     */
 
     if (formComment) {

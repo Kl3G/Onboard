@@ -104,42 +104,47 @@
       </div>
 
       <div>
-        <div th:text="${commentCount}">
+        <div style="font-weight: bold;">
+          <span>전체 댓글</span>
+          <span th:text="${commentCount}" style="color: #D31900;"></span>
+          <span>개</span>
         </div>
         <div>
           <ul>
-            <li th:each="comment : ${commentList}" style="display: flex;">
+            <li th:each="comment : ${commentList}" style="display: flex; flex-direction: column; border: 1px solid black; border-width: 1px 0;">
                   <!--댓글 출력-->
-                  <span th:text="${comment.nick}"></span>
-                  <button onclick="toggleCommentForm(this)">
-                    <span th:text="${comment.text}"></span>
-                  </button>
-                  <span th:text="${comment.regdate}"></span>
-                  <!--댓글 출력-->
+                <div>
+                    <span th:text="${comment.nick} + (${comment.nick == 'ㅇㅇ'} ? '(' + ${#strings.substring(post.userip, 0, 7)} + ')' : '')"></span>
+                    <button onclick="toggleCommentForm(this)" style="border: none; background-color: white;">
+                      <span th:text="${comment.text}"></span>
+                    </button>
+                    <span th:text="${comment.regdate}"></span>
+                    <!--댓글 출력-->
+                </div>
 
-                  <div id="formComment" style="display: none;">
-                      <!--대댓글 입력-->
-                      <form action="/childcomment_proc" method="post">
-                        <input type="hidden" name="cidx" th:value="${comment.cidx}">
-                        <input type="hidden" name="userid" th:value="${userid}">
-                        <input type="hidden" name="nick" th:value="${nick}">
-                        <input type="hidden" name="userip" th:value="${userip}">
-                        <input type="text" name="ccpwd">
-                        <input type="text" name="text">
-                        <button type="submit">등록</button>
-                      </form>
-                      <!--대댓글 입력-->
-                  </div>
+                <div id="formComment" style="display: none;">
+                    <!--대댓글 입력-->
+                    <form action="/childcomment_proc" method="post">
+                      <input type="hidden" name="cidx" th:value="${comment.cidx}">
+                      <input type="hidden" name="userid" th:value="${userid}">
+                      <input type="hidden" name="nick" th:value="${nick}">
+                      <input type="hidden" name="userip" th:value="${userip}">
+                      <input type="text" name="ccpwd">
+                      <input type="text" name="text">
+                      <button type="submit">등록</button>
+                    </form>
+                    <!--대댓글 입력-->
+                </div>
 
-                  <div>
-                    <!--대댓글 출력-->
-                    <ul>
-                      <li th:each="childcomment : ${comment.childcommentList}">
-                        <span th:text="${childcomment.text}"></span>
-                      </li>
-                    </ul>
-                    <!--대댓글 출력-->
-                  </div>
+                <div id="childcommentList" style="display: flex; flex-direction: column; padding-left: 30px;">
+                  <!--대댓글 출력-->
+                  <ul style="list-style-type: none;">
+                    <li th:each="childcomment : ${comment.childcommentList}" style="border: 1px solid #ddd; background-color: #fafafa;">
+                      <span th:text="${childcomment.text}"></span>
+                    </li>
+                  </ul>
+                  <!--대댓글 출력-->
+                </div>
             </li>
           </ul>
         </div>

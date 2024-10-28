@@ -104,21 +104,51 @@
       </div>
 
       <div>
-        <div th:text="${commentCount}"></div>
+        <div th:text="${commentCount}">
+        </div>
         <div>
           <ul>
             <li th:each="comment : ${commentList}" style="display: flex;">
-              <span th:text="${comment.nick}"></span>
-              <p th:text="${comment.text}"></p>
-              <span th:text="${comment.regdate}"></span>
+                  <!--댓글 출력-->
+                  <span th:text="${comment.nick}"></span>
+                  <button onclick="toggleCommentForm(this)">
+                    <span th:text="${comment.text}"></span>
+                  </button>
+                  <span th:text="${comment.regdate}"></span>
+                  <!--댓글 출력-->
+
+                  <div id="formComment" style="display: none;">
+                      <!--대댓글 입력-->
+                      <form action="/childcomment_proc" method="post">
+                        <input type="hidden" name="cidx" th:value="${comment.cidx}">
+                        <input type="hidden" name="userid" th:value="${userid}">
+                        <input type="hidden" name="nick" th:value="${nick}">
+                        <input type="hidden" name="userip" th:value="${userip}">
+                        <input type="text" name="ccpwd">
+                        <input type="text" name="text">
+                        <button type="submit">등록</button>
+                      </form>
+                      <!--대댓글 입력-->
+                  </div>
+
+                  <div>
+                    <!--대댓글 출력-->
+                    <ul>
+                      <li th:each="childcomment : ${comment.childcommentList}">
+                        <span th:text="${childcomment.text}"></span>
+                      </li>
+                    </ul>
+                    <!--대댓글 출력-->
+                  </div>
             </li>
           </ul>
         </div>
       </div>
 
-      <form action="/comment_proc" method="post">
+      <!--댓글 입력-->
+      <form id="commentForm" action="/comment_proc" method="post">
         <div>
-          댓글 작성 form
+          (댓글 작성 form)
           <input type="hidden" name="pidx" th:value="${post.pidx}">
           <input type="hidden" name="userid" th:value="${userid}">
           <input type="hidden" name="userip" th:value="${userip}">
@@ -128,10 +158,14 @@
         <div>
           <input type="text" name="text">
         </div>
-        <div><button>등록</button></div>
+        <div>
+          <button>등록</button>
+        </div>
       </form>
+      <!--댓글 입력-->
       <div>
-        (게시글 수정, 삭제 버튼)
+        <button>수정</button>
+        <button>삭제</button>
       </div>
     </div>
   </div>
@@ -236,7 +270,7 @@
   </div>
   <span style="font-size: 12px;">Copyright ⓒ 2024 - 2025 ondoard. All rights reserved.</span>
 </footer>
-
+<script src="/js/comment.js"></script>
 <script src="/js/global.js"></script>
 </body>
 </html>

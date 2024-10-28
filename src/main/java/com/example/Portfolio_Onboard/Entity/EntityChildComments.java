@@ -6,38 +6,33 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 @Entity
-@Table(name = "comments")
+@Table(name = "childcomments")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class EntityComments {
+public class EntityChildComments {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "cidx")
-    @SequenceGenerator(name = "cidx", sequenceName = "cidx", allocationSize = 1)
-    private Long cidx;
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "ccidx")
+    @SequenceGenerator(name = "ccidx", sequenceName = "ccidx", allocationSize = 1)
+    private Long ccidx;
 
     @ManyToOne
-    @JoinColumn(name = "pidx")
+    @JoinColumn(name = "cidx")
     @ToString.Exclude
-    private EntityPost post;
+    private EntityComments comment;
 
     @ManyToOne
     @JoinColumn(name = "userid")
     @ToString.Exclude
     private EntityMemberInfo memberInfo;
 
-    private String cpwd;
+    private String ccpwd;
     private String nick;
     private String text;
     private String userip;
     private Date regdate;
-
-    @OneToMany(mappedBy = "comment", fetch = FetchType.LAZY) //기본설정
-    private List<EntityChildComments> childcommentList = new ArrayList<>();
 }

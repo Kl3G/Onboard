@@ -5,7 +5,6 @@ import com.example.Portfolio_Onboard.Entity.EntityPost;
 import com.example.Portfolio_Onboard.Service.*;
 import jakarta.servlet.http.HttpSession;
 import lombok.extern.log4j.Log4j2;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -240,72 +239,6 @@ public class MainController {
     public String setCreatePost(@ModelAttribute DTOCreatePost dtoCreatePost) {
 
         return serviceCreatePost.setPost(dtoCreatePost);
-    }
-
-    @GetMapping("/post")
-    public String getPost(@RequestParam("pidx") Long pidx, @RequestParam("bidx") Long bidx, Model model){
-
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if (authentication != null && authentication.isAuthenticated()) {
-            HttpSession session = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest().getSession();
-
-            // 세션에서 userid와 nick 값을 가져온다
-            String userid = (String) session.getAttribute("userid");
-            String nick = (String) session.getAttribute("nick");
-
-            if(userid == null){
-
-                userid = "guest";
-                nick = "ㅇㅇ";
-            }
-
-            model.addAttribute("userid", userid);
-            model.addAttribute("nick", nick);
-        }
-
-        InetAddress local = null;
-        try {
-            local = InetAddress.getLocalHost();
-        }
-        catch ( UnknownHostException e ) {
-            e.printStackTrace();
-        }
-
-        if( local == null ) {
-            String userip = "";
-        }
-        else {
-            String userip = local.getHostAddress();
-            model.addAttribute("userip", userip);
-        }
-
-
-        serviceWorld.incrementViewCount(pidx); // 조회수 증가, 카운트
-
-        DTOBoardInfo boardInfo = serviceWorld.boardInfo(bidx);
-
-        String regdate = String.valueOf(boardInfo.getRegdate());
-        String date = regdate.substring(0,10);// 연월일, regdate의 0번째 문자부터 출력하고 10번째 문자부터 출력하지 않고 자른다.
-
-        model.addAttribute("date", date);
-
-        model.addAttribute("boardInfo", serviceWorld.boardInfo(bidx));
-        // index.html 파일에서 생성한 url의 파라미터를 model로 board에 전달해 준다.
-        model.addAttribute("postList", serviceWorld.postList(bidx));
-        // 보드의 게시글 리스트 출력
-
-        model.addAttribute("post", serviceWorld.postView(pidx)); // 게시글 데이터 전송
-        model.addAttribute("commentCount", serviceComment.countComments(pidx)); // 댓글 갯수 카운트
-        model.addAttribute("commentList", serviceComment.getCommentList(pidx));
-
-
-        return "post";
-    }
-
-    @PostMapping("/comment_proc")
-    public String setComment(DTOCreateComment dtoCreateComment){
-
-        return serviceComment.setComment(dtoCreateComment);
     }
 
     @GetMapping("/notice")

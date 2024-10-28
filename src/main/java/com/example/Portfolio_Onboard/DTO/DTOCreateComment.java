@@ -21,6 +21,6 @@ public class DTOCreateComment {
 
     public EntityComments entityComment(EntityPost post, EntityMemberInfo memberInfo){
 
-        return new EntityComments(null, post, memberInfo, cpwd, nick, text, userip, new Date());
+        return new EntityComments(null, post, memberInfo, cpwd, nick, text, userip, new Date(), null);
     }
 }

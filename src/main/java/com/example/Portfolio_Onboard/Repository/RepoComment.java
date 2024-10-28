@@ -11,4 +11,5 @@ public interface RepoComment extends JpaRepository<EntityComments, Long> {
 
     long countByPost_Pidx(Long pidx);
     List<EntityComments> findByPost_Pidx(Long pidx);
+    EntityComments findByCidx(Long cidx);
 }

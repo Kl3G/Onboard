@@ -32,6 +32,8 @@ function handleLoginSubmit(event) {
     event.preventDefault(); // 기본 폼 제출 동작 방지
     // 폼의 기본 제출 동작을 차단하고, 대신 자바스크립트를 사용하여 AJAX 요청을 보낼 수 있습니다.
     // 이 코드가 있어야 fetch 를 사용할 수 있다.
+    /* type="button" 속성을 사용하여 폼의 기본 제출을 막고 있을 때는 event.preventDefault();가 필요하지 않습니다.
+       만약 버튼에 type="submit"을 사용했다면, event.preventDefault();를 통해 기본 제출을 막고 AJAX를 사용해야 합니다. */
 
     // 입력 필드 값 가져오기
     const userid = $('#userid').val();

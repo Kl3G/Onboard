@@ -400,3 +400,48 @@
     footer {
 
     }
+
+    .commentBox {
+
+        display: flex;
+        box-sizing: border-box;
+        min-height: 37px; max-height: 37px;
+        padding: 9px 10px 7px 10px;
+    }
+
+    .nickBox {
+
+        min-width: 112px;
+        max-width: 112px;
+        margin-right: 30px;
+    }
+
+    .textBox {
+
+        min-width: 750px;
+        max-width: 750px;
+    }
+
+    .childTextBox {
+
+        min-width: 710px;
+        max-width: 710px;
+    }
+
+    .dateBox {
+
+
+    }
+
+    .childcommentBox {
+        border: solid #ddd; border-width: 1px 1px 0px 1px; background-color: #fafafa;
+        box-sizing: border-box;
+        min-height: 37px; max-height: 37px;
+        padding: 9px 10px 7px 10px;
+    }
+
+    .childcommentBox:last-child {
+    /*  : 옆에 붙여서 적어줘야 한다.  ** childcommentBox:  last-child ** 이렇게 떨어지면 안 된다.*/
+
+      border: solid #ddd; border-width: 1px 1px 1px 1px;
+    }

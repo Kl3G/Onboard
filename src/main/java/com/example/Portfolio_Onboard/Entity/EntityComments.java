@@ -38,6 +38,6 @@ public class EntityComments {
     private String userip;
     private Date regdate;
 
-    @OneToMany(mappedBy = "comment", fetch = FetchType.LAZY) //기본설정
+    @OneToMany(mappedBy = "comment", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true) //기본설정
     private List<EntityChildComments> childcommentList = new ArrayList<>();
 }

@@ -3,6 +3,8 @@ package com.example.Portfolio_Onboard.Controller;
 import com.example.Portfolio_Onboard.DTO.DTOBoardInfo;
 import com.example.Portfolio_Onboard.DTO.DTOCreateChildComments;
 import com.example.Portfolio_Onboard.DTO.DTOCreateComment;
+import com.example.Portfolio_Onboard.Repository.RepoChildComments;
+import com.example.Portfolio_Onboard.Repository.RepoComment;
 import com.example.Portfolio_Onboard.Service.*;
 import jakarta.servlet.http.HttpSession;
 import lombok.extern.log4j.Log4j2;
@@ -24,20 +26,19 @@ import java.net.UnknownHostException;
 @Controller
 public class PostController {
 
-    private final ServiceJoin serviceJoin;
     private final ServiceWorld serviceWorld;
-    private final ServiceCreatePost serviceCreatePost;
-    private final ServiceTest serviceTest;
     private final ServiceComment serviceComment;
+    private final RepoChildComments repoChildComments;
+    private final RepoComment repoComment;
+
 
     @Autowired
-    PostController(ServiceJoin serviceJoin, ServiceWorld serviceWorld, ServiceCreatePost serviceCreatePost, ServiceTest serviceTest, ServiceComment serviceComment){
+    PostController(ServiceJoin serviceJoin, ServiceWorld serviceWorld, ServiceCreatePost serviceCreatePost, ServiceTest serviceTest, ServiceComment serviceComment, RepoChildComments repoChildComments, RepoComment repoComment){
 
-        this.serviceJoin = serviceJoin;
         this.serviceWorld = serviceWorld;
-        this.serviceCreatePost = serviceCreatePost;
-        this.serviceTest = serviceTest;
         this.serviceComment = serviceComment;
+        this.repoChildComments = repoChildComments;
+        this.repoComment = repoComment;
     }
 
 
@@ -111,5 +112,21 @@ public class PostController {
     public String setChildcomment(DTOCreateChildComments dtoCreateChildComments){
 
         return serviceComment.setChildComment(dtoCreateChildComments);
+    }
+
+    @PostMapping("/childCommentDel")
+    public String delChildComment(@RequestParam("ccidx") Long ccidx, @RequestParam("ccpwd") String ccpwd){
+
+        repoChildComments.deleteByCcidxAndCcpwd(ccidx, ccpwd);
+
+        return "index";
+    }
+
+    @PostMapping("/commentDel")
+    public String delComment(@RequestParam("cidx") Long cidx, @RequestParam("cpwd") String cpwd){
+
+        repoComment.deleteByCidxAndCpwd(cidx, cpwd);
+
+        return "/index";
     }
 }

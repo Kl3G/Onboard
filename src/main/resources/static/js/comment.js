@@ -36,7 +36,7 @@ function submitComment() {
 }*/
 
 function toggleCommentForm(button) {
-    const formComment = button.parentElement.nextElementSibling; // 버튼 바로 다음에 위치한 폼
+    const formComment = button.parentElement.parentElement.nextElementSibling; // 버튼 바로 다음에 위치한 폼
 
     /* ** 참고 **
     1. document.getElementById("formComment");
@@ -57,6 +57,47 @@ function toggleCommentForm(button) {
     이 경우, <div> 안에 있는 button 요소 다음에는 <div> (댓글 입력 폼) 요소가 존재하고,
     그 다음에 더 이상 형제 요소가 없기 때문에 세 번째 nextElementSibling은 null이 됩니다.
     */
+
+    if (formComment) {
+        // 현재 display 스타일을 확인하여 폼을 보이게 하거나 숨김
+        if (formComment.style.display === "none" || formComment.style.display === "") {
+            formComment.style.display = "block"; // 폼을 보이게 설정
+        } else {
+            formComment.style.display = "none"; // 폼을 숨기기
+        }
+    }
+}
+
+// 대댓글이 존재할 때만 padding-bottom: 15px; 적용
+document.addEventListener("DOMContentLoaded", function() {
+  const commentElements = document.querySelectorAll('#comment');
+
+  commentElements.forEach(commentElement => {
+    const childComment = commentElement.querySelector('#childcomment');
+
+    if (childComment) {
+      commentElement.style.paddingBottom = '15px';
+    } else {
+      commentElement.style.paddingBottom = '0';
+    }
+  });
+});
+
+function toggleChildCommentDel(button) {
+    const formComment = button.parentElement.nextElementSibling;
+
+    if (formComment) {
+        // 현재 display 스타일을 확인하여 폼을 보이게 하거나 숨김
+        if (formComment.style.display === "none" || formComment.style.display === "") {
+            formComment.style.display = "block"; // 폼을 보이게 설정
+        } else {
+            formComment.style.display = "none"; // 폼을 숨기기
+        }
+    }
+}
+
+function togglecommentDel(button) {
+    const formComment = button.parentElement.nextElementSibling;
 
     if (formComment) {
         // 현재 display 스타일을 확인하여 폼을 보이게 하거나 숨김

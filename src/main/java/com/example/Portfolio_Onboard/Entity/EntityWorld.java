@@ -6,7 +6,9 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Data
@@ -31,4 +33,7 @@ public class EntityWorld {
     private String intro;
     private String reason;
     private Date regdate;
+
+    @OneToMany(mappedBy = "board", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<EntityPost> postList = new ArrayList<>();
 }

@@ -445,3 +445,10 @@
 
       border: solid #ddd; border-width: 1px 1px 1px 1px;
     }
+
+    textarea::placeholder {
+
+        font-size: 12px;
+        color: #999999;
+        opacity: 1;
+    }

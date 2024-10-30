@@ -108,3 +108,41 @@ function togglecommentDel(button) {
         }
     }
 }
+
+function togglePostDel(button) {
+    const formComment = button.parentElement.nextElementSibling;
+
+    if (formComment) {
+        // 현재 display 스타일을 확인하여 폼을 보이게 하거나 숨김
+        if (formComment.style.display === "none" || formComment.style.display === "") {
+            formComment.style.display = "block"; // 폼을 보이게 설정
+        } else {
+            formComment.style.display = "none"; // 폼을 숨기기
+        }
+    }
+}
+
+  function checkPassword(event) {
+    event.preventDefault(); // 기본 폼 제출 방지
+
+    const ppwd = document.querySelector('input[name="ppwd"]').value;
+    const pidx = document.querySelector('input[name="pidx"]').value;
+    const bidx = document.querySelector('input[name="bidx"]').value;
+
+    $.ajax({
+      type: "POST",
+      url: "/checkPostPassword", // 비밀번호 확인 요청을 처리할 URL
+      data: { ppwd: ppwd, pidx: pidx, bidx: bidx },
+      success: function(response) {
+        if (response.success) {
+          // 비밀번호가 일치하는 경우 수정 페이지로 이동
+          location.href = `/modifyPost?pidx=${pidx}&bidx=${bidx}`;
+        } else {
+          alert("비밀번호가 일치하지 않습니다.");
+        }
+      },
+      error: function() {
+        alert("서버 오류가 발생했습니다.");
+      }
+    });
+  }

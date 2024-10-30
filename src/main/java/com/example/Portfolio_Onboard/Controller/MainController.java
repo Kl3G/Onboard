@@ -192,55 +192,6 @@ public class MainController {
         return place;
     }
 
-    @GetMapping("/createPost")
-    public String getCreatePost(@RequestParam("bidx") Long bidx, Model model){
-
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-
-        if (authentication != null && authentication.isAuthenticated()) {
-            HttpSession session = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest().getSession();
-
-            // 세션에서 userid와 nick 값을 가져온다
-            String userid = (String) session.getAttribute("userid");
-            String nick = (String) session.getAttribute("nick");
-
-            if(userid == null){
-
-                userid = "guest";
-                nick = "ㅇㅇ";
-            }
-
-            model.addAttribute("userid", userid);
-            model.addAttribute("nick", nick);
-        }
-
-        InetAddress local = null;
-        try {
-            local = InetAddress.getLocalHost();
-        }
-        catch ( UnknownHostException e ) {
-            e.printStackTrace();
-        }
-
-        if( local == null ) {
-            String ip = "";
-        }
-        else {
-            String ip = local.getHostAddress();
-            model.addAttribute("ip", ip);
-        }
-
-        model.addAttribute("bidx", bidx);
-
-        return "createPost";
-    }
-
-    @PostMapping("/createPost_proc")
-    public String setCreatePost(@ModelAttribute DTOCreatePost dtoCreatePost) {
-
-        return serviceCreatePost.setPost(dtoCreatePost);
-    }
-
     @GetMapping("/notice")
     public String getNotice(){
 

@@ -6,7 +6,9 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Table(name = "post")
@@ -32,7 +34,7 @@ public class EntityPost {
     @ToString.Exclude
     private EntityMemberInfo memberInfo; // 멤버 외래키
 
-    private String p_pwd;
+    private String ppwd;
     private String nick;
     private String category;
     private String title;
@@ -42,4 +44,7 @@ public class EntityPost {
     private Date newdate;
     private Long view_count;
     private Long good_count;
+
+    @OneToMany(mappedBy = "post", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<EntityComments> commentList = new ArrayList<>();
 }

@@ -19,13 +19,12 @@ public class DTOCreatePost {
     // newdate는 입력 안 함, 수정할 때 입력
     // private Long view_count 입력 안 함
     // private Long good_count 입력 안 함
-    private String p_pwd;
+    private String ppwd;
     private String nick;
     private String category;
     private String title;
     private String text;
     private String userip;
-    private Date regdate;
 
     public EntityPost entityPost(EntityMemberInfo memberInfo, EntityWorld board/*RepoMemberInfo repoMemberInfo*/){
 
@@ -37,9 +36,9 @@ public class DTOCreatePost {
             repoMemberInfo.save(guestUser); *//*
             // 게시글을 적을 때마다 MemberInfo 테이블에 레코드가 생성돼서 사용 안 함
 
-            return new EntityPost(null, board, guest , p_pwd, nick, category, title, text, userip, new Date(), null, 0L, 0L);
+            return new EntityPost(null, board, guest , ppwd, nick, category, title, text, userip, new Date(), null, 0L, 0L);
         }else {*/
 
-        return new EntityPost(null, board, memberInfo, p_pwd, nick, category, title, text, userip, new Date(), null, 0L, 0L);
+        return new EntityPost(null, board, memberInfo, ppwd, nick, category, title, text, userip, new Date(), null, 0L, 0L, null);
     }
 }

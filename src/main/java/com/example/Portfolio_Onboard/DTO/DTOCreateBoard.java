@@ -20,7 +20,7 @@ public class DTOCreateBoard {
 
     public EntityWorld entityWorld(EntityMemberInfo memberInfo){
 
-        return new EntityWorld(null, memberInfo, nick, place, b_name, intro, reason, new Date());
+        return new EntityWorld(null, memberInfo, nick, place, b_name, intro, reason, new Date(), null);
         // 새로운 EntityWorld(entity)객체를 생성하고, 초기화해 준다.
     }
 }

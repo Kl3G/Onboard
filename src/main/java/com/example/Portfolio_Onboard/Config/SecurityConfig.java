@@ -26,7 +26,8 @@ public class SecurityConfig {
 
                 .requestMatchers("/", "/board/**", "/world/**", "/post/**", "/comment_proc/**", "/childcomment_proc/**",
                         "/createPost/**", "/createPost_proc/**", "/join/**", "/join_proc/**", "/login_proc/**",
-                        "/childCommentDel/**", "/commentDel/**",
+                        "/childCommentDel/**", "/commentDel/**", "/postDel/**", "/boardDel/**", "/modifyPost/**", "/modifyPost_proc/**",
+                        "/postModifyPwdCheck/**",
                         "/css/**", "/js/**", "/img/**", "/webjars/**").permitAll() // 누구든지 접속 가능
                 .requestMatchers("/createBoard/**").hasRole("USER") // USER는 "/createBoard" 접속 가능
                 .requestMatchers("/notice/**").hasRole("MANAGER") // MANAGER는 "/notice" 접속 가능

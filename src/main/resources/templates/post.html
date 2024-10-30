@@ -99,12 +99,12 @@
         </div>
       </div>
 
-      <div class="postText__main" th:text="${post.text}">
+      <div class="postText__main" th:text="${post.text}" style="padding: 10px;">
         게시글 내용
       </div>
 
       <div>
-        <div style="font-weight: bold; font-size: 13px; height: 38px;">
+        <div style="font-weight: bold; font-size: 13px; height: 38px; padding: 15px 10px 5px 10px; box-sizing: border-box;">
           <span>전체 댓글</span>
           <span th:text="${commentCount}" style="color: #D31900;"></span>
           <span>개</span>
@@ -210,7 +210,9 @@
               <input type="password" name="cpwd" placeholder="비밀번호" style="padding: 1px 7px 1px 7px; box-sizing: box-border; max-width: 126px; height: 28px;">
             </div>
             <div style="width: 100%;">
-              <textarea style="height:106px; width: 100%; resize: none;"></textarea>
+              <textarea name="text" style="height:106px; width: 100%; resize: none; padding: 10px; box-sizing: border-box" placeholder="타인의 권리를 침해하거나 명예를 훼손하는 댓글은 운영원칙 및 관련 법률에 제재를 받을 수 있습니다.
+
+Shift+Enter 키를 동시에 누르면 줄바꿈이 됩니다."></textarea>
             </div>
         </div>
         <div style="margin-top: 5px; text-align: right;">
@@ -218,12 +220,24 @@
         </div>
       </form>
       <!--댓글 입력-->
+
+      <!--게시글 수정 삭제-->
       <div style="margin: 12px 0 36px 0; text-align: right;">
-        <button style="width: 82px; height: 35px; background-color: #3b4890; font-weight: bold; color: white; border: none;">수정</button>
-        <button style="width: 82px; height: 35px; background-color: #666666; font-weight: bold; color: white; border: none;">삭제</button>
+        <button th:onclick="|location.href='@{/postModifyPwdCheck(bidx=${post.board.bidx}, pidx=${post.pidx})}'|" style="width: 82px; height: 35px; background-color: #3b4890; font-weight: bold; color: white; border: none;">수정</button>
+        <!--th:onclick="|location.href='@{/modifyPost(pidx=${post.pidx}, bidx=${post.board.bidx})}'|" -->
+        <button onclick="togglePostDel(this)" style="width: 82px; height: 35px; background-color: #666666; font-weight: bold; color: white; border: none;">삭제</button>
       </div>
+
+      <div id="postDel" style="display: none; top: 0; left: 0; width: 100%; z-index: 1000; padding: 10px;">
+        <form th:action="@{/postDel(userid=${userid})}" method="post">
+          <input type="password" name="ppwd" placeholder="비밀번호">
+          <button>확인</button>
+        </form>
+      </div>
+      <!--게시글 수정 삭제-->
     </div>
   </div>
+
   <div class="container__main">
     <section class="main__section">
       <table>
@@ -257,6 +271,7 @@
           </td>
           <td>
             <a th:href="@{/post(pidx=${post.pidx}, bidx=${post.bidx})}" th:text="${post.title}"></a>
+            <!--th:onclick="|location.href='@{/modifyPost(pidx=${post.pidx}, bidx=${post.board.bidx})}'|"-->
           </td>
           <td th:text="${post.nick} + (${post.nick == 'ㅇㅇ'} ? '(' + ${#strings.substring(post.userip, 0, 7)} + ')' : '')"></td>
           <td th:text="${#strings.replace(#strings.substring(post.regdate, 2, 10), '-', '/')}"></td>

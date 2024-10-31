@@ -47,4 +47,7 @@ public class EntityPost {
 
     @OneToMany(mappedBy = "post", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     private List<EntityComments> commentList = new ArrayList<>();
+
+    @OneToOne(mappedBy = "post", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+    private EntityFiles files;
 }

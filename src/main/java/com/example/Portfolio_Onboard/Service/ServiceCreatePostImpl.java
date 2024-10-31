@@ -2,15 +2,18 @@ package com.example.Portfolio_Onboard.Service;
 
 import com.example.Portfolio_Onboard.DTO.DTOCreatePost;
 import com.example.Portfolio_Onboard.DTO.DTOModifyPost;
+import com.example.Portfolio_Onboard.Entity.EntityFiles;
 import com.example.Portfolio_Onboard.Entity.EntityMemberInfo;
 import com.example.Portfolio_Onboard.Entity.EntityPost;
 import com.example.Portfolio_Onboard.Entity.EntityWorld;
+import com.example.Portfolio_Onboard.Repository.RepoFiles;
 import com.example.Portfolio_Onboard.Repository.RepoMemberInfo;
 import com.example.Portfolio_Onboard.Repository.RepoPost;
 import com.example.Portfolio_Onboard.Repository.RepoWorld;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Date;
 import java.util.Objects;
@@ -23,11 +26,13 @@ public class ServiceCreatePostImpl implements ServiceCreatePost{
     private final RepoMemberInfo repoMemberInfo;
     private final RepoWorld repoWorld;
     private final RepoPost repoPost;
+    private final RepoFiles repoFiles;
 
-    public ServiceCreatePostImpl(RepoMemberInfo repoMemberInfo, RepoWorld repoWorld, RepoPost repoPost) {
+    public ServiceCreatePostImpl(RepoMemberInfo repoMemberInfo, RepoWorld repoWorld, RepoPost repoPost, RepoFiles repoFiles) {
         this.repoMemberInfo = repoMemberInfo;
         this.repoWorld = repoWorld;
         this.repoPost = repoPost;
+        this.repoFiles = repoFiles;
     }
 
     @Override
@@ -35,15 +40,25 @@ public class ServiceCreatePostImpl implements ServiceCreatePost{
 
         EntityMemberInfo MemberInfo = repoMemberInfo.findByUserid(dtoCreatePost.getUserid());
         Optional<EntityWorld> optionalBoard = repoWorld.findById(dtoCreatePost.getBidx());
-
-        log.error("asd");
-        log.error(dtoCreatePost.getBidx());
+        /*Optional<EntityFiles> optionalFiles = repoFiles.findById(dtoCreatePost.getPidx());*/
 
         if (optionalBoard.isPresent()) {
 
             EntityWorld board = optionalBoard.get();
-            repoPost.save(dtoCreatePost.entityPost(MemberInfo, board/*, repoMemberInfo*/));
-            // board를 사용하여 작업 수행
+            /*EntityFiles files = optionalFiles.get();*/
+            MultipartFile[] files = dtoCreatePost.getFiles();
+            String[] filePaths = new String[files.length];
+            String filePath = "";
+            for (MultipartFile file : files) {
+
+                filePath = "D:/Portfolio_Onboard/src/main/resources/static/data/" + file.getOriginalFilename(); // 파일 경로를 String으로 변환
+            }
+
+
+            EntityPost entityPost2 = dtoCreatePost.entityPost(MemberInfo, board, null);
+            EntityFiles entityFiles = new EntityFiles(dtoCreatePost.getPidx(), entityPost2, filePath);
+            EntityPost entityPost = dtoCreatePost.entityPost(MemberInfo, board, entityFiles);
+            repoPost.save(entityPost);
         }
 
         return "redirect:/index";

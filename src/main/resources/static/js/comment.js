@@ -125,20 +125,27 @@ function togglePostDel(button) {
   function checkPassword(event) {
     event.preventDefault(); // 기본 폼 제출 방지
 
-    const ppwd = document.querySelector('input[name="ppwd"]').value;
-    const pidx = document.querySelector('input[name="pidx"]').value;
-    const bidx = document.querySelector('input[name="bidx"]').value;
+    let ppwd = document.getElementById('ppwd').value;
+    let pidx = document.getElementById('pidx').value;
+    let bidx = document.getElementById('bidx').value;
+    let userid = document.getElementById('userid').value;
 
     $.ajax({
       type: "POST",
       url: "/checkPostPassword", // 비밀번호 확인 요청을 처리할 URL
-      data: { ppwd: ppwd, pidx: pidx, bidx: bidx },
+      data: { ppwd: ppwd, pidx: pidx, bidx: bidx, userid: userid},
+      contentType: "application/x-www-form-urlencoded",
       success: function(response) {
         if (response.success) {
+
           // 비밀번호가 일치하는 경우 수정 페이지로 이동
-          location.href = `/modifyPost?pidx=${pidx}&bidx=${bidx}`;
-        } else {
-          alert("비밀번호가 일치하지 않습니다.");
+          location.href = `/modifyPost?pidx=${pidx}&bidx=${bidx}&ppwd=${ppwd}`;
+        } else if(response.success1) {
+
+            alert("권한이 없는 아이디입니다.");
+        } else if(response.success2) {
+
+            alert("비밀번호가 일치하지 않습니다.");
         }
       },
       error: function() {

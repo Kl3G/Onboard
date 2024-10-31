@@ -97,10 +97,11 @@
                         <strong>개설일</strong>
                         <span th:text="${date}"></span>
                     </div>
+                    <div>
+                        <button th:onclick="|location.href='@{/createPost(bidx=${boardInfo.bidx})}'|"
+                        style="width: 82px; background-color: #3b4890; font-weight: bold; color: white; border: none;">글쓰기</button>
+                    </div>
                 </div>
-            </div>
-            <div class="main__divButton">
-                <button th:onclick="|location.href='@{/createPost(bidx=${boardInfo.bidx})}'|">글쓰기</button>
             </div>
             <table>
                 <colgroup>

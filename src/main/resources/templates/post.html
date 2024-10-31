@@ -110,7 +110,7 @@
           <span>개</span>
         </div>
         <div>
-          <ul style="border:solid #29367c; border-width: 2px 0;">
+          <ul style="border:solid #29367c; border-width: 2px 0; list-style: none;">
             <li id="comment" th:each="comment : ${commentList}" style="display: flex; flex-direction: column; border-bottom: 1px solid #eee; padding-bottom: 15px;">
                   <!--댓글 출력-->
                 <div class="commentBox">
@@ -120,7 +120,7 @@
                             style="font-size: 11px;"></span>
                     </div>
                     <div class="textBox">
-                      <button onclick="toggleCommentForm(this)" style="border: none; background-color: white;">
+                      <button onclick="toggleCommentForm(this)" style="border: none; background: white; cursor: pointer;">
                         <span th:text="${comment.text}" style="font-size: 13px;"></span>
                       </button>
                       <button></button>
@@ -154,7 +154,7 @@
                           <input type="text" name="ccpwd" placeholder="비밀번호" style="padding: 1px 7px 1px 7px; box-sizing: box-border; max-width: 126px; height: 28px;">
                         </div>
                         <div style="width: 100%;">
-                          <textarea name= "text" style="height:106px; width: 100%; resize: none;"></textarea>
+                          <textarea name= "text" style="height:106px; width: 100%; resize: none; padding: 10px; box-sizing: border-box;"></textarea>
                         </div>
                       </div>
                       <div style="margin-top: 5px; text-align: right;">
@@ -166,7 +166,7 @@
 
                 <div id="childcommentList" style="display: flex; flex-direction: column; padding-left: 30px;">
                   <!--대댓글 출력-->
-                  <ul style="list-style-type: none;">
+                  <ul style="list-style: none;">
                     <li id="childcomment" class="childcommentBox" th:each="childcomment : ${comment.childcommentList}" style="display: flex;">
                       <div class="nickBox">
                         <span th:text="${childcomment.nick}" style="font-size: 12px;"></span>
@@ -223,7 +223,8 @@ Shift+Enter 키를 동시에 누르면 줄바꿈이 됩니다."></textarea>
 
       <!--게시글 수정 삭제-->
       <div style="margin: 12px 0 36px 0; text-align: right;">
-        <button th:onclick="|location.href='@{/postModifyPwdCheck(bidx=${post.board.bidx}, pidx=${post.pidx})}'|" style="width: 82px; height: 35px; background-color: #3b4890; font-weight: bold; color: white; border: none;">수정</button>
+        <button th:onclick="|location.href='@{/postModifyPwdCheck(bidx=${post.board.bidx}, pidx=${post.pidx}, userid=${userid})}'|"
+                style="width: 82px; height: 35px; background-color: #3b4890; font-weight: bold; color: white; border: none;">수정</button>
         <!--th:onclick="|location.href='@{/modifyPost(pidx=${post.pidx}, bidx=${post.board.bidx})}'|" -->
         <button onclick="togglePostDel(this)" style="width: 82px; height: 35px; background-color: #666666; font-weight: bold; color: white; border: none;">삭제</button>
       </div>
@@ -318,7 +319,7 @@ Shift+Enter 키를 동시에 누르면 줄바꿈이 됩니다."></textarea>
   </div>
 </main>
 
-<footer class="main__footer">
+<footer>
   <div>
     <ul class="footer__ul">
       <li>

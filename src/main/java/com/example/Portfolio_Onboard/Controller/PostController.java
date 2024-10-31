@@ -2,9 +2,11 @@ package com.example.Portfolio_Onboard.Controller;
 
 import com.example.Portfolio_Onboard.DTO.*;
 import com.example.Portfolio_Onboard.Entity.EntityPost;
+import com.example.Portfolio_Onboard.Entity.EntityWorld;
 import com.example.Portfolio_Onboard.Repository.RepoChildComments;
 import com.example.Portfolio_Onboard.Repository.RepoComment;
 import com.example.Portfolio_Onboard.Repository.RepoPost;
+import com.example.Portfolio_Onboard.Repository.RepoWorld;
 import com.example.Portfolio_Onboard.Service.*;
 import jakarta.servlet.http.HttpSession;
 import lombok.extern.log4j.Log4j2;
@@ -12,7 +14,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -22,8 +23,8 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Optional;
-import java.util.jar.Attributes;
 
 @Log4j2
 @Controller
@@ -35,10 +36,11 @@ public class PostController {
     private final RepoChildComments repoChildComments;
     private final RepoComment repoComment;
     private final RepoPost repoPost;
+    private final RepoWorld repoWorld;
 
 
     @Autowired
-    PostController(ServiceJoin serviceJoin, ServiceWorld serviceWorld, ServiceCreatePost serviceCreatePost, ServiceTest serviceTest, ServiceComment serviceComment, ServiceCreatePost serviceCreatePost1, RepoChildComments repoChildComments, RepoComment repoComment, RepoPost repoPost){
+    PostController(ServiceJoin serviceJoin, ServiceWorld serviceWorld, ServiceCreatePost serviceCreatePost, ServiceTest serviceTest, ServiceComment serviceComment, ServiceCreatePost serviceCreatePost1, RepoChildComments repoChildComments, RepoComment repoComment, RepoPost repoPost, RepoWorld repoWorld){
 
         this.serviceWorld = serviceWorld;
         this.serviceComment = serviceComment;
@@ -46,22 +48,19 @@ public class PostController {
         this.repoChildComments = repoChildComments;
         this.repoComment = repoComment;
         this.repoPost = repoPost;
+        this.repoWorld = repoWorld;
     }
 
 
     @GetMapping(value = {"/createPost", "/modifyPost"})
     public String getCreatePost(@RequestParam("bidx") Long bidx, @RequestParam(value = "pidx", defaultValue = "") Long pidx,
-                                @RequestParam("ppwd") String ppwd, Model model){
+                                @RequestParam(value = "ppwd", defaultValue = "") String ppwd, Model model){
 
+
+        Optional<EntityWorld> optionalBoard = repoWorld.findById(bidx);
+        EntityWorld board = optionalBoard.get();
 
         Optional<EntityPost> post = serviceCreatePost.createOrUpdate(pidx);
-
-        String oppwd = post.get().getPpwd();
-
-        if(oppwd == ppwd){
-
-
-        }
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
@@ -99,6 +98,7 @@ public class PostController {
         }
 
         model.addAttribute("bidx", bidx);
+        model.addAttribute("boardInfo", board);
 
         if (post.isPresent()) {
 
@@ -109,38 +109,52 @@ public class PostController {
         return "createPost";
     }
 
-    @PostMapping("/checkPostPassword")
-    @ResponseBody
-    public ResponseEntity<Map<String, Object>> checkPostPassword(@RequestParam("ppwd") String ppwd, @RequestParam("pidx") Long pidx) {
-        Optional<EntityPost> postOptional = repoPost.findById(pidx);
-
-        if (postOptional.isPresent()) {
-            EntityPost post = postOptional.get();
-            String storedPassword = post.getPpwd(); // 데이터베이스에서 가져온 비밀번호
-
-            // 비밀번호 비교
-            if (BCrypt.checkpw(ppwd, storedPassword)) {
-                return ResponseEntity.ok(Map.of("success", true)); // 비밀번호가 일치함
-            }
-        }
-        return ResponseEntity.ok(Map.of("success", false)); // 비밀번호가 일치하지 않음
-    }
-
     /*---------------------------------게시글 작성, 수정 매서드-----------------------------------------*/
     /*-----------------------------------------------------------------------------------*/
     @GetMapping("/postModifyPwdCheck")
-    public String checkPostPwd(@RequestParam("bidx") Long bidx, @RequestParam("pidx") Long pidx, Model model){
+    public String checkPostPwd(@RequestParam("bidx") Long bidx, @RequestParam("pidx") Long pidx, @RequestParam("userid") String userid, Model model){
 
         DTOBoardInfo boardInfo = serviceWorld.boardInfo(bidx);
-        Optional<EntityPost> post = serviceCreatePost.createOrUpdate(pidx);
+        Optional<EntityPost> post2 = serviceCreatePost.createOrUpdate(pidx);
+        EntityPost post = post2.get();
 
-
-        Long pidx2 = post.get().getPidx();
-        log.error(pidx2);
+        model.addAttribute("userid", userid);
         model.addAttribute("boardInfo", boardInfo);
-        model.addAttribute("pidx2", pidx2);
+        model.addAttribute("post", post);
 
         return "postModifyPwdCheck";
+    }
+
+    @PostMapping("/checkPostPassword")
+    @ResponseBody
+    public ResponseEntity<Map<String, Object>> checkPostPassword(@RequestParam(value = "ppwd", required = false) String ppwd,
+                                                                 @RequestParam("pidx") Long pidx, @RequestParam("userid") String userid) {
+        Optional<EntityPost> postOptional = repoPost.findById(pidx);
+        EntityPost post = postOptional.get();
+        String DBuserid = post.getMemberInfo().getUserid();
+
+        log.info("데이터아이디"+DBuserid);
+        log.info("현재접속아이디"+userid);
+
+        log.info("데이터베이스비번"+postOptional.get().getPpwd());
+        log.info("내가입력한비번"+ppwd);
+
+        if (Objects.equals(DBuserid, userid)){
+
+            if (postOptional.isPresent()) {
+                String storedPassword = post.getPpwd(); // 데이터베이스에서 가져온 비밀번호
+
+                // 비밀번호 비교
+                if (Objects.equals(ppwd, storedPassword)) {
+                    return ResponseEntity.ok(Map.of("success", true)); // 비밀번호가 일치함
+                }
+            }
+
+            return ResponseEntity.ok(Map.of("success2", true)); // 비밀번호가 일치하지 않음
+        }else {
+
+            return ResponseEntity.ok(Map.of("success1", true));
+        }
     }
 
 

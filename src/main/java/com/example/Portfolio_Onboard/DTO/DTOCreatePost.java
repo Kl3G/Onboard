@@ -1,13 +1,12 @@
 package com.example.Portfolio_Onboard.DTO;
 
+import com.example.Portfolio_Onboard.Entity.EntityFiles;
 import com.example.Portfolio_Onboard.Entity.EntityMemberInfo;
 import com.example.Portfolio_Onboard.Entity.EntityPost;
 import com.example.Portfolio_Onboard.Entity.EntityWorld;
-import com.example.Portfolio_Onboard.Repository.RepoMemberInfo;
 import lombok.Data;
-
+import org.springframework.web.multipart.MultipartFile;
 import java.util.Date;
-import java.util.UUID;
 
 @Data
 public class DTOCreatePost {
@@ -25,20 +24,11 @@ public class DTOCreatePost {
     private String title;
     private String text;
     private String userip;
+    private MultipartFile[] files;
 
-    public EntityPost entityPost(EntityMemberInfo memberInfo, EntityWorld board/*RepoMemberInfo repoMemberInfo*/){
+    public EntityPost entityPost(EntityMemberInfo memberInfo, EntityWorld board, EntityFiles entityFiles){
 
-/*        if(memberInfo == null){
 
-            EntityMemberInfo guest = repoMemberInfo.findByUserid("guest");
-            *//* String guestUserId = "guest_" + UUID.randomUUID().toString();
-            EntityMemberInfo guestUser  = new EntityMemberInfo(guestUserId, "ㅇㅇ", "ㅇㅇ", "ㅇㅇ", new Date(), null);
-            repoMemberInfo.save(guestUser); *//*
-            // 게시글을 적을 때마다 MemberInfo 테이블에 레코드가 생성돼서 사용 안 함
-
-            return new EntityPost(null, board, guest , ppwd, nick, category, title, text, userip, new Date(), null, 0L, 0L);
-        }else {*/
-
-        return new EntityPost(null, board, memberInfo, ppwd, nick, category, title, text, userip, new Date(), null, 0L, 0L, null);
+        return new EntityPost(null, board, memberInfo, ppwd, nick, category, title, text, userip, new Date(), null, 0L, 0L, null, entityFiles);
     }
 }

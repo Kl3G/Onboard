@@ -13,14 +13,10 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
-
-import java.net.InetAddress;
-import java.net.UnknownHostException;
 import java.util.List;
 
 @Log4j2
@@ -30,18 +26,14 @@ public class MainController {
 
     private final ServiceJoin serviceJoin;
     private final ServiceWorld serviceWorld;
-    private final ServiceCreatePost serviceCreatePost;
     private final ServiceTest serviceTest;
-    private final ServiceComment serviceComment;
 
     @Autowired
-    MainController(ServiceJoin serviceJoin, ServiceWorld serviceWorld, ServiceCreatePost serviceCreatePost, ServiceTest serviceTest, ServiceComment serviceComment){
+    MainController(ServiceJoin serviceJoin, ServiceWorld serviceWorld, ServiceTest serviceTest){
 
         this.serviceJoin = serviceJoin;
         this.serviceWorld = serviceWorld;
-        this.serviceCreatePost = serviceCreatePost;
         this.serviceTest = serviceTest;
-        this.serviceComment = serviceComment;
     }
 
     @GetMapping("/index")

@@ -15,6 +15,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.Date;
 import java.util.Objects;
 import java.util.Optional;
@@ -45,20 +47,25 @@ public class ServiceCreatePostImpl implements ServiceCreatePost{
         if (optionalBoard.isPresent()) {
 
             EntityWorld board = optionalBoard.get();
-            /*EntityFiles files = optionalFiles.get();*/
             MultipartFile[] files = dtoCreatePost.getFiles();
-            String[] filePaths = new String[files.length];
-            String filePath = "";
+
             for (MultipartFile file : files) {
+                String filePath = file.getOriginalFilename(); // 파일 경로 생성
 
-                filePath = "D:/Portfolio_Onboard/src/main/resources/static/data/" + file.getOriginalFilename(); // 파일 경로를 String으로 변환
+                try {
+                    // 파일을 지정된 경로에 저장
+                    File destinationFile = new File(filePath);
+                    file.transferTo(destinationFile); // 실제로 파일을 저장하는 코드
+                } catch (IOException e) {
+                    e.printStackTrace(); // 예외 처리
+                    // 필요한 경우 예외를 던지거나 로그에 기록합니다.
+                }
+
+                EntityPost entityPost2 = dtoCreatePost.entityPost(MemberInfo, board, null);
+                EntityFiles entityFiles = new EntityFiles(dtoCreatePost.getPidx(), entityPost2, filePath);
+                EntityPost entityPost = dtoCreatePost.entityPost(MemberInfo, board, entityFiles);
+                repoPost.save(entityPost);
             }
-
-
-            EntityPost entityPost2 = dtoCreatePost.entityPost(MemberInfo, board, null);
-            EntityFiles entityFiles = new EntityFiles(dtoCreatePost.getPidx(), entityPost2, filePath);
-            EntityPost entityPost = dtoCreatePost.entityPost(MemberInfo, board, entityFiles);
-            repoPost.save(entityPost);
         }
 
         return "redirect:/index";

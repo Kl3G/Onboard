@@ -17,9 +17,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.Date;
-import java.util.Objects;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 @Log4j2
@@ -40,7 +38,7 @@ public class ServiceCreatePostImpl implements ServiceCreatePost{
     @Override
     public String setPost(DTOCreatePost dtoCreatePost) {
 
-        EntityMemberInfo MemberInfo = repoMemberInfo.findByUserid(dtoCreatePost.getUserid());
+        EntityMemberInfo memberInfo = repoMemberInfo.findByUserid(dtoCreatePost.getUserid());
         Optional<EntityWorld> optionalBoard = repoWorld.findById(dtoCreatePost.getBidx());
         /*Optional<EntityFiles> optionalFiles = repoFiles.findById(dtoCreatePost.getPidx());*/
 
@@ -48,9 +46,11 @@ public class ServiceCreatePostImpl implements ServiceCreatePost{
 
             EntityWorld board = optionalBoard.get();
             MultipartFile[] files = dtoCreatePost.getFiles();
+            List<String> filePaths = new ArrayList<>();
 
             for (MultipartFile file : files) {
                 String filePath = file.getOriginalFilename(); // 파일 경로 생성
+                filePaths.add(filePath);
 
                 try {
                     // 파일을 지정된 경로에 저장
@@ -61,11 +61,12 @@ public class ServiceCreatePostImpl implements ServiceCreatePost{
                     // 필요한 경우 예외를 던지거나 로그에 기록합니다.
                 }
 
-                EntityPost entityPost2 = dtoCreatePost.entityPost(MemberInfo, board, null);
-                EntityFiles entityFiles = new EntityFiles(dtoCreatePost.getPidx(), entityPost2, filePath);
-                EntityPost entityPost = dtoCreatePost.entityPost(MemberInfo, board, entityFiles);
-                repoPost.save(entityPost);
             }
+
+            EntityPost entityPost2 = dtoCreatePost.entityPost(memberInfo, board, null);
+            EntityFiles entityFiles = new EntityFiles(dtoCreatePost.getPidx(), entityPost2, String.join(",", filePaths));
+            EntityPost entityPost = dtoCreatePost.entityPost(memberInfo, board, entityFiles);
+            repoPost.save(entityPost);
         }
 
         return "redirect:/index";

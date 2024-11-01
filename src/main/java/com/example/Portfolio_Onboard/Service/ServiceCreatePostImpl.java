@@ -17,6 +17,9 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.*;
 
 @Service
@@ -40,44 +43,63 @@ public class ServiceCreatePostImpl implements ServiceCreatePost{
 
         EntityMemberInfo memberInfo = repoMemberInfo.findByUserid(dtoCreatePost.getUserid());
         Optional<EntityWorld> optionalBoard = repoWorld.findById(dtoCreatePost.getBidx());
+        EntityWorld board = optionalBoard.get();
         /*Optional<EntityFiles> optionalFiles = repoFiles.findById(dtoCreatePost.getPidx());*/
 
-        if (optionalBoard.isPresent()) {
+        Path upPath = Paths.get("D:\\Portfolio_Onboard\\src\\main\\resources\\static\\data");
 
-            EntityWorld board = optionalBoard.get();
-            List<String> ofile = new ArrayList<>();
+        List<String> ofileList = new ArrayList<>();
+        List<String> sfileList = new ArrayList<>();
 
-            for (MultipartFile file : dtoCreatePost.getFiles()) {
+        for (MultipartFile file : dtoCreatePost.getFiles()) {
 
-                String filePath = file.getOriginalFilename(); // 파일 경로 생성
-                ofile.add(filePath);
+            String fileName = file.getOriginalFilename(); // 원본 파일 이름 생성
 
-                try {
-                    // 파일을 지정된 경로에 저장
-                    File destinationFile = new File(filePath);
-                    file.transferTo(destinationFile); // 실제로 파일을 저장하는 코드
-                } catch (IOException e) {
+            try {
 
-                    e.printStackTrace(); // 예외 처리
-                    // 필요한 경우 예외를 던지거나 로그에 기록합니다.
-                }
+                ofileList.add(fileName);
+                // 원본 파일이름을 O 리스트에 입력
 
+                String ext = fileName.substring(fileName.lastIndexOf("."));
+                // 문자열에서 마지막 점(.) 이후의 문자열을 추출하기 위해 사용된다, 이 메서드는 파일의 확장자를 얻는 데 유용하다.
+                // 파일형식만 추출
+                // System.out.println("ext: "+ ext);
+
+                Long time = System.currentTimeMillis();
+
+                String newFilename = time + ext;
+                sfileList.add(newFilename);
+                // S 리스트에 입력
+
+                Path targetLocation = upPath.resolve(newFilename);
+
+                Files.copy(file.getInputStream(), targetLocation);
+                // 내가 전송한 파일을 복사한 새로운 파일이 서버에 생성된다
+
+                /*File destinationFile = new File(fileName);
+                file.transferTo(destinationFile); // 실제로 파일을 저장하는 코드*/
+            } catch (Exception e) {
+
+                e.printStackTrace(); // 예외 처리
+                // 필요한 경우 예외를 던지거나 로그에 기록합니다.
             }
 
-            // 1. EntityPost 객체 생성
-            EntityPost entityPost = dtoCreatePost.entityPost(memberInfo, board, null);
-            repoPost.save(entityPost); // 먼저 저장하여 ID가 할당되도록 함
-
-            // 2. EntityFiles 객체 생성 후 EntityPost와 연결
-            EntityFiles entityFiles = new EntityFiles(dtoCreatePost.getPidx(), entityPost, String.join(",", ofile));
-            entityPost.setFiles(entityFiles); // 양방향 관계일 경우 필요
-            repoFiles.save(entityFiles); // EntityFiles 저장
-
-            /*EntityPost entityPost = dtoCreatePost.entityPost(memberInfo, board, null);
-            EntityFiles entityFiles = new EntityFiles(dtoCreatePost.getPidx(), entityPost, String.join(",", filePaths));
-            entityPost = dtoCreatePost.entityPost(memberInfo, board, entityFiles);
-            repoPost.save(entityPost);*/
         }
+
+        // 1. EntityPost 객체 생성
+        EntityPost entityPost = dtoCreatePost.entityPost(memberInfo, board, null);
+        repoPost.save(entityPost); // 먼저 저장하여 ID가 할당되도록 함
+
+        // 2. EntityFiles 객체 생성 후 EntityPost와 연결
+        EntityFiles entityFiles = new EntityFiles(dtoCreatePost.getPidx(), entityPost, String.join(",", ofileList), String.join(",", sfileList));
+        entityPost.setFiles(entityFiles); // 양방향 관계일 경우 필요
+        repoFiles.save(entityFiles); // EntityFiles 저장
+
+
+        /*EntityPost entityPost = dtoCreatePost.entityPost(memberInfo, board, null);
+        EntityFiles entityFiles = new EntityFiles(dtoCreatePost.getPidx(), entityPost, String.join(",", ofileList), String.join(",", sfileList));
+        entityPost = dtoCreatePost.entityPost(memberInfo, board, entityFiles);
+        repoPost.save(entityPost);*/
 
         return "redirect:/index";
     }

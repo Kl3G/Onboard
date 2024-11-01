@@ -87,8 +87,9 @@
             </div>
           </div>
 
-          <div class="divForm" style="border: 3px solid #29367c; height: 100%; margin: 100px 350px 150px 350px; padding: 35px; box-sizing: border-box;">
-            <form action="/modifyPost" method="get" style="display: flex; flex-direction: column;" onsubmit="checkPassword(event)">
+          <div class="divForm">
+            <form action="/modifyPost" method="get" style="display: flex; flex-direction: column;"
+                  onsubmit="checkPassword(event, 'modify')">
               <div style="display: flex; justify-content: center; margin-bottom: 15px;">
                 <span>비밀번호를 입력하세요.</span>
               </div>

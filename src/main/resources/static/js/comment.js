@@ -122,7 +122,7 @@ function togglePostDel(button) {
     }
 }
 
-  function checkPassword(event) {
+  function checkPassword(event, action) {
     event.preventDefault(); // 기본 폼 제출 방지
 
     let ppwd = document.getElementById('ppwd').value;
@@ -136,10 +136,28 @@ function togglePostDel(button) {
       data: { ppwd: ppwd, pidx: pidx, bidx: bidx, userid: userid},
       contentType: "application/x-www-form-urlencoded",
       success: function(response) {
-        if (response.success) {
+        if(response.success){
 
-          // 비밀번호가 일치하는 경우 수정 페이지로 이동
-          location.href = `/modifyPost?pidx=${pidx}&bidx=${bidx}&ppwd=${ppwd}`;
+            if(action === 'modify'){
+
+                location.href = `/modifyPost?pidx=${pidx}&bidx=${bidx}&ppwd=${ppwd}`;
+            }else if(action === 'delete'){
+
+                let form = document.createElement('form');
+                form.method = 'POST';
+                form.action = '/postDel';
+
+                let pidxField = document.createElement('input');
+                pidxField.type = 'hidden';
+                pidxField.name = 'pidx';
+                pidxField.value = pidx;
+
+                form.appendChild(pidxField); // 폼에 pidx 필드 추가
+
+                // 폼을 body에 추가하고 전송
+                document.body.appendChild(form);
+                form.submit(); // 폼을 전송하여 POST 요청 실행
+            }
         } else if(response.success1) {
 
             alert("권한이 없는 아이디입니다.");

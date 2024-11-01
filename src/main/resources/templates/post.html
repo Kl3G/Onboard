@@ -231,18 +231,18 @@ Shift+Enter 키를 동시에 누르면 줄바꿈이 됩니다."></textarea>
 
       <!--게시글 수정 삭제-->
       <div style="margin: 12px 0 36px 0; text-align: right;">
-        <button th:onclick="|location.href='@{/postModifyPwdCheck(bidx=${post.board.bidx}, pidx=${post.pidx}, userid=${userid})}'|"
-                style="width: 82px; height: 35px; background-color: #3b4890; font-weight: bold; color: white; border: none;">수정</button>
-        <!--th:onclick="|location.href='@{/modifyPost(pidx=${post.pidx}, bidx=${post.board.bidx})}'|" -->
-        <button onclick="togglePostDel(this)" style="width: 82px; height: 35px; background-color: #666666; font-weight: bold; color: white; border: none;">삭제</button>
+        <button class="modifyButton"
+                th:onclick="|location.href='@{/postModifyPwdCheck(bidx=${post.board.bidx}, pidx=${post.pidx}, userid=${userid})}'|">수정</button>
+        <button class="deleteButton"
+                th:onclick="|location.href='@{/postDelete(bidx=${post.board.bidx}, pidx=${post.pidx}, userid=${userid})}'|">삭제</button>
       </div>
 
-      <div id="postDel" style="display: none; top: 0; left: 0; width: 100%; z-index: 1000; padding: 10px;">
+<!--      <div id="postDel" style="display: none; top: 0; left: 0; width: 100%; z-index: 1000; padding: 10px;">
         <form th:action="@{/postDel(userid=${userid})}" method="post">
           <input type="password" name="ppwd" placeholder="비밀번호">
           <button>확인</button>
         </form>
-      </div>
+      </div>-->
       <!--게시글 수정 삭제-->
     </div>
   </div>

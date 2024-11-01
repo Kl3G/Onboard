@@ -248,6 +248,15 @@ button {
         gap: 5px;
     }
 
+    .divForm {
+
+        border: 3px solid #29367c;
+        height: 100%;
+        margin: 100px 350px 150px 350px;
+        padding: 35px;
+        box-sizing: border-box;
+    }
+
     .main__divTop div{
 
         font-size: 24px; color: #29367c; max-height: 48px;

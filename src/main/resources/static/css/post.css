@@ -4,9 +4,16 @@
         color: #555555;
     }
 
-    button {
+    .modifyButton {
 
-        border-radius: 2px;
+        width: 82px; height: 35px;
+        background-color: #3b4890; font-weight: bold; color: white; border: none;
+    }
+
+    .deleteButton {
+
+        width: 82px; height: 35px;
+        background-color: #666666; font-weight: bold; color: white; border: none;
     }
 
     table {

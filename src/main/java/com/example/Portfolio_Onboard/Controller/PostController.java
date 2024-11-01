@@ -157,6 +157,20 @@ public class PostController {
         }
     }
 
+    @GetMapping("/postDelete")
+    public String checkDeletePwd(@RequestParam("bidx") Long bidx, @RequestParam("pidx") Long pidx, @RequestParam("userid") String userid, Model model){
+
+        DTOBoardInfo boardInfo = serviceWorld.boardInfo(bidx);
+        Optional<EntityPost> post2 = serviceCreatePost.createOrUpdate(pidx);
+        EntityPost post = post2.get();
+
+        model.addAttribute("userid", userid);
+        model.addAttribute("boardInfo", boardInfo);
+        model.addAttribute("post", post);
+
+        return "postDelete";
+    }
+
 
     @PostMapping("/createPost_proc")
     public String setCreatePost(@ModelAttribute DTOCreatePost dtoCreatePost) {
@@ -267,9 +281,9 @@ public class PostController {
     }
 
     @PostMapping("/postDel")
-    public String delPost(@RequestParam("userid") String userid, @RequestParam("ppwd") String ppwd){
+    public String delPost(@RequestParam("pidx") Long pidx){
 
-        repoPost.deleteByUseridAndPpwd(userid, ppwd);
+        repoPost.deleteById(pidx);
 
         return "index";
     }

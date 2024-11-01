@@ -24,4 +24,5 @@ public class EntityFiles {
     private EntityPost post;
 
     private String ofile;
+    private String sfile;
 }

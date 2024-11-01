@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 import org.springframework.web.multipart.MultipartFile;
 
 @Entity
@@ -19,6 +20,7 @@ public class EntityFiles {
     @OneToOne(cascade = CascadeType.ALL)
     @MapsId   // EntityPost의 pidx를 사용하여 EntityFiles의 ID로 설정
     @JoinColumn(name = "pidx")
+    @ToString.Exclude
     private EntityPost post;
 
     private String ofile;

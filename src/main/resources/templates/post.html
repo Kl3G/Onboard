@@ -103,8 +103,16 @@
         게시글 내용
       </div>
 
-      <div>
-        <div style="font-weight: bold; font-size: 13px; height: 38px; padding: 15px 10px 5px 10px; box-sizing: border-box;">
+      <div class="postFiles__main" style="border: 1px solid #d5d5d5; height: 60px; box-sizing: border-box;">
+        <div style="padding: 8px 13px 9px; box-sizing: border-box;">
+          <span style="font-size: 12px; font-weight: bold;">원본 첨부파일</span>
+          <span style="color: #D31900; font-size: 12px; font-weight: bold;">1</span><br>
+          <span th:text="${post.files.ofile}" style="font-size: 13px; color: #666666;"></span>
+        </div>
+      </div>
+
+      <div class="postComment__main">
+        <div style="font-weight: bold; font-size: 13px; height: 38px; padding: 15px 10px 5px 10px; box-sizing: border-box; margin-top: 15px;">
           <span>전체 댓글</span>
           <span th:text="${commentCount}" style="color: #D31900;"></span>
           <span>개</span>

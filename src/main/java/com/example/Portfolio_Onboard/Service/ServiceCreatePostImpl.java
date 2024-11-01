@@ -45,28 +45,38 @@ public class ServiceCreatePostImpl implements ServiceCreatePost{
         if (optionalBoard.isPresent()) {
 
             EntityWorld board = optionalBoard.get();
-            MultipartFile[] files = dtoCreatePost.getFiles();
-            List<String> filePaths = new ArrayList<>();
+            List<String> ofile = new ArrayList<>();
 
-            for (MultipartFile file : files) {
+            for (MultipartFile file : dtoCreatePost.getFiles()) {
+
                 String filePath = file.getOriginalFilename(); // 파일 경로 생성
-                filePaths.add(filePath);
+                ofile.add(filePath);
 
                 try {
                     // 파일을 지정된 경로에 저장
                     File destinationFile = new File(filePath);
                     file.transferTo(destinationFile); // 실제로 파일을 저장하는 코드
                 } catch (IOException e) {
+
                     e.printStackTrace(); // 예외 처리
                     // 필요한 경우 예외를 던지거나 로그에 기록합니다.
                 }
 
             }
 
-            EntityPost entityPost2 = dtoCreatePost.entityPost(memberInfo, board, null);
-            EntityFiles entityFiles = new EntityFiles(dtoCreatePost.getPidx(), entityPost2, String.join(",", filePaths));
-            EntityPost entityPost = dtoCreatePost.entityPost(memberInfo, board, entityFiles);
-            repoPost.save(entityPost);
+            // 1. EntityPost 객체 생성
+            EntityPost entityPost = dtoCreatePost.entityPost(memberInfo, board, null);
+            repoPost.save(entityPost); // 먼저 저장하여 ID가 할당되도록 함
+
+            // 2. EntityFiles 객체 생성 후 EntityPost와 연결
+            EntityFiles entityFiles = new EntityFiles(dtoCreatePost.getPidx(), entityPost, String.join(",", ofile));
+            entityPost.setFiles(entityFiles); // 양방향 관계일 경우 필요
+            repoFiles.save(entityFiles); // EntityFiles 저장
+
+            /*EntityPost entityPost = dtoCreatePost.entityPost(memberInfo, board, null);
+            EntityFiles entityFiles = new EntityFiles(dtoCreatePost.getPidx(), entityPost, String.join(",", filePaths));
+            entityPost = dtoCreatePost.entityPost(memberInfo, board, entityFiles);
+            repoPost.save(entityPost);*/
         }
 
         return "redirect:/index";

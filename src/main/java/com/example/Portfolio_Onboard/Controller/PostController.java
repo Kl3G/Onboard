@@ -1,6 +1,7 @@
 package com.example.Portfolio_Onboard.Controller;
 
 import com.example.Portfolio_Onboard.DTO.*;
+import com.example.Portfolio_Onboard.Entity.EntityComments;
 import com.example.Portfolio_Onboard.Entity.EntityPost;
 import com.example.Portfolio_Onboard.Entity.EntityWorld;
 import com.example.Portfolio_Onboard.Repository.RepoChildComments;
@@ -65,17 +66,16 @@ public class PostController {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
         InetAddress local = null;
+
         try {
             local = InetAddress.getLocalHost();
-        }
-        catch ( UnknownHostException e ) {
+        } catch ( UnknownHostException e ) {
             e.printStackTrace();
         }
 
         if( local == null ) {
             String ip = "";
-        }
-        else {
+        } else {
             String ip = local.getHostAddress();
             model.addAttribute("ip", ip);
         }
@@ -99,6 +99,9 @@ public class PostController {
 
         model.addAttribute("bidx", bidx);
         model.addAttribute("boardInfo", board);
+        model.addAttribute("boardCount", serviceWorld.countBoard()); // 전체보드수
+        model.addAttribute("postCount", serviceWorld.countPost()); // 전체게시글수
+        model.addAttribute("commentsCount", serviceWorld.countComments()); // 전체댓글수
 
         if (post.isPresent()) {
 
@@ -118,9 +121,13 @@ public class PostController {
         Optional<EntityPost> post2 = serviceCreatePost.createOrUpdate(pidx);
         EntityPost post = post2.get();
 
+        model.addAttribute("boardCount", serviceWorld.countBoard()); // 전체보드수
+        model.addAttribute("postCount", serviceWorld.countPost()); // 전체게시글수
+        model.addAttribute("commentsCount", serviceWorld.countComments()); // 전체댓글수
         model.addAttribute("userid", userid);
         model.addAttribute("boardInfo", boardInfo);
         model.addAttribute("post", post);
+
 
         return "postModifyPwdCheck";
     }
@@ -132,12 +139,6 @@ public class PostController {
         Optional<EntityPost> postOptional = repoPost.findById(pidx);
         EntityPost post = postOptional.get();
         String DBuserid = post.getMemberInfo().getUserid();
-
-        log.info("데이터아이디"+DBuserid);
-        log.info("현재접속아이디"+userid);
-
-        log.info("데이터베이스비번"+postOptional.get().getPpwd());
-        log.info("내가입력한비번"+ppwd);
 
         if (Objects.equals(DBuserid, userid)){
 
@@ -164,6 +165,9 @@ public class PostController {
         Optional<EntityPost> post2 = serviceCreatePost.createOrUpdate(pidx);
         EntityPost post = post2.get();
 
+        model.addAttribute("boardCount", serviceWorld.countBoard()); // 전체보드수
+        model.addAttribute("postCount", serviceWorld.countPost()); // 전체게시글수
+        model.addAttribute("commentsCount", serviceWorld.countComments()); // 전체댓글수
         model.addAttribute("userid", userid);
         model.addAttribute("boardInfo", boardInfo);
         model.addAttribute("post", post);
@@ -187,6 +191,9 @@ public class PostController {
 
     /*---------------------------------게시글 작성, 수정 매서드-----------------------------------------*/
     /*-----------------------------------------------------------------------------------*/
+
+
+
 
     @GetMapping("/post")
     public String getPost(@RequestParam("pidx") Long pidx, @RequestParam("bidx") Long bidx, Model model){
@@ -212,15 +219,13 @@ public class PostController {
         InetAddress local = null;
         try {
             local = InetAddress.getLocalHost();
-        }
-        catch ( UnknownHostException e ) {
+        } catch ( UnknownHostException e ) {
             e.printStackTrace();
         }
 
         if( local == null ) {
             String userip = "";
-        }
-        else {
+        } else {
             String userip = local.getHostAddress();
             model.addAttribute("userip", userip);
         }
@@ -240,13 +245,17 @@ public class PostController {
         model.addAttribute("postList", serviceWorld.postList(bidx));
         // 보드의 게시글 리스트 출력
 
+        model.addAttribute("boardCount", serviceWorld.countBoard()); // 전체보드수
+        model.addAttribute("postCount", serviceWorld.countPost()); // 전체게시글수
+        model.addAttribute("commentsCount", serviceWorld.countComments()); // 전체댓글수
         model.addAttribute("post", serviceWorld.postView(pidx)); // 게시글 데이터 전송
-        model.addAttribute("commentCount", serviceComment.countComments(pidx)); // 댓글 갯수 카운트
+        model.addAttribute("commentCount", serviceComment.countComments(pidx)); // 게시글의 댓글 갯수 카운트
         model.addAttribute("commentList", serviceComment.getCommentList(pidx));
 
 
         return "post";
     }
+
 
     @PostMapping("/comment_proc")
     public String setComment(DTOCreateComment dtoCreateComment){
@@ -261,6 +270,8 @@ public class PostController {
     }
 
 
+
+
     /*---------------------------------삭제 매서드-----------------------------------------*/
     /*-----------------------------------------------------------------------------------*/
 
@@ -272,20 +283,39 @@ public class PostController {
         return "index";
     }
 
+    @PostMapping("/checkCommentPwd")
+    @ResponseBody
+    public ResponseEntity<Map<String, Object>> checkCommentPwd(@RequestParam(value = "cpwd", required = false) String cpwd,
+                                                                 @RequestParam("cidx") Long cidx) {
+
+        Optional<EntityComments> optionalComments = repoComment.findById(cidx);
+        EntityComments comment = optionalComments.get();
+        String DBcpwd = comment.getCpwd();
+
+        if (Objects.equals(DBcpwd, cpwd)){
+
+            return ResponseEntity.ok(Map.of("success", true)); // 비밀번호가 일치함
+        }else {
+
+            return ResponseEntity.ok(Map.of("success2", true));
+        }
+    }
+
     @PostMapping("/commentDel")
-    public String delComment(@RequestParam("cidx") Long cidx, @RequestParam("cpwd") String cpwd){
+    public String delComment(@RequestParam("cidx") Long cidx,
+                             @RequestParam("bidx") Long bidx, @RequestParam("pidx") Long pidx){
 
-        repoComment.deleteByCidxAndCpwd(cidx, cpwd);
+        repoComment.deleteById(cidx);
 
-        return "index";
+        return "redirect:/post?pidx="+pidx+"&bidx="+bidx;
     }
 
     @PostMapping("/postDel")
-    public String delPost(@RequestParam("pidx") Long pidx){
+    public String delPost(@RequestParam("pidx") Long pidx, @RequestParam("bidx") Long bidx){
 
         repoPost.deleteById(pidx);
 
-        return "index";
+        return "redirect:/board?bidx="+bidx;
     }
 
     /*@PostMapping("/boardDel")*/

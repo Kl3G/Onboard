@@ -71,7 +71,7 @@
         <div class="slick-class">
             <div th:utext="'전체보드&#8201;&#8201;' + ${boardCount} + '개'"> 전체보드수</div>
             <div th:utext="'전체게시글&#8201;&#8201;' + ${postCount} + '개'"> 전체게시글수</div>
-            <div> 전체댓글수 0개 </div>
+            <div th:utext="'전체댓글&#8201;&#8201;' + ${commentsCount} + '개'"> 전체댓글수</div>
         </div>
     </div>
 </nav>
@@ -81,7 +81,7 @@
         <section class="main__section">
             <div class="main__divTop">
                 <div>
-                    인기글
+                    최근 등록글
                 </div>
                 <div style="flex: 1; padding: 3px; justify-content: flex-end;">
                     <button class="button__boardCreate" type="button"
@@ -91,10 +91,13 @@
                 </div>
             </div>
             <div class="main__divMid">
-                사진1
+                <div>Thumbnail1</div>
+                <div>Thumbnail2</div>
+                <div>Thumbnail3</div>
+                <div>Thumbnail4</div>
             </div>
             <div class="main__divBotTitle">
-                남아메리카 &thinsp; <span th:text="'(' + ${boardCount} + ')'"></span>
+                남아메리카 &thinsp; <span th:text="'(' + ${worldBoardCount} + ')'"></span>
             </div>
             <div style="flex: 17.5;">
                 <div class="custom-div" th:each="i : ${#numbers.sequence(1, 4)}">

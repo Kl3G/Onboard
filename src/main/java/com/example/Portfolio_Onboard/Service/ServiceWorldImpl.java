@@ -4,9 +4,11 @@ import com.example.Portfolio_Onboard.DTO.DTOBoardInfo;
 import com.example.Portfolio_Onboard.DTO.DTOBoardView;
 import com.example.Portfolio_Onboard.DTO.DTOCreateBoard;
 import com.example.Portfolio_Onboard.DTO.DTOPostView;
+import com.example.Portfolio_Onboard.Entity.EntityComments;
 import com.example.Portfolio_Onboard.Entity.EntityMemberInfo;
 import com.example.Portfolio_Onboard.Entity.EntityPost;
 import com.example.Portfolio_Onboard.Entity.EntityWorld;
+import com.example.Portfolio_Onboard.Repository.RepoComment;
 import com.example.Portfolio_Onboard.Repository.RepoMemberInfo;
 import com.example.Portfolio_Onboard.Repository.RepoPost;
 import com.example.Portfolio_Onboard.Repository.RepoWorld;
@@ -24,12 +26,14 @@ public class ServiceWorldImpl implements ServiceWorld {
     private final RepoMemberInfo repoMemberInfo;
     private final RepoWorld repoWorld;
     private final RepoPost repoPost;
+    private final RepoComment repoComment;
 
-    ServiceWorldImpl(RepoWorld repoWorld, RepoMemberInfo repoMemberInfo, RepoPost repoPost){
+    ServiceWorldImpl(RepoWorld repoWorld, RepoMemberInfo repoMemberInfo, RepoPost repoPost, RepoComment repoComment){
 
         this.repoMemberInfo = repoMemberInfo;
         this.repoWorld = repoWorld;
         this.repoPost = repoPost;
+        this.repoComment = repoComment;
     }
 
     @Override
@@ -63,6 +67,21 @@ public class ServiceWorldImpl implements ServiceWorld {
                 .collect(Collectors.toList());
 
         return dtoBoardView;
+    }
+
+    @Override
+    public int countBoard() {
+
+        List<EntityWorld> boards = null;
+        boards = repoWorld.findAll();
+        int boardCount = 0;
+
+        for (EntityWorld board : boards) {
+            if (board != null) { // num과 board의 place 비교
+                boardCount++; // 일치할 경우 카운트 증가
+            }
+        }
+        return boardCount;
     }
 
     @Override
@@ -140,12 +159,34 @@ public class ServiceWorldImpl implements ServiceWorld {
     }
 
     @Override
-    public List<EntityPost> countPost() {
+    public int countPost() {
 
         List<EntityPost> posts = null;
         posts = repoPost.findAll();
+        int postCount = 0;
 
-        return posts;
+        for (EntityPost post : posts) {
+            if (post != null) { // num과 board의 place 비교
+                postCount++; // 일치할 경우 카운트 증가
+            }
+        }
+        return postCount;
+    }
+
+    @Override
+    public int countComments() {
+
+        List<EntityComments> comments = null;
+        comments = repoComment.findAll();
+        int commentsCount = 0;
+
+        for (EntityComments comment : comments) {
+            if (comment != null) { // num과 board의 place 비교
+                commentsCount++; // 일치할 경우 카운트 증가
+            }
+        }
+
+        return commentsCount;
     }
 
     @Override

@@ -210,6 +210,14 @@
         flex: 4; padding-top: 6px; padding-bottom: 6px;
     }
 
+    .main__divMid div {
+
+        background-size: cover;
+        background-repeat: no-repeat; background-position: center;
+        background-clip: content-box; /*padding-box;*/
+        position: relative;
+    }
+
     .main__divBotTitle { /*보드 목록 상단의 대륙 이름*/
 
         flex: 1; padding-top: 10px; padding-left: 9px;

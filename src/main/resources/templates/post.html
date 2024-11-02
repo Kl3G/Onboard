@@ -69,9 +69,9 @@
       </li>
     </ul>
     <div class="slick-class">
-      <div> 전체보드 0개 </div>
-      <div> 전체게시글 0개 </div>
-      <div> 전체댓글 0개 </div>
+      <div th:utext="'전체보드&#8201;&#8201;' + ${boardCount} + '개'"> 전체보드수</div>
+      <div th:utext="'전체게시글&#8201;&#8201;' + ${postCount} + '개'"> 전체게시글수</div>
+      <div th:utext="'전체댓글&#8201;&#8201;' + ${commentsCount} + '개'"> 전체댓글수</div>
     </div>
   </div>
 </nav>
@@ -79,7 +79,7 @@
 <main class="main__main">
   <div class="postBox__main">
     <div style="margin: 0 25px 0 25px;">
-      <div class="main__divTop " >
+      <div class="main__divTop">
         <div th:text="${boardInfo.b_name}"></div>
         <div>
           <span style="position: relative; bottom: 2px; color: #29367c; padding: 0;">&#x24D1;</span>
@@ -141,12 +141,18 @@
                         ✕
                       </button>
                     </div>
-                    <div id="commentDel" style="display: none; top: 0; left: 0; width: 100%; z-index: 1000; padding: 10px;">
-                      <form th:action="@{/commentDel(cidx=${comment.cidx})}" method="post">
-                        <input type="password" name="cpwd" placeholder="비밀번호">
-                        <button>확인</button>
+
+                    <div style="display: none; top: 0; left: 0; width: 100%; z-index: 1000; padding: 10px;">
+                      <form method="post" id="commentDelForm" onsubmit="checkCommentPwd(event)">
+                        <input type="hidden" id="bidx" th:value="${comment.post.board.bidx}">
+                        <input type="hidden" id="pidx" th:value="${comment.post.pidx}">
+                        <input type="hidden" id="cidx" th:value="${comment.cidx}">
+                        <input type="password" id="cpwd" placeholder="비밀번호">
+                        <button type="submit">확인</button>
                       </form>
                     </div>
+                  <!--<button class="deleteButton"
+                th:onclick="|location.href='@{/postDelete(bidx=${post.board.bidx}, pidx=${post.pidx}, userid=${userid})}'|">삭제</button>-->
                   <!--댓글 출력-->
                 </div>
 
@@ -236,13 +242,6 @@ Shift+Enter 키를 동시에 누르면 줄바꿈이 됩니다."></textarea>
         <button class="deleteButton"
                 th:onclick="|location.href='@{/postDelete(bidx=${post.board.bidx}, pidx=${post.pidx}, userid=${userid})}'|">삭제</button>
       </div>
-
-<!--      <div id="postDel" style="display: none; top: 0; left: 0; width: 100%; z-index: 1000; padding: 10px;">
-        <form th:action="@{/postDel(userid=${userid})}" method="post">
-          <input type="password" name="ppwd" placeholder="비밀번호">
-          <button>확인</button>
-        </form>
-      </div>-->
       <!--게시글 수정 삭제-->
     </div>
   </div>

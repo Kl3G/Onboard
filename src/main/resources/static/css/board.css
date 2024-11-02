@@ -286,7 +286,15 @@
 
         background-image: url('/img/bangkok.jpg');
         background-size: cover;
-        background-size: 90%; background-repeat: no-repeat; background-position: center;
+        background-size: 80%;
+        background-repeat: no-repeat;
+        background-position: center;
+        background-clip: content-box;
+    }
+
+    .boardIntro {
+
+        font-size: 13px;
     }
 
     .boardManager {

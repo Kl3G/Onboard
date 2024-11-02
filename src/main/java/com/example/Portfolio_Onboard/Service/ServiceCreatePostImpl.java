@@ -89,19 +89,20 @@ public class ServiceCreatePostImpl implements ServiceCreatePost{
         // 1. EntityPost 객체 생성
         EntityPost entityPost = dtoCreatePost.entityPost(memberInfo, board, null);
         repoPost.save(entityPost); // 먼저 저장하여 ID가 할당되도록 함
+        Long bidx = entityPost.getBoard().getBidx();
+        Long pidx = entityPost.getPidx();
 
         // 2. EntityFiles 객체 생성 후 EntityPost와 연결
         EntityFiles entityFiles = new EntityFiles(dtoCreatePost.getPidx(), entityPost, String.join(",", ofileList), String.join(",", sfileList));
         entityPost.setFiles(entityFiles); // 양방향 관계일 경우 필요
         repoFiles.save(entityFiles); // EntityFiles 저장
 
-
         /*EntityPost entityPost = dtoCreatePost.entityPost(memberInfo, board, null);
         EntityFiles entityFiles = new EntityFiles(dtoCreatePost.getPidx(), entityPost, String.join(",", ofileList), String.join(",", sfileList));
         entityPost = dtoCreatePost.entityPost(memberInfo, board, entityFiles);
         repoPost.save(entityPost);*/
 
-        return "redirect:/index";
+        return "redirect:/post?pidx="+pidx+"&bidx="+bidx;
     }
 
     @Override
@@ -115,9 +116,12 @@ public class ServiceCreatePostImpl implements ServiceCreatePost{
         post.setUserip(dtoModifyPost.getUserip());
         post.setNewdate(new Date());
 
+        Long bidx = post.getBoard().getBidx();
+        Long pidx = post.getPidx();
         repoPost.save(post);
 
-        return "redirect:/index";
+
+        return "redirect:/post?pidx="+pidx+"&bidx="+bidx;
     }
 
     @Override

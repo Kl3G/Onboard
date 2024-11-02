@@ -122,52 +122,114 @@ function togglePostDel(button) {
     }
 }
 
-  function checkPassword(event, action) {
+  function checkCommentPwd(event) {
     event.preventDefault(); // 기본 폼 제출 방지
 
-    let ppwd = document.getElementById('ppwd').value;
-    let pidx = document.getElementById('pidx').value;
+    let cidx = document.getElementById('cidx').value;
+    let cpwd = document.getElementById('cpwd').value;
     let bidx = document.getElementById('bidx').value;
-    let userid = document.getElementById('userid').value;
+    let pidx = document.getElementById('pidx').value;
 
     $.ajax({
-      type: "POST",
-      url: "/checkPostPassword", // 비밀번호 확인 요청을 처리할 URL
-      data: { ppwd: ppwd, pidx: pidx, bidx: bidx, userid: userid},
-      contentType: "application/x-www-form-urlencoded",
+      type: "post",
+      url: "/checkCommentPwd", // 비밀번호 확인 요청을 처리할 URL
+      data: {cidx: cidx, cpwd: cpwd, pidx: pidx, bidx: bidx},
       success: function(response) {
+
         if(response.success){
 
-            if(action === 'modify'){
+            let form = document.createElement('form');
+            form.method = 'POST';
+            form.action = '/commentDel';
 
-                location.href = `/modifyPost?pidx=${pidx}&bidx=${bidx}&ppwd=${ppwd}`;
-            }else if(action === 'delete'){
+            let cidxField = document.createElement('input');
+            cidxField.type = 'hidden';
+            cidxField.name = 'cidx';
+            cidxField.value = cidx;
 
-                let form = document.createElement('form');
-                form.method = 'POST';
-                form.action = '/postDel';
+            let bidxField = document.createElement('input');
+            bidxField.type = 'hidden';
+            bidxField.name = 'bidx';
+            bidxField.value = bidx;
 
-                let pidxField = document.createElement('input');
-                pidxField.type = 'hidden';
-                pidxField.name = 'pidx';
-                pidxField.value = pidx;
+            let pidxField = document.createElement('input');
+            pidxField.type = 'hidden';
+            pidxField.name = 'pidx';
+            pidxField.value = pidx;
 
-                form.appendChild(pidxField); // 폼에 pidx 필드 추가
+            form.appendChild(cidxField); // 폼에 pidx 필드 추가
+            form.appendChild(bidxField);
+            form.appendChild(pidxField);
 
-                // 폼을 body에 추가하고 전송
-                document.body.appendChild(form);
-                form.submit(); // 폼을 전송하여 POST 요청 실행
-            }
-        } else if(response.success1) {
-
-            alert("권한이 없는 아이디입니다.");
-        } else if(response.success2) {
+            // 폼을 body에 추가하고 전송
+            document.body.appendChild(form);
+            form.submit(); // 폼을 전송하여 POST 요청 실행
+        }else if(response.success2) {
 
             alert("비밀번호가 일치하지 않습니다.");
         }
+
       },
       error: function() {
         alert("서버 오류가 발생했습니다.");
       }
     });
   }
+
+
+
+  function checkPassword(event, action) {
+      event.preventDefault(); // 기본 폼 제출 방지
+
+      let ppwd = document.getElementById('ppwd').value;
+      let pidx = document.getElementById('pidx').value;
+      let bidx = document.getElementById('bidx').value;
+      let userid = document.getElementById('userid').value;
+
+      $.ajax({
+        type: "POST",
+        url: "/checkPostPassword", // 비밀번호 확인 요청을 처리할 URL
+        data: { ppwd: ppwd, pidx: pidx, bidx: bidx, userid: userid},
+        contentType: "application/x-www-form-urlencoded",
+        success: function(response) {
+          if(response.success){
+
+              if(action === 'modify'){
+
+                  location.href = `/modifyPost?pidx=${pidx}&bidx=${bidx}&ppwd=${ppwd}`;
+              }else if(action === 'delete'){
+
+                  let form = document.createElement('form');
+                  form.method = 'POST';
+                  form.action = '/postDel';
+
+                  let pidxField = document.createElement('input');
+                  pidxField.type = 'hidden';
+                  pidxField.name = 'pidx';
+                  pidxField.value = pidx;
+
+                  let bidxField = document.createElement('input');
+                  bidxField.type = 'hidden';
+                  bidxField.name = 'bidx';
+                  bidxField.value = bidx;
+
+                  form.appendChild(pidxField); // 폼에 pidx 필드 추가
+                  form.appendChild(bidxField);
+
+                  // 폼을 body에 추가하고 전송
+                  document.body.appendChild(form);
+                  form.submit(); // 폼을 전송하여 POST 요청 실행
+              }
+          } else if(response.success1) {
+
+              alert("권한이 없는 아이디입니다.");
+          } else if(response.success2) {
+
+              alert("비밀번호가 일치하지 않습니다.");
+          }
+        },
+        error: function() {
+          alert("서버 오류가 발생했습니다.");
+        }
+      });
+    }

@@ -1,6 +1,7 @@
 package com.example.Portfolio_Onboard.Controller;
 
 import com.example.Portfolio_Onboard.DTO.*;
+import com.example.Portfolio_Onboard.Entity.EntityComments;
 import com.example.Portfolio_Onboard.Entity.EntityPost;
 import com.example.Portfolio_Onboard.Service.*;
 import jakarta.servlet.http.HttpSession;
@@ -39,28 +40,11 @@ public class MainController {
     @GetMapping("/index")
     public String getIndex(Model model){
 
-        List<DTOBoardView> boardList = serviceWorld.list(); // DTOBoardView 리스트 가져옴
-        int boardCount = 0; // 갯수를 세기 위한 변수
 
-        // DTOBoardView 리스트에서 place 값과 num 값을 비교
-        for (DTOBoardView board : boardList) {
-            if (board != null) { // num과 board의 place 비교
-                boardCount++; // 일치할 경우 카운트 증가
-            }
-        }
-
-        List<EntityPost> postList = serviceWorld.countPost();
-        int postCount = 0;
-
-        for (EntityPost post : postList) {
-            if (post != null) { // num과 board의 place 비교
-                postCount++; // 일치할 경우 카운트 증가
-            }
-        }
-
-        model.addAttribute("postCount", postCount);
-        model.addAttribute("boardCount", boardCount); // 보드 갯수 추가
-        model.addAttribute("boards", boardList);
+        model.addAttribute("boardCount", serviceWorld.countBoard()); // 전체보드수
+        model.addAttribute("postCount", serviceWorld.countPost()); // 전체게시글수
+        model.addAttribute("commentsCount", serviceWorld.countComments()); // 전체댓글수
+        model.addAttribute("boards", serviceWorld.list());
 
         return "index";
     }
@@ -85,27 +69,9 @@ public class MainController {
         String date = regdate.substring(0,10);
         // 연월일, regdate의 0번째 문자부터 출력하고 10번째 문자부터 출력하지 않고 자른다.
 
-        List<DTOBoardView> boardList = serviceWorld.list(); // DTOBoardView 리스트 가져옴
-        int boardCount = 0; // 갯수를 세기 위한 변수
-
-        // DTOBoardView 리스트에서 place 값과 num 값을 비교
-        for (DTOBoardView board : boardList) {
-            if (board != null) { // num과 board의 place 비교
-                boardCount++; // 일치할 경우 카운트 증가
-            }
-        }
-
-        List<EntityPost> postList = serviceWorld.countPost();
-        int postCount = 0;
-
-        for (EntityPost post : postList) {
-            if (post != null) { // num과 board의 place 비교
-                postCount++; // 일치할 경우 카운트 증가
-            }
-        }
-
-        model.addAttribute("postCount", postCount);
-        model.addAttribute("boardCount", boardCount);
+        model.addAttribute("commentsCount", serviceWorld.countComments()); // 전체댓글수
+        model.addAttribute("postCount", serviceWorld.countPost());
+        model.addAttribute("boardCount", serviceWorld.countBoard());
         model.addAttribute("date", date);
         log.error(String.valueOf(boardInfo));
         model.addAttribute("boardInfo", serviceWorld.boardInfo(bidx));
@@ -127,6 +93,9 @@ public class MainController {
             String nick = (String) session.getAttribute("nick");
 
             // 모델에 userid와 nick 값을 추가하여 view에 전달
+            model.addAttribute("boardCount", serviceWorld.countBoard()); // 전체보드수
+            model.addAttribute("postCount", serviceWorld.countPost()); // 전체게시글수
+            model.addAttribute("commentsCount", serviceWorld.countComments()); // 전체댓글수
             model.addAttribute("userid", userid);
             model.addAttribute("nick", nick);
         }
@@ -159,26 +128,19 @@ public class MainController {
         }
 
         List<DTOBoardView> boardList = serviceWorld.list2(num); // DTOBoardView 리스트 가져옴
-        int boardCount = 0; // 갯수를 세기 위한 변수
+        int worldBoardCount = 0; // 갯수를 세기 위한 변수
 
         // DTOBoardView 리스트에서 place 값과 num 값을 비교
         for (DTOBoardView board : boardList) {
             if (board.getPlace().equals(num)) { // num과 board의 place 비교
-                boardCount++; // 일치할 경우 카운트 증가
+                worldBoardCount++; // 일치할 경우 카운트 증가
             }
         }
 
-        List<EntityPost> postList = serviceWorld.countPost();
-        int postCount = 0;
-
-        for (EntityPost post : postList) {
-            if (post != null) { // num과 board의 place 비교
-                postCount++; // 일치할 경우 카운트 증가
-            }
-        }
-
-        model.addAttribute("postCount", postCount);
-        model.addAttribute("boardCount", boardCount); // 보드 갯수 추가
+        model.addAttribute("commentsCount", serviceWorld.countComments()); // 전체댓글수
+        model.addAttribute("postCount", serviceWorld.countPost());
+        model.addAttribute("boardCount", serviceWorld.countBoard()); // 전체보드 갯수
+        model.addAttribute("worldBoardCount", worldBoardCount); // 대륙보드 갯수, 정보
         model.addAttribute("boards", boardList);
 
         return place;

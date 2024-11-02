@@ -71,7 +71,7 @@
         <div class="slick-class">
             <div th:utext="'전체보드&#8201;&#8201;' + ${boardCount} + '개'"> 전체보드수</div>
             <div th:utext="'전체게시글&#8201;&#8201;' + ${postCount} + '개'"> 전체게시글수</div>
-            <div> 전체댓글 0개 </div>
+            <div th:utext="'전체댓글&#8201;&#8201;' + ${commentsCount} + '개'"> 전체댓글수</div>
         </div>
     </div>
 </nav>
@@ -80,23 +80,53 @@
     <div class="container__main">
         <section class="main__section">
             <div class="main__divTop">
-                <div>
-                    실시간 인기글
+                <div style="gap: 8px;">
+                    <span style="font-size: 16px; color: #29367c; font-weight: bold;">최근 등록글</span>
+                    <i class="fa-solid fa-check" style="color: red; font-weight: bold; font-size: 20px;"></i>
                 </div>
                 <div style="flex: 1; padding: 3px; justify-content: flex-end;">
-                    <button class="button__boardCreate" type="button" onclick="location.href='/createBoard';">
+                    <button class="button__boardCreate" type="button" onclick="location.href='/createBoard'">
                         보드  만들기
                     </button>
                 </div>
             </div>
             <div class="main__divMid">
-                <div>Thumbnail1</div>
-                <div>Thumbnail2</div>
-                <div>Thumbnail3</div>
-                <div>Thumbnail4</div>
+                <div style="background-image: url(/img/bangkok.jpg);">
+                    <div style="background-color: black; background: rgba(0, 0, 0, 0.7);
+                                color: white; font-size: 12px; font-weight: bold;
+                                width: calc(100% - 18px); height: 30%; padding: 3px 9px 0;
+                                position: absolute; bottom: 9px; left: 9px;">
+                        후기) 방콕의 장점에 대해 자세히 알아보자
+                    </div>
+                </div>
+                <div style="background-image: url(/img/hunza.webp);">
+                    <div style="background-color: black; background: rgba(0, 0, 0, 0.7);
+                                color: white; font-size: 12px; font-weight: bold;
+                                width: calc(100% - 18px); height: 30%; padding: 3px 9px 0;
+                                position: absolute; bottom: 9px; left: 9px;">
+                        메이저 여행사들이 꼽은 최고의 여행지 top10
+                    </div>
+                </div>
+                <div style="background-image: url(/img/asdasd.jpg);">
+                    <div style="background-color: black; background: rgba(0, 0, 0, 0.7);
+                                color: white; font-size: 12px; font-weight: bold;
+                                width: calc(100% - 18px); height: 30%; padding: 3px 9px 0;
+                                position: absolute; bottom: 9px; left: 9px;">
+                        스압) 한 여름에 두바이 갔다 온 생생한 후기
+                    </div>
+                </div>
+                <div style="background-image: url(/img/wewe.webp);">
+                    <div style="background-color: black; background: rgba(0, 0, 0, 0.7);
+                                color: white; font-size: 12px; font-weight: bold;
+                                width: calc(100% - 18px); height: 30%; padding: 3px 9px 0;
+                                position: absolute; bottom: 9px; left: 9px;">
+                        숲이 인간에게 주는 여러 장점은 과연 무엇일까?
+                    </div>
+                </div>
             </div>
-            <div class="main__divBotTitle">
-                최근 등록 보드 <!--&thinsp; <span th:text="'(' + ${boardCount} + ')'"></span>-->
+            <div class="main__divBotTitle" style="gap: 8px;">
+                <span>최근 등록 보드</span>
+                <i class="fa-solid fa-check" style="color: #ff9900; font-weight: bold; font-size: 20px;"></i>
             </div>
             <div style="flex: 17.5;">
                 <div class="custom-div" th:each="i : ${#numbers.sequence(1, 4)}">

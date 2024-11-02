@@ -68,9 +68,9 @@
                 </li>
             </ul>
             <div class="slick-class">
-                <div> 전체보드 0개 </div>
-                <div> 전체게시글 0개 </div>
-                <div> 전체댓글 0개 </div>
+                <div th:utext="'전체보드&#8201;&#8201;' + ${boardCount} + '개'"> 전체보드수</div>
+                <div th:utext="'전체게시글&#8201;&#8201;' + ${postCount} + '개'"> 전체게시글수</div>
+                <div th:utext="'전체댓글&#8201;&#8201;' + ${commentsCount} + '개'"> 전체댓글수</div>
             </div>
         </div>
     </nav>

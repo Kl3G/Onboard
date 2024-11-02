@@ -71,7 +71,7 @@
         <div class="slick-class">
             <div th:utext="'전체보드&#8201;&#8201;' + ${boardCount} + '개'"> 전체보드수</div>
             <div th:utext="'전체게시글&#8201;&#8201;' + ${postCount} + '개'"> 전체게시글수</div>
-            <div> 전체댓글수 0개</div>
+            <div th:utext="'전체댓글&#8201;&#8201;' + ${commentsCount} + '개'"> 전체댓글수</div>
         </div>
     </div>
 </nav>
@@ -79,8 +79,12 @@
 <main class="main__main">
     <div class="container__main">
         <section class="main__section">
-            <div class="main__divTop">
-                <div style="font-size: 24px; color: #29367c; max-height: 48px; font-family: 'Segoe UI'; font-weight: bold" th:text="${boardInfo.b_name}">
+            <div class="main__divTop" style="gap: 5px;">
+                <div style="flex: none; font-size: 24px; color: #29367c; max-height: 48px; font-family: 'Segoe UI'; font-weight: bold; padding: 9px 0 9px 9px;" th:text="${boardInfo.b_name}">
+                </div>
+                <div style="flex: none; font-size: 24px; color: #29367c; max-height: 48px; font-family: 'Segoe UI'; font-weight: bold; padding: 0;">
+                    <span style="position: relative; top: 7px; color: #29367c; padding: 0;">&#x24D1;</span>
+                    <!--보드 이름 옆의 B 아이콘 출력-->
                 </div>
             </div>
             <div class="main__divMid">

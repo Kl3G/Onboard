@@ -2,16 +2,17 @@ package com.example.Portfolio_Onboard.Controller;
 
 import com.example.Portfolio_Onboard.DTO.*;
 import com.example.Portfolio_Onboard.Entity.EntityComments;
+import com.example.Portfolio_Onboard.Entity.EntityFiles;
 import com.example.Portfolio_Onboard.Entity.EntityPost;
 import com.example.Portfolio_Onboard.Entity.EntityWorld;
-import com.example.Portfolio_Onboard.Repository.RepoChildComments;
-import com.example.Portfolio_Onboard.Repository.RepoComment;
-import com.example.Portfolio_Onboard.Repository.RepoPost;
-import com.example.Portfolio_Onboard.Repository.RepoWorld;
+import com.example.Portfolio_Onboard.Repository.*;
 import com.example.Portfolio_Onboard.Service.*;
+import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpSession;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.UrlResource;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -20,12 +21,16 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
-
+import java.io.IOException;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
+
 
 @Log4j2
 @Controller
@@ -38,10 +43,11 @@ public class PostController {
     private final RepoComment repoComment;
     private final RepoPost repoPost;
     private final RepoWorld repoWorld;
+    private final RepoFiles repoFiles;
 
 
     @Autowired
-    PostController(ServiceJoin serviceJoin, ServiceWorld serviceWorld, ServiceCreatePost serviceCreatePost, ServiceTest serviceTest, ServiceComment serviceComment, ServiceCreatePost serviceCreatePost1, RepoChildComments repoChildComments, RepoComment repoComment, RepoPost repoPost, RepoWorld repoWorld){
+    PostController(ServiceJoin serviceJoin, ServiceWorld serviceWorld, ServiceCreatePost serviceCreatePost, ServiceTest serviceTest, ServiceComment serviceComment, ServiceCreatePost serviceCreatePost1, RepoChildComments repoChildComments, RepoComment repoComment, RepoPost repoPost, RepoWorld repoWorld, RepoFiles repoFiles){
 
         this.serviceWorld = serviceWorld;
         this.serviceComment = serviceComment;
@@ -50,6 +56,7 @@ public class PostController {
         this.repoComment = repoComment;
         this.repoPost = repoPost;
         this.repoWorld = repoWorld;
+        this.repoFiles = repoFiles;
     }
 
 
@@ -244,6 +251,14 @@ public class PostController {
         // index.html 파일에서 생성한 url의 파라미터를 model로 board에 전달해 준다.
         model.addAttribute("postList", serviceWorld.postList(bidx));
         // 보드의 게시글 리스트 출력
+
+        Optional<EntityFiles> getFiles = repoFiles.findById(pidx);
+        EntityFiles files = getFiles.get();
+        List<String> ofileList = List.of(files.getOfile().split(","));
+        List<String> sfileList = List.of(files.getSfile().split(","));
+        model.addAttribute("sfileList", sfileList);
+        model.addAttribute("ofileList", ofileList);
+        // 파일명 출력
 
         model.addAttribute("boardCount", serviceWorld.countBoard()); // 전체보드수
         model.addAttribute("postCount", serviceWorld.countPost()); // 전체게시글수

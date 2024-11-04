@@ -86,7 +86,7 @@
                 </div>
             </div>
             <div class="divForm">
-                <form action="/modifyPost_proc" method="post">
+                <form action="/modifyPost_proc" method="post" enctype="multipart/form-data" >
                     <input type="hidden" name="pidx" th:value="${post.pidx}">
                     <input type="hidden" name="userip" th:value="${ip}">
 
@@ -101,10 +101,16 @@
                             <option id="notice" value="3">공지</option>
                         </select>
                     </div>
+
                     <div class="divTitle">
                         <input type="text" name="title" th:value="${post.title}"
                                placeholder="제목을 입력해 주세요.">
                     </div>
+
+                    <div class="divFiles">
+                        <input type="file" name="files" multiple>
+                    </div>
+
                     <div class="divWarn">
                             <span style="line-height:190%;">
                                 ※ 쉬운 비밀번호를 입력하면 타인의 수정, 삭제가 쉽습니다. <br>

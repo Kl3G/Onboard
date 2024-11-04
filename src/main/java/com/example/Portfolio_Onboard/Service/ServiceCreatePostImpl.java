@@ -46,7 +46,7 @@ public class ServiceCreatePostImpl implements ServiceCreatePost{
         EntityWorld board = optionalBoard.get();
         /*Optional<EntityFiles> optionalFiles = repoFiles.findById(dtoCreatePost.getPidx());*/
 
-        Path upPath = Paths.get("D:\\Portfolio_Onboard\\src\\main\\resources\\static\\data");
+        Path upPath = Paths.get("D:\\data");
 
         List<String> ofileList = new ArrayList<>();
         List<String> sfileList = new ArrayList<>();
@@ -113,12 +113,72 @@ public class ServiceCreatePostImpl implements ServiceCreatePost{
         post.setCategory(dtoModifyPost.getCategory());
         post.setText(dtoModifyPost.getText());
         post.setTitle(dtoModifyPost.getTitle());
+        Path upPath = Paths.get("D:\\data");
+
+        // 수정할 때 기존에 있던 파일은 가져와서 삭제
+        EntityFiles existingFiles = post.getFiles();
+        if (existingFiles != null) {
+            String[] existingFileNames = existingFiles.getSfile().split(",");
+
+            // 기존 파일 삭제
+            for (String fileName : existingFileNames) {
+                try {
+                    Files.deleteIfExists(upPath.resolve(fileName));
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    // 예외 로그 추가
+                }
+            }
+        }
+
+        List<String> ofileList = new ArrayList<>();
+        List<String> sfileList = new ArrayList<>();
+
+        for (MultipartFile file : dtoModifyPost.getFiles()) {
+
+            String fileName = file.getOriginalFilename(); // 원본 파일 이름 생성
+
+            try {
+
+                ofileList.add(fileName);
+                // 원본 파일이름을 O 리스트에 입력
+
+                String ext = fileName.substring(fileName.lastIndexOf("."));
+                // 문자열에서 마지막 점(.) 이후의 문자열을 추출하기 위해 사용된다, 이 메서드는 파일의 확장자를 얻는 데 유용하다.
+                // 파일형식만 추출
+                // System.out.println("ext: "+ ext);
+
+                Long time = System.currentTimeMillis();
+
+                String newFilename = time + ext;
+                sfileList.add(newFilename);
+                // S 리스트에 입력
+
+                Path targetLocation = upPath.resolve(newFilename);
+
+                Files.copy(file.getInputStream(), targetLocation);
+                // 내가 전송한 파일을 복사한 새로운 파일이 서버에 생성된다
+
+                /*File destinationFile = new File(fileName);
+                file.transferTo(destinationFile); // 실제로 파일을 저장하는 코드*/
+            } catch (Exception e) {
+
+                e.printStackTrace(); // 예외 처리
+                // 필요한 경우 예외를 던지거나 로그에 기록합니다.
+            }
+
+        }
+
         post.setUserip(dtoModifyPost.getUserip());
         post.setNewdate(new Date());
 
         Long bidx = post.getBoard().getBidx();
         Long pidx = post.getPidx();
         repoPost.save(post);
+
+        EntityFiles entityFiles = new EntityFiles(dtoModifyPost.getPidx(), post, String.join(",", ofileList), String.join(",", sfileList));
+        post.setFiles(entityFiles); // 양방향 관계일 경우 필요
+        repoFiles.save(entityFiles); // EntityFiles 저장
 
 
         return "redirect:/post?pidx="+pidx+"&bidx="+bidx;
@@ -135,5 +195,10 @@ public class ServiceCreatePostImpl implements ServiceCreatePost{
         Optional<PeopleEntity> people;처럼 선언만 하면 기본값이 null이 된다.
         이 경우 null 체크를 피할 수 없으며, 나중에 사용 시 NullPointerException이 발생할 위험이 있다.
         따라서, 안전한 코드 작성을 위해 Optional을 선언할 때는 반드시 초기화하는 것이 좋다. */
+    }
+
+    @Override
+    public String download(String idx) {
+        return "";
     }
 }

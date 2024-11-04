@@ -12,6 +12,27 @@
         clip: rect(0, 0, 0, 0);
     }
 
+    input {
+
+        height: 35px;
+        width: 400px;
+        padding: 5px;
+        border: 1px solid #cecdce;
+        border-radius: 2px;
+        box-sizing: border-box;
+    }
+
+    textarea {
+
+        height: 200px;
+        width: 400px;
+        padding: 15px;
+        border-radius: 2px;
+        box-sizing: border-box;
+        border: 1px solid #cecdce;
+        resize: none;
+    }
+
     .slick-class {
 
         height: 30px;
@@ -179,13 +200,14 @@
     main {
 
         display: block;
+        height: 1100px;
     }
 
     section {
 
         display: flex;
         flex-direction: column;
-        height: calc(900px - 100px);
+        height: 100%;
         margin-top: 50px;
         margin-left: auto;
         margin-right: auto;
@@ -196,7 +218,7 @@
 
     .TitleDiv__section {
 
-        flex: 0.1;
+        padding-bottom: 10px;
         color: #29367c;
         font-size: 24px;
         /*font-family: 'Malgun Gothic', sans-serif;*/
@@ -209,7 +231,6 @@
         font-size: 17px;
         color: #222;
         font-weight: bold;
-        flex: 0.5;
         padding: 20px 0 0 30px;
         border-bottom: 2px solid #29367c;
     }
@@ -245,8 +266,7 @@
     .div {
 
         display: flex;
-        flex: 1;
-        padding: 20px 0 0 30px;
+        padding: 20px 0 20px 30px;
         border-bottom: 1px solid #f3f3f3;
     }
 
@@ -262,14 +282,10 @@
 
         height: 20px;
     }
-    input {
-
-        height: 20px;
-    }
 
     .reasonGroup {
 
-        border-bottom: none;
+        /*border-bottom: none;*/
     }
 
     .ButtonDiv__section {
@@ -290,13 +306,20 @@
         height: 35px;
     }
 
-    .main__footer {
+    footer {
 
+        box-sizing: border-box;
         margin-top: 50px;
         position: relative;
         bottom: 20px;
         width: 100%;
         text-align: center;
+    }
+
+    footer div {
+
+        max-width: 1100px; min-width: 1100px;
+        margin-left: auto; margin-right: auto;
     }
 
     .footer__ul {
@@ -316,8 +339,4 @@
     .footer__ul span {
 
         position: absolute; right: -10px; top: 0;
-    }
-
-    footer {
-
     }

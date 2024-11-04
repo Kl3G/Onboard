@@ -77,7 +77,7 @@
 </nav>
 
 <main>
-    <section>
+    <section style="margin-bottom: 100px;">
         <div class="TitleDiv__section">보드 만들기</div>
         <div class="RuleDiv__section">
             <div class="TopDiv__RuleDiv">
@@ -117,42 +117,46 @@
                 </div>
                 <div class="introGroup div">
                     <div class="title">설명</div>
-                    <input type="text" id="intro" name="intro">
+                    <textarea type="text" id="intro" name="intro">
+                    </textarea>
                 </div>
-                <div class="reasonGroup div">
+                <div class="reasonGroup div" style="margin-bottom: 40px;">
                     <div class="title">개설 이유</div>
-                    <input type="text" id="reason" name="reason">
+                    <textarea type="text" id="reason" name="reason">
+                    </textarea>
+                </div>
+                <div class="ButtonDiv__section">
+                    <button>취소</button>
+                    <button style="background-color: #29367c;">만들기</button>
                 </div>
             </fieldset>
-            <div class="ButtonDiv__section">
-                <button>취소</button>
-                <button style="background-color: #29367c;">만들기</button>
-            </div>
         </form>
     </section>
 </main>
 
-<footer class="main__footer">
+<footer style="box-sizing: border-box;">
     <div>
         <ul class="footer__ul">
-            <li>
+            <li style="min-width: 65px;">
                 회사소개
                 <span>|</span>
             </li>
-            <li>
+            <li style="min-width: 65px;">
                 이용약관
                 <span>|</span>
             </li>
-            <li>
+            <li style="min-width: 112px;">
                 개인정보처리방침
                 <span>|</span>
             </li>
-            <li>
+            <li style="min-width: 100px;">
                 청소년보호정책
             </li>
         </ul>
     </div>
-    <span style="font-size: 12px;">Copyright ⓒ 2024 - 2025 ondoard. All rights reserved.</span>
+    <div>
+        <span style="font-size: 12px;">Copyright ⓒ 2024 - 2025 ondoard. All rights reserved.</span>
+    </div>
 </footer>
 
 <script type="text/javascript">

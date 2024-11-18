@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Post</title>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://kit.fontawesome.com/b3af913a6d.js" crossorigin="anonymous"></script>
+  <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css"/>
+  <script type="text/javascript" src="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
+  <link rel="stylesheet" href="/css/post.css">
+</head>
+
+<body>
+
+<header class="main__header">
+  <div class="container__header">
+    <div class="header__logo">
+      <a href="/index">
+        Onboard
+      </a>
+      <a href="/index" style="font-size: 12px;">
+        모두의 보드, 즐거운 여행
+      </a>
+    </div>
+    <div class="header__form">
+      <form action="/search" method="get">
+        <input class="header__search" type="text" name="keyword" spellcheck="false">
+        <button class="header__button"type="submit ">
+          <i class="fa-solid fa-magnifying-glass header__icon"></i>
+        </button>
+      </form>
+    </div>
+  </div>
+</header>
+
+
+<nav class="main__nav">
+  <div class="container__nav">
+    <ul class="nav__ul">
+      <li style="flex: 0.8;">
+        <div>
+          <a href="/world/asia?place=1">아시아</a>
+        </div>
+      </li>
+      <li style="flex: 0.65;">
+        <div>
+          <a href="/world/europe?place=2">유럽</a>
+        </div>
+      </li>
+      <li>
+        <div>
+          <a href="/world/northAmerica?place=3">북아메리카</a>
+        </div>
+      </li>
+      <li>
+        <div>
+          <a href="/world/southAmerica?place=4">남아메리카</a>
+        </div>
+      </li>
+      <li >
+        <div>
+          <a href="/world/oceania?place=5">오세아니아</a>
+        </div>
+      </li>
+      <li>
+        <div>
+          <a href="/notice">공지사항</a>
+        </div>
+      </li>
+    </ul>
+    <div class="slick-class">
+      <div th:utext="'전체보드&#8201;&#8201;' + ${boardCount} + '개'"> 전체보드수</div>
+      <div th:utext="'전체게시글&#8201;&#8201;' + ${postCount} + '개'"> 전체게시글수</div>
+      <div th:utext="'전체댓글&#8201;&#8201;' + ${commentsCount} + '개'"> 전체댓글수</div>
+    </div>
+  </div>
+</nav>
+
+<main class="main__main">
+  <div class="postBox__main">
+    <div style="margin: 0 25px 0 25px;">
+      <div class="main__divTop">
+        <div th:text="${boardInfo.b_name}"></div>
+        <div>
+          <span style="position: relative; bottom: 2px; color: #29367c; padding: 0;">&#x24D1;</span>
+          <!--보드 이름 옆의 B 아이콘 출력-->
+        </div>
+      </div>
+
+      <div class="postTitle__main">
+        <div style="font-size: 14px; font-weight: bold;">
+          <span th:text="${post.category == '1' ? '[일반]' : (post.category == '2' ? '[뉴스]' : (post.category == '3' ? '[공지]' : '기타')) }">게시글 제목</span>
+          <span th:text="${post.title}"></span>
+        </div>
+        <div style="font-size: 13px;">
+          <span th:text="${post.nick} + (${post.nick == 'ㅇㅇ'} ? '(' + ${#strings.substring(post.userip, 0, 7)} + ')' : '')">
+            닉네임</span>
+          <span th:text="' ㅣ ' + ${post.regdate}"></span>
+        </div>
+      </div>
+
+      <div class="postText__main" th:text="${post.text}" style="padding: 10px;">
+        게시글 내용
+      </div>
+
+      <!--첨부 파일-->
+      <div class="postFiles__main" style="border: 1px solid #d5d5d5; height: 60px; box-sizing: border-box;">
+        <div style="padding: 8px 13px 9px; box-sizing: border-box;">
+          <span style="font-size: 12px; font-weight: bold;">원본 첨부파일</span>
+          <span style="color: #D31900; font-size: 12px; font-weight: bold;">1</span><br>
+          <a th:each="sfile, iterStat : ${sfileList}"
+             th:href="@{/download(fileName=${sfile})}"
+             th:download="${sfile}">
+            <span th:utext="${ofileList[iterStat.index]} + '&nbsp;'" style="font-size: 13px; color: #666666;"></span>
+          </a>
+        </div>
+      </div>
+      <!--첨부 파일-->
+
+      <div class="postComment__main">
+        <div style="font-weight: bold; font-size: 13px; height: 38px; padding: 15px 10px 5px 10px; box-sizing: border-box; margin-top: 15px;">
+          <span>전체 댓글</span>
+          <span th:text="${commentCount}" style="color: #D31900;"></span>
+          <span>개</span>
+        </div>
+        <div>
+          <ul style="border:solid #29367c; border-width: 2px 0; list-style: none;">
+            <li id="comment" th:each="comment : ${commentList}" style="display: flex; flex-direction: column; border-bottom: 1px solid #eee; padding-bottom: 15px;">
+                  <!--댓글 출력-->
+                <div class="commentBox">
+                    <div class="nickBox">
+                      <span th:text="${comment.nick}" style="font-size: 12px;"></span>
+                      <span th:text="(${comment.nick == 'ㅇㅇ'} ? '(' + ${#strings.substring(post.userip, 0, 7)} + ')' : '')"
+                            style="font-size: 11px;"></span>
+                    </div>
+                    <div class="textBox">
+                      <button onclick="toggleCommentForm(this)" style="border: none; background: white; cursor: pointer;">
+                        <span th:text="${comment.text}" style="font-size: 13px;"></span>
+                      </button>
+                      <button></button>
+                    </div>
+                    <div class="dateBox">
+                      <span th:text="${#strings.substring(comment.regdate, 0, 19)}" style="font-size: 12px; color: #999999;"></span>
+                    </div>
+                    <div style="margin-left: 10px;">
+                      <button onclick="togglecommentDel(this)" style="border: none; background-color: #ddd; color: white; height: 15px; width: 14px; font-size: 10px;">
+                        ✕
+                      </button>
+                    </div>
+
+                    <div style="display: none; top: 0; left: 0; width: 100%; z-index: 1000; padding: 10px;">
+                      <form method="post" id="commentDelForm" onsubmit="checkCommentPwd(event)">
+                        <input type="hidden" id="bidx" th:value="${comment.post.board.bidx}">
+                        <input type="hidden" id="pidx" th:value="${comment.post.pidx}">
+                        <input type="hidden" id="cidx" th:value="${comment.cidx}">
+                        <input type="password" id="cpwd" placeholder="비밀번호">
+                        <button type="submit">확인</button>
+                      </form>
+                    </div>
+                  <!--<button class="deleteButton"
+                th:onclick="|location.href='@{/postDelete(bidx=${post.board.bidx}, pidx=${post.pidx}, userid=${userid})}'|">삭제</button>-->
+                  <!--댓글 출력-->
+                </div>
+
+                <div id="formComment" style="display: none; padding-left: 30px; box-sizing: box-border;">
+                    <!--대댓글 입력-->
+                    <form action="/childcomment_proc" method="post" style="padding: 12px; min-height: 145px; background-color: #fafafa; border: solid #ddd; border-width: 1px 1px 0 1px;">
+                      <div class="childcommentInput" style="display: flex; gap: 10px;">
+                        <div style="max-width: 142px; height: 30px;">
+                          <input type="hidden" name="cidx" th:value="${comment.cidx}">
+                          <input type="hidden" name="userid" th:value="${userid}">
+                          <input type="hidden" name="nick" th:value="${nick}">
+                          <input type="hidden" name="userip" th:value="${userip}">
+                          <input type="text" name="ccpwd" placeholder="비밀번호" style="padding: 1px 7px 1px 7px; box-sizing: box-border; max-width: 126px; height: 28px;">
+                        </div>
+                        <div style="width: 100%;">
+                          <textarea name= "text" style="height:106px; width: 100%; resize: none; padding: 10px; box-sizing: border-box;"></textarea>
+                        </div>
+                      </div>
+                      <div style="margin-top: 5px; text-align: right;">
+                        <button style="width: 85px; height: 30px; background-color: #3b4890; font-weight: bold; color: white; border: none;">등록</button>
+                      </div>
+                    </form>
+                    <!--대댓글 입력-->
+                </div>
+
+                <div id="childcommentList" style="display: flex; flex-direction: column; padding-left: 30px;">
+                  <!--대댓글 출력-->
+                  <ul style="list-style: none;">
+                    <li id="childcomment" class="childcommentBox" th:each="childcomment : ${comment.childcommentList}" style="display: flex;">
+                      <div class="nickBox">
+                        <span th:text="${childcomment.nick}" style="font-size: 12px;"></span>
+                        <span th:text="(${childcomment.nick == 'ㅇㅇ'} ? '(' + ${#strings.substring(post.userip, 0, 7)} + ')' : '')" style="font-size: 12px;"></span>
+                      </div>
+                      <div class="childTextBox">
+                        <span style="font-weight: bold; color: #29367c;">ㄴ</span>
+                        <span th:text="${childcomment.text}" style="font-size: 13px;"></span>
+                      </div>
+                      <div class="dateBox">
+                        <span th:text="${#strings.substring(childcomment.regdate, 0, 19)}" style="font-size: 12px; color: #999999;"></span>
+                      </div>
+                      <div style="margin-left: 10px;">
+                        <button onclick="toggleChildCommentDel(this)" style="border: none; background-color: #ddd; color: white; height: 15px; width: 14px; font-size: 10px;">
+                          ✕
+                        </button>
+                      </div>
+                      <div id="childCommentDel" style="display: none; top: 0; left: 0; width: 100%; z-index: 1000; padding: 10px;">
+                        <form th:action="@{/childCommentDel(ccidx=${childcomment.ccidx})}" method="post">
+                          <input type="password" name="ccpwd" placeholder="비밀번호">
+                          <button>확인</button>
+                        </form>
+                      </div>
+                    </li>
+                  </ul>
+                  <!--대댓글 출력-->
+                </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <!--댓글 입력-->
+      <form id="commentForm" action="/comment_proc" method="post" style="padding: 12px; min-height: 145px; background-color: #fafafa; border-bottom: 2px solid #29367c;">
+        <div class="commentInput" style="display: flex; gap: 10px;">
+            <div style="max-width: 142px; height: 30px;">
+              <input type="hidden" name="pidx" th:value="${post.pidx}">
+              <input type="hidden" name="userid" th:value="${userid}">
+              <input type="hidden" name="userip" th:value="${userip}">
+              <input type="hidden" name="nick" th:value="${nick}">
+              <input type="password" name="cpwd" placeholder="비밀번호" style="padding: 1px 7px 1px 7px; box-sizing: box-border; max-width: 126px; height: 28px;">
+            </div>
+            <div style="width: 100%;">
+              <textarea name="text" style="height:106px; width: 100%; resize: none; padding: 10px; box-sizing: border-box" placeholder="타인의 권리를 침해하거나 명예를 훼손하는 댓글은 운영원칙 및 관련 법률에 제재를 받을 수 있습니다.
+
+Shift+Enter 키를 동시에 누르면 줄바꿈이 됩니다."></textarea>
+            </div>
+        </div>
+        <div style="margin-top: 5px; text-align: right;">
+            <button style="width: 85px; height: 30px; background-color: #3b4890; font-weight: bold; color: white; border: none;">등록</button>
+        </div>
+      </form>
+      <!--댓글 입력-->
+
+      <!--게시글 수정 삭제-->
+      <div style="margin: 12px 0 36px 0; text-align: right;">
+        <button class="modifyButton"
+                th:onclick="|location.href='@{/postModifyPwdCheck(bidx=${post.board.bidx}, pidx=${post.pidx}, userid=${userid})}'|">수정</button>
+        <button class="deleteButton"
+                th:onclick="|location.href='@{/postDelete(bidx=${post.board.bidx}, pidx=${post.pidx}, userid=${userid})}'|">삭제</button>
+      </div>
+      <!--게시글 수정 삭제-->
+    </div>
+  </div>
+
+  <div class="container__main">
+    <section class="main__section">
+      <table>
+        <colgroup>
+          <col style="width:7%">
+          <col style="width:6%">
+          <col style="width:51%">
+          <col style="width:18%">
+          <col style="width:6%">
+          <col style="width:6%">
+          <col style="width:6%">
+        </colgroup>
+        <thead>
+        <tr>
+          <th scope="col">번호</th>
+          <th scope="col">말머리</th>
+          <th scope="col">제목</th>
+          <th scope="col">글쓴이</th>
+          <th scope="col">작성일</th>
+          <th scope="col">조회</th>
+          <th scope="col">추천</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="post : ${postList}">
+          <td> number </td>
+          <td th:switch="${post.category}" style="font-weight: bold;">
+            <span th:case="'1'">일반</span>
+            <span th:case="'2'">뉴스</span>
+            <span th:case="'3'">공지</span>
+          </td>
+          <td>
+            <a th:href="@{/post(pidx=${post.pidx}, bidx=${post.bidx})}" th:text="${post.title}"></a>
+            <!--th:onclick="|location.href='@{/modifyPost(pidx=${post.pidx}, bidx=${post.board.bidx})}'|"-->
+          </td>
+          <td th:text="${post.nick} + (${post.nick == 'ㅇㅇ'} ? '(' + ${#strings.substring(post.userip, 0, 7)} + ')' : '')"></td>
+          <td th:text="${#strings.replace(#strings.substring(post.regdate, 2, 10), '-', '/')}"></td>
+          <td th:text="${post.view_count}"></td>
+          <td th:text="${post.good_count}"></td>
+        </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <aside class="main__aside">
+      <div class="aside__loginDiv">
+        <form id="loginForm" class="aside__loginForm" action="/login_proc" method="post">
+          <fieldset>
+            <legend>로그인</legend>
+            <div class="aside__loginLeft">
+              <input type="text" id="userid" name="username">
+              <input type="password" id="pwd" name="password">
+              <!-- <input> 요소는 기본적으로 설정된 최소 크기가 있습니다. 만약 너비나 높이가 설정되지 않으면,
+              Flexbox는 이 기본 크기를 기준으로 계산하게 되는데, 이 경우 flex: 1;이 유효하게 작동하지 않습니다.
+              기본적으로 입력 필드가 너무 작게 설정되면 Flexbox는 해당 요소의 크기를 조정할 수 없게 됩니다.-->
+            </div>
+            <div class="aside__loginRight">
+              <button>
+                로그인
+              </button>
+            </div>
+          </fieldset>
+        </form>
+        <div class="emptySpace" id="emptySpace" style="display: none;"></div>
+        <div class="aside__loginFormUnder">
+          <a id="join" href="join">회원가입</a>
+          <a id="find" href="find">아이디 or 비밀번호 찾기</a>
+          <a id="logoutBtn" href="index/logout">로그아웃</a>
+        </div>
+      </div>
+      <div style="flex: 5; display: flex; flex-direction: column;">
+        <div style="flex: 1; background-image: url('/img/fly.jpg'); background-size: cover; background-repeat: no-repeat; background-position: center;">
+        </div>
+        <div style="flex: 1; background-image: url('/img/fly3.jpg'); background-size: cover; background-repeat: no-repeat; background-position: center;">
+        </div>
+      </div>
+    </aside>
+  </div>
+</main>
+
+<footer style="box-sizing: border-box;">
+  <div>
+    <ul class="footer__ul">
+      <li style="min-width: 65px;">
+        회사소개
+        <span>|</span>
+      </li>
+      <li style="min-width: 65px;">
+        이용약관
+        <span>|</span>
+      </li>
+      <li style="min-width: 112px;">
+        개인정보처리방침
+        <span>|</span>
+      </li>
+      <li style="min-width: 100px;">
+        청소년보호정책
+      </li>
+    </ul>
+  </div>
+  <div>
+    <span style="font-size: 12px;">Copyright ⓒ 2024 - 2025 ondoard. All rights reserved.</span>
+  </div>
+</footer>
+<script src="/js/comment.js"></script>
+<script src="/js/global.js"></script>
+</body>
+</html>

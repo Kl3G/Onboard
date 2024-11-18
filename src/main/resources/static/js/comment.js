@@ -1,0 +1,235 @@
+/*
+function submitComment() {
+  // 폼 데이터를 가져옵니다.
+  const formData = new FormData(document.getElementById("commentForm"));
+
+  // AJAX 요청 설정
+  fetch("/comment_proc", {
+    method: "POST",
+    body: formData,
+  })
+    .then(response => {
+      if (response.ok) {
+        return response.text();  // 서버에서 텍스트 응답을 기대하는 경우
+      } else {
+        throw new Error("댓글 등록에 실패했습니다.");
+      }
+    })
+    .then(data => {
+      alert("댓글이 등록되었습니다!");
+      // 필요한 경우 댓글 등록 후 처리 로직 추가
+    })
+    .catch(error => {
+      console.error(error);
+      alert("댓글 등록 중 오류가 발생했습니다.");
+    });
+}*/
+
+/*function formComment(){
+
+    alert("댓글 작성 중입니다.");
+
+    const formComment = document.getElementById("formComment");
+    if (formComment) {
+        formComment.style.display = "block"; // 요소를 보이게 설정
+    }
+}*/
+
+function toggleCommentForm(button) {
+    const formComment = button.parentElement.parentElement.nextElementSibling; // 버튼 바로 다음에 위치한 폼
+
+    /* ** 참고 **
+    1. document.getElementById("formComment");
+    이 방식은 id가 "formComment"인 첫 번째 요소만 찾습니다.
+    HTML 문서에는 ** 동일한 id 값을 가진 요소가 여러 개 있을 수 없다고 가정 **하므로,
+    이 방식은 페이지에 여러 댓글 폼이 있을 때 모두 관리하기 어렵습니다.
+    다수의 댓글 폼이 필요하다면 이 접근 방식이 적합하지 않습니다.
+
+    2. button.nextElementSibling.nextElementSibling;
+    이 방식은 버튼 위치를 기준으로 다음의 두 번째 형제 요소를 찾아 접근합니다.
+    따라서, 여러 댓글 폼을 각 댓글 요소에 넣어야 할 경우 더 적합합니다.
+    HTML에서 li 내의 댓글에 따라 폼이 개별적으로 위치하고 있으므로,
+    이 방식을 사용하면 버튼을 클릭할 때마다 각 댓글에 해당하는 폼을 정확히 접근할 수 있습니다.
+
+    3. const formComment = button.nextElementSibling.nextElementSibling.nextElementSibling;
+    실행되지 않는 이유는 nextElementSibling을 사용했기 때문입니다.
+    nextElementSibling은 현재 요소의 바로 다음 형제 요소를 가리킵니다.
+    이 경우, <div> 안에 있는 button 요소 다음에는 <div> (댓글 입력 폼) 요소가 존재하고,
+    그 다음에 더 이상 형제 요소가 없기 때문에 세 번째 nextElementSibling은 null이 됩니다.
+    */
+
+    if (formComment) {
+        // 현재 display 스타일을 확인하여 폼을 보이게 하거나 숨김
+        if (formComment.style.display === "none" || formComment.style.display === "") {
+            formComment.style.display = "block"; // 폼을 보이게 설정
+        } else {
+            formComment.style.display = "none"; // 폼을 숨기기
+        }
+    }
+}
+
+// 대댓글이 존재할 때만 padding-bottom: 15px; 적용
+document.addEventListener("DOMContentLoaded", function() {
+  const commentElements = document.querySelectorAll('#comment');
+
+  commentElements.forEach(commentElement => {
+    const childComment = commentElement.querySelector('#childcomment');
+
+    if (childComment) {
+      commentElement.style.paddingBottom = '15px';
+    } else {
+      commentElement.style.paddingBottom = '0';
+    }
+  });
+});
+
+function toggleChildCommentDel(button) {
+    const formComment = button.parentElement.nextElementSibling;
+
+    if (formComment) {
+        // 현재 display 스타일을 확인하여 폼을 보이게 하거나 숨김
+        if (formComment.style.display === "none" || formComment.style.display === "") {
+            formComment.style.display = "block"; // 폼을 보이게 설정
+        } else {
+            formComment.style.display = "none"; // 폼을 숨기기
+        }
+    }
+}
+
+function togglecommentDel(button) {
+    const formComment = button.parentElement.nextElementSibling;
+
+    if (formComment) {
+        // 현재 display 스타일을 확인하여 폼을 보이게 하거나 숨김
+        if (formComment.style.display === "none" || formComment.style.display === "") {
+            formComment.style.display = "block"; // 폼을 보이게 설정
+        } else {
+            formComment.style.display = "none"; // 폼을 숨기기
+        }
+    }
+}
+
+function togglePostDel(button) {
+    const formComment = button.parentElement.nextElementSibling;
+
+    if (formComment) {
+        // 현재 display 스타일을 확인하여 폼을 보이게 하거나 숨김
+        if (formComment.style.display === "none" || formComment.style.display === "") {
+            formComment.style.display = "block"; // 폼을 보이게 설정
+        } else {
+            formComment.style.display = "none"; // 폼을 숨기기
+        }
+    }
+}
+
+  function checkCommentPwd(event) {
+    event.preventDefault(); // 기본 폼 제출 방지
+
+    let cidx = document.getElementById('cidx').value;
+    let cpwd = document.getElementById('cpwd').value;
+    let bidx = document.getElementById('bidx').value;
+    let pidx = document.getElementById('pidx').value;
+
+    $.ajax({
+      type: "post",
+      url: "/checkCommentPwd", // 비밀번호 확인 요청을 처리할 URL
+      data: {cidx: cidx, cpwd: cpwd, pidx: pidx, bidx: bidx},
+      success: function(response) {
+
+        if(response.success){
+
+            let form = document.createElement('form');
+            form.method = 'POST';
+            form.action = '/commentDel';
+
+            let cidxField = document.createElement('input');
+            cidxField.type = 'hidden';
+            cidxField.name = 'cidx';
+            cidxField.value = cidx;
+
+            let bidxField = document.createElement('input');
+            bidxField.type = 'hidden';
+            bidxField.name = 'bidx';
+            bidxField.value = bidx;
+
+            let pidxField = document.createElement('input');
+            pidxField.type = 'hidden';
+            pidxField.name = 'pidx';
+            pidxField.value = pidx;
+
+            form.appendChild(cidxField); // 폼에 pidx 필드 추가
+            form.appendChild(bidxField);
+            form.appendChild(pidxField);
+
+            // 폼을 body에 추가하고 전송
+            document.body.appendChild(form);
+            form.submit(); // 폼을 전송하여 POST 요청 실행
+        }else if(response.success2) {
+
+            alert("비밀번호가 일치하지 않습니다.");
+        }
+
+      },
+      error: function() {
+        alert("서버 오류가 발생했습니다.");
+      }
+    });
+  }
+
+
+
+  function checkPassword(event, action) {
+      event.preventDefault(); // 기본 폼 제출 방지
+
+      let ppwd = document.getElementById('ppwd').value;
+      let pidx = document.getElementById('pidx').value;
+      let bidx = document.getElementById('bidx').value;
+      let userid = document.getElementById('userid').value;
+
+      $.ajax({
+        type: "POST",
+        url: "/checkPostPassword", // 비밀번호 확인 요청을 처리할 URL
+        data: { ppwd: ppwd, pidx: pidx, bidx: bidx, userid: userid},
+        contentType: "application/x-www-form-urlencoded",
+        success: function(response) {
+          if(response.success){
+
+              if(action === 'modify'){
+
+                  location.href = `/modifyPost?pidx=${pidx}&bidx=${bidx}&ppwd=${ppwd}`;
+              }else if(action === 'delete'){
+
+                  let form = document.createElement('form');
+                  form.method = 'POST';
+                  form.action = '/postDel';
+
+                  let pidxField = document.createElement('input');
+                  pidxField.type = 'hidden';
+                  pidxField.name = 'pidx';
+                  pidxField.value = pidx;
+
+                  let bidxField = document.createElement('input');
+                  bidxField.type = 'hidden';
+                  bidxField.name = 'bidx';
+                  bidxField.value = bidx;
+
+                  form.appendChild(pidxField); // 폼에 pidx 필드 추가
+                  form.appendChild(bidxField);
+
+                  // 폼을 body에 추가하고 전송
+                  document.body.appendChild(form);
+                  form.submit(); // 폼을 전송하여 POST 요청 실행
+              }
+          } else if(response.success1) {
+
+              alert("권한이 없는 아이디입니다.");
+          } else if(response.success2) {
+
+              alert("비밀번호가 일치하지 않습니다.");
+          }
+        },
+        error: function() {
+          alert("서버 오류가 발생했습니다.");
+        }
+      });
+    }

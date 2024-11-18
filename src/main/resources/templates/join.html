@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>join</title>
+    <link rel="stylesheet" href="../css/join.css">
+</head>
+<body>
+<header>
+    <div class="divLogo__header">
+        <a href="/index">
+        Onboard
+        </a>
+    </div>
+    <div class="divTitle__header">
+        <a href="/index">
+        모두의 보드, 즐거운 여행
+        </a>
+    </div>
+</header>
+
+<main>
+    <section>
+        <div class="divTitle__section">
+            <h3 style="color: #29367c;">기본정보입력</h3>
+        </div>
+        <form class="form__section" action="/join_proc" method="post">
+            <fieldset class="fieldset__section">
+                <legend>회원가입</legend>
+                <div class="idGroup__fieldset">
+                    <div class="title__form">아이디</div>
+                    <div class="msgBox__idGroup msgBox">
+                        <input type="text" id="userid" name="userid" placeholder="아이디를 입력해주세요.">
+                        <p>아이디를 저장해 주세요.</p>
+                        <p style="color: red;">아이디를 저장하지 않을 경우 찾을 수 없습니다.</p>
+                        <p style="color: red;">한 번 등록된 아이디는 변경할 수 없습니다.</p>
+                    </div>
+                </div>
+                <div class="pwGroup__fieldset group">
+                    <div class="title__form">비밀번호</div>
+                    <div class="msgBox__pwGroup msgBox">
+                        <input type="password" id="pwd" name="pwd" placeholder="비밀번호를 입력해 주세요.">
+                        <input type="password" placeholder="비밀번호를 재확인해 주세요." style="margin-top: 10px;">
+                        <p>비밀번호 필수 조건</p>
+                        <p>1. 영문, 숫자, 특수문자 조합입니다.</p>
+                        <p>2. 8~20자입니다.</p>
+                    </div>
+                </div>
+                <div class="nickGroup__fieldset group">
+                    <div class="title__form">닉네임</div>
+                    <div class="msgBox__nickGroup msgBox">
+                        <input type="text" id="nick" name="nick" placeholder="닉네임을 입력해 주세요.">
+                        <p>2~15자 닉네임을 입력해 주세요.  (띄어쓰기는 할 수 없습니다.)</p>
+                        <p></p>
+                    </div>
+                </div>
+                <div class="mailGroup__fieldset group">
+                    <div class="title__form">메일</div>
+                    <div class="msgBox__mailGroup msgBox">
+                        <input type="text" id="mail" name="mail" placeholder="메일을 입력해 주세요.">
+                        <input type="text" placeholder="메일을 재확인해 주세요." style="margin-top: 10px;">
+                    </div>
+                </div>
+            </fieldset>
+            <div class="divButton__section" style="display: flex; justify-content: center; gap: 50px; margin-top: 30px;">
+                <button>
+                    취소
+                </button>
+                <button type="submit" style="background-color: #29367c;">
+                    완료
+                </button>
+            </div>
+        </form>
+    </section>
+</main>
+
+
+<footer style="box-sizing: border-box;">
+    <div>
+        <ul class="footer__ul">
+            <li style="min-width: 65px;">
+                회사소개
+                <span>|</span>
+            </li>
+            <li style="min-width: 65px;">
+                이용약관
+                <span>|</span>
+            </li>
+            <li style="min-width: 112px;">
+                개인정보처리방침
+                <span>|</span>
+            </li>
+            <li style="min-width: 100px;">
+                청소년보호정책
+            </li>
+        </ul>
+    </div>
+    <div>
+        <span style="font-size: 12px;">Copyright ⓒ 2024 - 2025 ondoard. All rights reserved.</span>
+    </div>
+</footer>
+</body>
+</html>

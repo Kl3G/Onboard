@@ -2,12 +2,12 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>index</title>
+    <title>Board</title>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://kit.fontawesome.com/b3af913a6d.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css"/>
     <script type="text/javascript" src="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
-    <link rel="stylesheet" href="../css/index.css">
+    <link rel="stylesheet" href="/css/board.css">
 </head>
 
 <body>
@@ -62,6 +62,11 @@
                     <a href="/world/oceania?place=5">오세아니아</a>
                 </div>
             </li>
+            <li>
+                <div>
+                    <a href="/notice">공지사항</a>
+                </div>
+            </li>
         </ul>
         <div class="slick-class">
             <div th:utext="'전체보드&#8201;&#8201;' + ${boardCount} + '개'"> 전체보드수</div>
@@ -74,68 +79,73 @@
 <main class="main__main">
     <div class="container__main">
         <section class="main__section">
-            <div class="main__divTop">
-                <div style="gap: 8px;">
-                    <span style="font-size: 16px; color: #29367c; font-weight: bold;">최근 등록글</span>
-                    <i class="fa-solid fa-check" style="color: red; font-weight: bold; font-size: 20px;"></i>
+            <div class="main__divTop" style="gap: 5px;">
+                <div style="flex: none; font-size: 24px; color: #29367c; max-height: 48px; font-family: 'Segoe UI'; font-weight: bold; padding: 9px 0 9px 9px;" th:text="${boardInfo.b_name}">
                 </div>
-                <div style="flex: 1; padding: 3px; justify-content: flex-end;">
-                    <button class="button__boardCreate" type="button" onclick="location.href='/createBoard'">
-                        보드  만들기
-                    </button>
+                <div style="flex: none; font-size: 24px; color: #29367c; max-height: 48px; font-family: 'Segoe UI'; font-weight: bold; padding: 0;">
+                    <span style="position: relative; top: 7px; color: #29367c; padding: 0;">&#x24D1;</span>
+                    <!--보드 이름 옆의 B 아이콘 출력-->
                 </div>
             </div>
             <div class="main__divMid">
-                <div style="background-image: url(../img/bangkok.jpg);">
-                    <div style="background-color: black; background: rgba(0, 0, 0, 0.7);
-                                color: white; font-size: 12px; font-weight: bold;
-                                width: calc(100% - 18px); height: 30%; padding: 3px 9px 0;
-                                position: absolute; bottom: 9px; left: 9px;">
-                        후기) 방콕의 장점에 대해 자세히 알아보자
+                <div class="boardCoverImg"></div>
+                <div class="boardIntro" th:text="${boardInfo.intro}"></div>
+                <div class="boardManager">
+                    <div>
+                        <strong>매니저</strong>
+                        <span th:text="${boardInfo.nick} + '(' + ${boardInfo.userid} +')'"></span>
                     </div>
-                </div>
-                <div style="background-image: url(../img/hunza.webp);">
-                    <div style="background-color: black; background: rgba(0, 0, 0, 0.7);
-                                color: white; font-size: 12px; font-weight: bold;
-                                width: calc(100% - 18px); height: 30%; padding: 3px 9px 0;
-                                position: absolute; bottom: 9px; left: 9px;">
-                        메이저 여행사들이 꼽은 최고의 여행지 top10
+                    <!--<div>
+                    </div>-->
+                    <div>
+                        <strong>개설일</strong>
+                        <span th:text="${date}"></span>
                     </div>
-                </div>
-                <div style="background-image: url(../img/asdasd.jpg);">
-                    <div style="background-color: black; background: rgba(0, 0, 0, 0.7);
-                                color: white; font-size: 12px; font-weight: bold;
-                                width: calc(100% - 18px); height: 30%; padding: 3px 9px 0;
-                                position: absolute; bottom: 9px; left: 9px;">
-                        스압) 한여름에 두바이 갔다 온 생생한 후기
-                    </div>
-                </div>
-                <div style="background-image: url(../img/wewe.webp);">
-                    <div style="background-color: black; background: rgba(0, 0, 0, 0.7);
-                                color: white; font-size: 12px; font-weight: bold;
-                                width: calc(100% - 18px); height: 30%; padding: 3px 9px 0;
-                                position: absolute; bottom: 9px; left: 9px;">
-                        숲이 인간에게 주는 여러 장점은 과연 무엇일까?
+                    <div>
+                        <button th:onclick="|location.href='@{/createPost(bidx=${boardInfo.bidx})}'|"
+                        style="width: 82px; background-color: #3b4890; font-weight: bold; color: white; border: none;">글쓰기</button>
                     </div>
                 </div>
             </div>
-            <div class="main__divBotTitle" style="gap: 8px;">
-                <span>최근 등록 보드</span>
-                <i class="fa-solid fa-check" style="color: #ff9900; font-weight: bold; font-size: 20px;"></i>
-            </div>
-            <div style="flex: 17.5;">
-                <div class="custom-div" th:each="i : ${#numbers.sequence(1, 4)}">
-                    <ul>
-                        <li th:each="board, stat : ${boards}"
-                            th:if="${stat.index < (i * 24)} and ${stat.index >= ((i - 1) * 24)}">
-                            <a th:href="@{/board(bidx=${board.bidx})}">
-                                <span th:text="${#strings.length(board.b_name) > 17 ? board.b_name.substring(0, 17) + '...' : board.b_name}"></span>
-                            </a>
-                            <!--board는 DTOBoardView의 객체이고, 그 안에서 bidx 값을 꺼내 url에 파라미터로 넣어준다-->
-                        </li>
-                    </ul>
-                </div>
-            </div>
+            <table>
+                <colgroup>
+                    <col style="width:7%">
+                    <col style="width:6%">
+                    <col style="width:51%">
+                    <col style="width:18%">
+                    <col style="width:6%">
+                    <col style="width:6%">
+                    <col style="width:6%">
+                </colgroup>
+                <thead>
+                    <tr>
+                        <th scope="col">번호</th>
+                        <th scope="col">말머리</th>
+                        <th scope="col">제목</th>
+                        <th scope="col">글쓴이</th>
+                        <th scope="col">작성일</th>
+                        <th scope="col">조회</th>
+                        <th scope="col">추천</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="post : ${postList}">
+                        <td> number </td>
+                        <td th:switch="${post.category}" style="font-weight: bold;">
+                            <span th:case="'1'">일반</span>
+                            <span th:case="'2'">뉴스</span>
+                            <span th:case="'3'">공지</span>
+                        </td>
+                        <td>
+                            <a th:href="@{/post(pidx=${post.pidx}, bidx=${post.bidx})}" th:text="${post.title}"></a>
+                        </td>
+                        <td th:text="${post.nick} + (${post.nick == 'ㅇㅇ'} ? '(' + ${#strings.substring(post.userip, 0, 7)} + ')' : '')"></td>
+                        <td th:text="${#strings.replace(#strings.substring(post.regdate, 2, 10), '-', '/')}"></td>
+                        <td th:text="${post.view_count}"></td>
+                        <td th:text="${post.good_count}"></td>
+                    </tr>
+                </tbody>
+            </table>
         </section>
 
         <aside class="main__aside">
@@ -146,7 +156,8 @@
                         <div class="aside__loginLeft">
                             <input type="text" id="userid" name="username">
                             <input type="password" id="pwd" name="password">
-                            <!--<input> 요소는 기본적으로 설정된 최소 크기가 있습니다. 만약 너비나 높이가 설정되지 않으면, Flexbox는 이 기본 크기를 기준으로 계산하게 되는데, 이 경우 flex: 1;이 유효하게 작동하지 않습니다.
+                            <!-- <input> 요소는 기본적으로 설정된 최소 크기가 있습니다. 만약 너비나 높이가 설정되지 않으면,
+                            Flexbox는 이 기본 크기를 기준으로 계산하게 되는데, 이 경우 flex: 1;이 유효하게 작동하지 않습니다.
                             기본적으로 입력 필드가 너무 작게 설정되면 Flexbox는 해당 요소의 크기를 조정할 수 없게 됩니다.-->
                         </div>
                         <div class="aside__loginRight">
@@ -157,17 +168,16 @@
                     </fieldset>
                 </form>
                 <div class="emptySpace" id="emptySpace" style="display: none;"></div>
-                <!--emptySpace.show();를 하면 display 속성이 변경돼서 다시 보인다-->
                 <div class="aside__loginFormUnder">
-                    <a id="join" href="/join">회원가입</a>
+                    <a id="join" href="join">회원가입</a>
                     <a id="find" href="find">아이디 or 비밀번호 찾기</a>
-                    <a id="logoutBtn" href="/index/logout">로그아웃</a>
+                    <a id="logoutBtn" href="index/logout">로그아웃</a>
                 </div>
             </div>
             <div style="flex: 5; display: flex; flex-direction: column;">
-                <div style="flex: 1; background-image: url('../img/fly.jpg'); background-size: cover; background-repeat: no-repeat; background-position: center;">
+                <div style="flex: 1; background-image: url('/img/fly.jpg'); background-size: cover; background-repeat: no-repeat; background-position: center;">
                 </div>
-                <div style="flex: 1; background-image: url('../img/fly3.jpg'); background-size: cover; background-repeat: no-repeat; background-position: center;">
+                <div style="flex: 1; background-image: url('/img/fly3.jpg'); background-size: cover; background-repeat: no-repeat; background-position: center;">
                 </div>
             </div>
         </aside>
@@ -199,6 +209,6 @@
     </div>
 </footer>
 
-<script src="../js/global.js"></script>
+<script src="/js/global.js"></script>
 </body>
 </html>

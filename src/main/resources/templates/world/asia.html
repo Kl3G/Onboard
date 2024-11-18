@@ -2,12 +2,12 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>index</title>
+    <title>Asia</title>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://kit.fontawesome.com/b3af913a6d.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css"/>
     <script type="text/javascript" src="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
-    <link rel="stylesheet" href="../css/index.css">
+    <link rel="stylesheet" href="/css/index.css">
 </head>
 
 <body>
@@ -86,7 +86,7 @@
                 </div>
             </div>
             <div class="main__divMid">
-                <div style="background-image: url(../img/bangkok.jpg);">
+                <div style="background-image: url(/img/bangkok.jpg);">
                     <div style="background-color: black; background: rgba(0, 0, 0, 0.7);
                                 color: white; font-size: 12px; font-weight: bold;
                                 width: calc(100% - 18px); height: 30%; padding: 3px 9px 0;
@@ -94,7 +94,7 @@
                         후기) 방콕의 장점에 대해 자세히 알아보자
                     </div>
                 </div>
-                <div style="background-image: url(../img/hunza.webp);">
+                <div style="background-image: url(/img/hunza.webp);">
                     <div style="background-color: black; background: rgba(0, 0, 0, 0.7);
                                 color: white; font-size: 12px; font-weight: bold;
                                 width: calc(100% - 18px); height: 30%; padding: 3px 9px 0;
@@ -102,7 +102,7 @@
                         메이저 여행사들이 꼽은 최고의 여행지 top10
                     </div>
                 </div>
-                <div style="background-image: url(../img/asdasd.jpg);">
+                <div style="background-image: url(/img/asdasd.jpg);">
                     <div style="background-color: black; background: rgba(0, 0, 0, 0.7);
                                 color: white; font-size: 12px; font-weight: bold;
                                 width: calc(100% - 18px); height: 30%; padding: 3px 9px 0;
@@ -110,7 +110,7 @@
                         스압) 한여름에 두바이 갔다 온 생생한 후기
                     </div>
                 </div>
-                <div style="background-image: url(../img/wewe.webp);">
+                <div style="background-image: url(/img/wewe.webp);">
                     <div style="background-color: black; background: rgba(0, 0, 0, 0.7);
                                 color: white; font-size: 12px; font-weight: bold;
                                 width: calc(100% - 18px); height: 30%; padding: 3px 9px 0;
@@ -119,19 +119,18 @@
                     </div>
                 </div>
             </div>
-            <div class="main__divBotTitle" style="gap: 8px;">
-                <span>최근 등록 보드</span>
-                <i class="fa-solid fa-check" style="color: #ff9900; font-weight: bold; font-size: 20px;"></i>
+            <div class="main__divBotTitle">
+                아시아 &thinsp; <span th:text="'(' + ${worldBoardCount} + ')'"></span>
             </div>
             <div style="flex: 17.5;">
                 <div class="custom-div" th:each="i : ${#numbers.sequence(1, 4)}">
                     <ul>
                         <li th:each="board, stat : ${boards}"
                             th:if="${stat.index < (i * 24)} and ${stat.index >= ((i - 1) * 24)}">
+                            <!--th:utext="'<script>console.log(' + ${stat.index} + ');</script>'"-->
                             <a th:href="@{/board(bidx=${board.bidx})}">
                                 <span th:text="${#strings.length(board.b_name) > 17 ? board.b_name.substring(0, 17) + '...' : board.b_name}"></span>
                             </a>
-                            <!--board는 DTOBoardView의 객체이고, 그 안에서 bidx 값을 꺼내 url에 파라미터로 넣어준다-->
                         </li>
                     </ul>
                 </div>
@@ -165,9 +164,9 @@
                 </div>
             </div>
             <div style="flex: 5; display: flex; flex-direction: column;">
-                <div style="flex: 1; background-image: url('../img/fly.jpg'); background-size: cover; background-repeat: no-repeat; background-position: center;">
+                <div style="flex: 1; background-image: url('/img/fly.jpg'); background-size: cover; background-repeat: no-repeat; background-position: center;">
                 </div>
-                <div style="flex: 1; background-image: url('../img/fly3.jpg'); background-size: cover; background-repeat: no-repeat; background-position: center;">
+                <div style="flex: 1; background-image: url('/img/fly3.jpg'); background-size: cover; background-repeat: no-repeat; background-position: center;">
                 </div>
             </div>
         </aside>
@@ -199,6 +198,6 @@
     </div>
 </footer>
 
-<script src="../js/global.js"></script>
+<script src="/js/global.js"></script>
 </body>
 </html>

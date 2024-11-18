@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>postDelete</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://kit.fontawesome.com/b3af913a6d.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css"/>
+    <script type="text/javascript" src="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
+    <link rel="stylesheet" href="/css/pwdCheck.css">
+</head>
+
+<body>
+
+<header class="main__header">
+    <div class="container__header">
+        <div class="header__logo">
+            <a href="/index">
+                Onboard
+            </a>
+            <a href="/index" style="font-size: 12px;">
+                모두의 보드, 즐거운 여행
+            </a>
+        </div>
+        <div class="header__form">
+            <form action="/search" method="get">
+                <input class="header__search" type="text" name="keyword" spellcheck="false">
+                <button class="header__button"type="submit ">
+                    <i class="fa-solid fa-magnifying-glass header__icon"></i>
+                </button>
+            </form>
+        </div>
+    </div>
+</header>
+
+<nav class="main__nav">
+    <div class="container__nav">
+        <ul class="nav__ul">
+            <li style="flex: 0.8;">
+                <div>
+                    <a href="/world/asia?place=1">아시아</a>
+                </div>
+            </li>
+            <li style="flex: 0.65;">
+                <div>
+                    <a href="/world/europe?place=2">유럽</a>
+                </div>
+            </li>
+            <li>
+                <div>
+                    <a href="/world/northAmerica?place=3">북아메리카</a>
+                </div>
+            </li>
+            <li>
+                <div>
+                    <a href="/world/southAmerica?place=4">남아메리카</a>
+                </div>
+            </li>
+            <li >
+                <div>
+                    <a href="/world/oceania?place=5">오세아니아</a>
+                </div>
+            </li>
+            <li>
+                <div>
+                    <a href="/notice">공지사항</a>
+                </div>
+            </li>
+        </ul>
+        <div class="slick-class">
+            <div th:utext="'전체보드&#8201;&#8201;' + ${boardCount} + '개'"> 전체보드수</div>
+            <div th:utext="'전체게시글&#8201;&#8201;' + ${postCount} + '개'"> 전체게시글수</div>
+            <div th:utext="'전체댓글&#8201;&#8201;' + ${commentsCount} + '개'"> 전체댓글수</div>
+        </div>
+    </div>
+</nav>
+
+<main class="main__main">
+    <div class="postBox__main">
+
+        <div style="margin: 0 25px 0 25px;">
+            <div class="main__divTop " style="border-bottom: 2px solid #29367c;">
+                <div th:text="${boardInfo.b_name}"></div>
+                <div>
+                    <span style="position: relative; bottom: 2px; color: #29367c; padding: 0;">&#x24D1;</span>
+                    <!--보드 이름 옆의 B 아이콘 출력-->
+                </div>
+            </div>
+
+            <div class="divForm">
+                <form action="/postDel" method="post" style="display: flex; flex-direction: column;"
+                      onsubmit="checkPassword(event, 'delete')">
+                    <div style="display: flex; justify-content: center; margin-bottom: 15px;">
+                        <span>비밀번호를 입력하세요.</span>
+                    </div>
+                    <div style="margin-bottom: 15px; display: flex; justify-content: center; ">
+                        <input type="hidden" id="userid" th:value="${userid}">
+                        <input type="hidden" id="pidx" th:value="${post.pidx}">
+                        <input type="hidden" id="bidx" th:value="${boardInfo.bidx}">
+                        <input type="password" id="ppwd" style="height: 30px; width: 180px; border: 1px solid #d5d5d5; padding: 5px 10px">
+                    </div>
+                    <div style="display: flex; justify-content: center; gap: 15px;">
+                        <button style="background-color: #666666;" onclick="history.back()">취소</button>
+                        <button type="submit">확인</button>
+                    </div>
+                </form>
+            </div>
+
+            <div style="height: 50px; border-top: 2px solid #29367c; margin-bottom: 100px;"></div>
+        </div>
+
+    </div>
+</main>
+
+<footer style="box-sizing: border-box;">
+    <div>
+        <ul class="footer__ul">
+            <li style="min-width: 65px;">
+                회사소개
+                <span>|</span>
+            </li>
+            <li style="min-width: 65px;">
+                이용약관
+                <span>|</span>
+            </li>
+            <li style="min-width: 112px;">
+                개인정보처리방침
+                <span>|</span>
+            </li>
+            <li style="min-width: 100px;">
+                청소년보호정책
+            </li>
+        </ul>
+    </div>
+    <div>
+        <span style="font-size: 12px;">Copyright ⓒ 2024 - 2025 ondoard. All rights reserved.</span>
+    </div>
+</footer>
+<script src="/js/comment.js"></script>
+<script src="/js/global.js"></script>
+</body>
+</html>

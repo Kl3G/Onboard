@@ -12,7 +12,7 @@ import java.util.List;
 
 @Entity
 @Data
-@Table(name = "world")
+@Table(name = "WORLD")
 @AllArgsConstructor
 @NoArgsConstructor
 public class EntityWorld {

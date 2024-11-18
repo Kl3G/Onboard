@@ -127,6 +127,8 @@ public class MainController {
             case "5" : place =  "/world/oceania";
         }
 
+        System.out.println("asd"+place);
+
         List<DTOBoardView> boardList = serviceWorld.list2(num); // DTOBoardView 리스트 가져옴
         int worldBoardCount = 0; // 갯수를 세기 위한 변수
 

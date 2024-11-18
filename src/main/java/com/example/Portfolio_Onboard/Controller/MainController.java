@@ -116,7 +116,7 @@ public class MainController {
 
         switch(num){
 
-            case "1" : place = "/world/asia";
+            case "1" : place = "/world/asia.html";
             break;
             case "2" : place = "/world/europe";
             break;

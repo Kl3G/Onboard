@@ -109,29 +109,23 @@ public class MainController {
         return serviceWorld.setWorld(dtoCreateBoard);
     }
 
-    @GetMapping(value= {"/asia", "/world/europe", "/world/northAmerica", "/world/southAmerica", "/world/oceania"})
+    @GetMapping(value= {"/world/asia", "/world/europe", "/world/northAmerica", "/world/southAmerica", "/world/oceania"})
     public String getWorld(@RequestParam(value = "place") String num, Model model){
 
         String place = "";
 
-        System.out.println("asd"+place);
-        System.out.println("findfindfindfindfindfindfindfindfindfindfindfindfindfind");
-
         switch(num){
 
-            case "1" : place = "/asia";
+            case "1" : place = "world/asia";
             break;
-            case "2" : place = "/world/europe";
+            case "2" : place = "world/europe";
             break;
-            case "3" : place = "/world/northAmerica";
+            case "3" : place = "world/northAmerica";
             break;
-            case "4" : place = "/world/southAmerica";
+            case "4" : place = "world/southAmerica";
             break;
-            case "5" : place =  "/world/oceania";
+            case "5" : place = "world/oceania";
         }
-
-        System.out.println("asd"+place);
-        System.out.println("findfindfindfindfindfindfindfindfindfindfindfindfindfind");
 
         List<DTOBoardView> boardList = serviceWorld.list2(num); // DTOBoardView 리스트 가져옴
         int worldBoardCount = 0; // 갯수를 세기 위한 변수

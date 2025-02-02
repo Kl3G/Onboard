@@ -298,14 +298,14 @@ Shift+Enter 키를 동시에 누르면 줄바꿈이 됩니다."></textarea>
 
     <aside class="main__aside">
       <div class="aside__loginDiv">
-        <form id="loginForm" class="aside__loginForm" action="/login_proc" method="post">
+        <!-- 로그인 전 보이는 박스 -->
+        <form th:unless="${session.userid != null}" id="loginForm" class="aside__loginForm" action="/login_proc" method="post">
           <fieldset>
             <legend>로그인</legend>
             <div class="aside__loginLeft">
               <input type="text" id="userid" name="username">
               <input type="password" id="pwd" name="password">
-              <!-- <input> 요소는 기본적으로 설정된 최소 크기가 있습니다. 만약 너비나 높이가 설정되지 않으면,
-              Flexbox는 이 기본 크기를 기준으로 계산하게 되는데, 이 경우 flex: 1;이 유효하게 작동하지 않습니다.
+              <!--<input> 요소는 기본적으로 설정된 최소 크기가 있습니다. 만약 너비나 높이가 설정되지 않으면, Flexbox는 이 기본 크기를 기준으로 계산하게 되는데, 이 경우 flex: 1;이 유효하게 작동하지 않습니다.
               기본적으로 입력 필드가 너무 작게 설정되면 Flexbox는 해당 요소의 크기를 조정할 수 없게 됩니다.-->
             </div>
             <div class="aside__loginRight">
@@ -315,11 +315,16 @@ Shift+Enter 키를 동시에 누르면 줄바꿈이 됩니다."></textarea>
             </div>
           </fieldset>
         </form>
-        <div class="emptySpace" id="emptySpace" style="display: none;"></div>
-        <div class="aside__loginFormUnder">
-          <a id="join" href="join">회원가입</a>
+        <div th:unless="${session.userid != null}" class="aside__loginFormUnder">
+          <a id="join" href="/join">회원가입</a>
           <a id="find" href="find">아이디 or 비밀번호 찾기</a>
-          <a id="logoutBtn" href="index/logout">로그아웃</a>
+        </div>
+        <!-- 로그인 후 보이는 박스 -->
+        <div th:if="${session.userid != null}" class="aside__userInfo">
+          <span>안녕하세요!</span><br><span style= "font-weight: bold;" th:text="${session.nick}"></span>님
+        </div>
+        <div th:if="${session.userid != null}" class="aside__loginFormUnder">
+          <a id="logoutBtn" href="/index/logout">로그아웃</a>
         </div>
       </div>
       <div style="flex: 5; display: flex; flex-direction: column;">

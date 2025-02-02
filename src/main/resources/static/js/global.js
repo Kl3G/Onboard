@@ -10,7 +10,7 @@ $(document).ready(function() {
 });
 
 
-let isLoggedIn = false; // 전역 변수 선언
+/*let isLoggedIn = false; // 전역 변수 선언
 let loginForm = "";
 let emptySpace = "";
 let join = "";
@@ -20,20 +20,23 @@ let logoutBtn = "";
 // 페이지 로드 시 숨겨야 할 요소들 설정
 if (!isLoggedIn) {
     $('#logoutBtn').hide(); // 로그인하지 않은 경우 로그아웃 링크 숨기기
-}
+}*/
 
 // 로그인 폼 제출 핸들러 등록
-$('#loginForm').on('submit', handleLoginSubmit);
+// $('#loginForm').on('submit', handleLoginSubmit);
 // 일반적인 함수 호출이 아니라, 이벤트 리스너라는 특별한 양식에 맞춰 작성된 실행 코드
 // loginForm이 submit 될 때 "handleLoginSubmit" function 실행
 
 // 로그인 폼 제출 핸들러
+/*
 function handleLoginSubmit(event) {
     event.preventDefault(); // 기본 폼 제출 동작 방지
     // 폼의 기본 제출 동작을 차단하고, 대신 자바스크립트를 사용하여 AJAX 요청을 보낼 수 있습니다.
     // 이 코드가 있어야 fetch 를 사용할 수 있다.
-    /* type="button" 속성을 사용하여 폼의 기본 제출을 막고 있을 때는 event.preventDefault();가 필요하지 않습니다.
-       만약 버튼에 type="submit"을 사용했다면, event.preventDefault();를 통해 기본 제출을 막고 AJAX를 사용해야 합니다. */
+    */
+/* type="button" 속성을 사용하여 폼의 기본 제출을 막고 있을 때는 event.preventDefault();가 필요하지 않습니다.
+       만약 버튼에 type="submit"을 사용했다면, event.preventDefault();를 통해 기본 제출을 막고 AJAX를 사용해야 합니다. *//*
+
 
     // 입력 필드 값 가져오기
     const userid = $('#userid').val();
@@ -57,7 +60,9 @@ function handleLoginSubmit(event) {
     .then(response => {
 
         console.log(response);
-        if (response.ok/*HTTP 상태 코드가 200-299 범위에 있을 경우 true를 반환*/) {
+        if (response.ok*/
+/*HTTP 상태 코드가 200-299 범위에 있을 경우 true를 반환*//*
+) {
             // 로그인 성공 시
             isLoggedIn = true;
 
@@ -101,7 +106,9 @@ window.onload = function() {
 
     // 제이쿼리 사용 예시
     // $(window).on('load', status);
-    // function status(/*event*/) {
+    // function status(*/
+/*event*//*
+) {
     // $('#loginForm').on('submit', handleLoginSubmit);
     // "load" 라는 동작을 제어하고 싶지 않으면 매개변수로 event를 가져오지 않아도 된다.
 
@@ -145,4 +152,4 @@ window.onload = function() {
             }
         })
         .catch(error => console.error('세션 상태 확인 중 오류 발생:', error));
-};
+};*/

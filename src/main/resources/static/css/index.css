@@ -278,14 +278,15 @@
     .aside__loginFormUnder {
 
         flex: 1; font-size: 12px;
-        margin: 0 10px; margin-top: 10px; padding-top: 9px;
+        margin: 0 10px; margin-top: 10px; padding-top: 12px;
         display: flex; justify-content: center;
         border-top: 1px dashed #29367c; gap: 20px;
     }
 
-    .emptySpace {
+    .aside__userInfo {
 
         text-align: center;
+        margin: 20px 0 10px 0;
     }
 
     fieldset {

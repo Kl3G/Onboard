@@ -129,7 +129,7 @@
                             th:if="${stat.index < (i * 24)} and ${stat.index >= ((i - 1) * 24)}">
                             <!--th:utext="'<script>console.log(' + ${stat.index} + ');</script>'"-->
                             <a th:href="@{/board(bidx=${board.bidx})}">
-                                <span th:text="${#strings.length(board.b_name) > 17 ? board.b_name.substring(0, 17) + '...' : board.b_name}"></span>
+                                <span th:text="${#strings.length(board.b_name) > 14 ? board.b_name.substring(0, 14) + '...' : board.b_name}"></span>
                             </a>
                         </li>
                     </ul>
@@ -139,7 +139,8 @@
 
         <aside class="main__aside">
             <div class="aside__loginDiv">
-                <form id="loginForm" class="aside__loginForm" action="/login_proc" method="post">
+                <!-- 로그인 전 보이는 박스 -->
+                <form th:unless="${session.userid != null}" id="loginForm" class="aside__loginForm" action="/login_proc" method="post">
                     <fieldset>
                         <legend>로그인</legend>
                         <div class="aside__loginLeft">
@@ -155,11 +156,15 @@
                         </div>
                     </fieldset>
                 </form>
-                <div class="emptySpace" id="emptySpace" style="display: none;"></div>
-                <!--emptySpace.show();를 하면 display 속성이 변경돼서 다시 보인다-->
-                <div class="aside__loginFormUnder">
+                <div th:unless="${session.userid != null}" class="aside__loginFormUnder">
                     <a id="join" href="/join">회원가입</a>
                     <a id="find" href="find">아이디 or 비밀번호 찾기</a>
+                </div>
+                <!-- 로그인 후 보이는 박스 -->
+                <div th:if="${session.userid != null}" class="aside__userInfo">
+                    <span>안녕하세요!</span><br><span style= "font-weight: bold;" th:text="${session.nick}"></span>님
+                </div>
+                <div th:if="${session.userid != null}" class="aside__loginFormUnder">
                     <a id="logoutBtn" href="/index/logout">로그아웃</a>
                 </div>
             </div>

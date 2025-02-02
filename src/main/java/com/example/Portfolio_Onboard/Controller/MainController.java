@@ -116,15 +116,15 @@ public class MainController {
 
         switch(num){
 
-            case "1" : place = "/world/asia";
+            case "1" : place = "world/asia";
             break;
-            case "2" : place = "/world/europe";
+            case "2" : place = "world/europe";
             break;
-            case "3" : place = "/world/northAmerica";
+            case "3" : place = "world/northAmerica";
             break;
-            case "4" : place = "/world/southAmerica";
+            case "4" : place = "world/southAmerica";
             break;
-            case "5" : place =  "/world/oceania";
+            case "5" : place = "world/oceania";
         }
 
         List<DTOBoardView> boardList = serviceWorld.list2(num); // DTOBoardView 리스트 가져옴

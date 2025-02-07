@@ -8,33 +8,11 @@ a:visited {color: white;}
 a:hover {color: white;}
 a:active {color: white;}
 
-p {
-
-    margin-top: 5px;
-    font-size: 12px;
-    color: #666666;
-}
-
 input {
 
     width: 400px; height: 35px;
     padding: 0 10px;
     font-size: 15px;
-}
-
-.group {
-
-    margin-top: 30px;
-}
-
-button {
-
-    background-color: #666666;
-    border: 1px solid black;
-    border-radius: 3px;
-    color: white;
-    width: 100px;
-    height: 35px;
 }
 
 header {
@@ -84,8 +62,9 @@ main {
     display: block;
     display: flex;
     flex-direction: column;
-    height: calc(1000px - 100px);
+    height: 600px;
     margin: 0 auto;
+    margin-bottom: 40px;
     min-width: 800px;
     max-width: 800px;
 }
@@ -96,6 +75,38 @@ section {
     max-width: 800px;
     display: flex;
     flex-direction: column;
+}
+
+#button_select {
+
+    display: flex;
+    justify-content: center;
+    margin: 35px 0 0 0;
+    gap: 20px;
+}
+
+#button_select button:nth-of-type(1) {
+
+    width: 390px;
+    height: 60px;
+    border: 2px solid #aaabab;
+    border-radius: 10px;
+    color: #fff;
+    font-weight: bold;
+    font-size: 16px;
+    background-color: #aaabab;
+}
+
+#button_select button:nth-of-type(2) {
+
+    width: 390px;
+    height: 60px;
+    border-radius: 10px;
+    font-weight: bold;
+    font-size: 16px;
+    border: 2px solid #29367c;
+    color: #29367c;
+    background-color: #ffffff;
 }
 
 .divTitle__section {
@@ -124,17 +135,48 @@ section {
 
     box-sizing: border-box;
     display: flex; flex-direction: column; flex: 1;
-    padding: 50px 80px; border: 1px solid #ccc; border-radius: 5px;
+    padding: 50px 110px; border: 1px solid #ccc; border-radius: 5px;
 }
 
-fieldset div{
+fieldset div {
 
     display: flex;
+    background-color: #f3f3f3;
+    width: 550px; height: 170px;
+    justify-content: center;
+    align-items: center;
+    border-radius: 3px;
 }
+
+fieldset div div button {
+
+    background-color: #3b4890;
+    border: 1px solid black;
+    border-radius: 3px;
+    color: white;
+    width: 424px;
+    height: 35px;
+}
+
+fieldset p:nth-of-type(1) {
+
+    font-size: 15px;
+    font-color: #31900;
+    font-weight: bold;
+}
+
+fieldset p:nth-of-type(2) {
+
+    font-size: 14px;
+    margin: 10px 0 20px 0;
+}
+
 
 .msgBox {
 
     display: flex; flex-direction: column;
+    gap: 15px;
+
 }
 
 .title__form {
@@ -165,10 +207,13 @@ legend {
 
 footer {
 
-    margin-top: 50px;
+    padding-top: 20px;
+    border-top: 1px solid #29367c;
     position: relative;
     bottom: 20px;
-    width: 100%;
+    display: block;
+    min-width: 800px;
+    margin: 0 auto;
     text-align: center;
 }
 
@@ -195,8 +240,4 @@ footer div {
 .footer__ul span {
 
     position: absolute; right: -10px; top: 0;
-}
-
-footer {
-
 }

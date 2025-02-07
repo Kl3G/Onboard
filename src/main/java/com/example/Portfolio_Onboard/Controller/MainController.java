@@ -1,8 +1,6 @@
 package com.example.Portfolio_Onboard.Controller;
 
 import com.example.Portfolio_Onboard.DTO.*;
-import com.example.Portfolio_Onboard.Entity.EntityComments;
-import com.example.Portfolio_Onboard.Entity.EntityPost;
 import com.example.Portfolio_Onboard.Service.*;
 import jakarta.servlet.http.HttpSession;
 import lombok.extern.log4j.Log4j2;
@@ -61,6 +59,18 @@ public class MainController {
         return serviceJoin.setJoin(dtoJoin);
     }
 
+    @GetMapping("/findId")
+    public String getFind_id(){
+
+        return "findId";
+    }
+
+    @GetMapping("/setPwd")
+    public String getSet_pwd(){
+
+        return "setPwd";
+    }
+
     @GetMapping("/board")
     public String getBoard(@RequestParam("bidx") Long bidx, Model model){
 
@@ -109,7 +119,8 @@ public class MainController {
         return serviceWorld.setWorld(dtoCreateBoard);
     }
 
-    @GetMapping(value= {"/world/asia", "/world/europe", "/world/northAmerica", "/world/southAmerica", "/world/oceania"})
+    @GetMapping(value= {"/world/asia", "/world/europe", "/wo" +
+            "rld/northAmerica", "/world/southAmerica", "/world/oceania"})
     public String getWorld(@RequestParam(value = "place") String num, Model model){
 
         String place = "";

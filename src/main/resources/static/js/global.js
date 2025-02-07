@@ -153,3 +153,106 @@ window.onload = function() {
         })
         .catch(error => console.error('세션 상태 확인 중 오류 발생:', error));
 };*/
+
+/*
+fetch('/login_proc', {
+  method: 'POST',
+  headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+  body: new URLSearchParams({
+    'username': userid,
+    'password': pwd
+  })
+})
+.then(response => {
+  if (response.ok) {
+    // 로그인 성공 처리
+  } else if (response.status === 401) {
+    alert('로그인 실패. 아이디와 비밀번호를 확인하세요.');
+  }
+})
+.catch(error => console.error('로그인 요청 중 오류 발생:', error));*/
+
+$(document).ready(function() {
+  $('#loginForm').on('submit', function(event) {
+    event.preventDefault(); // 폼 기본 제출 막기
+    const userid = $('#userid').val();
+    const pwd = $('#pwd').val();
+
+    fetch('/login_proc', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body: new URLSearchParams({
+      /* URLSearchParams를 쓰면 편의성 + 자동 인코딩을 제공 */
+        'username': userid,
+        'password': pwd
+      })
+    })
+    .then(response => {
+      if (response.ok) {
+        // 로그인 성공 시 페이지 이동 등 원하는 동작 수행
+        window.location.href = '/index';
+      } else if (response.status === 401) {
+        // 로그인 실패 시 알림 띄우기
+        alert('로그인 실패. 아이디와 비밀번호를 확인하세요.');
+      }
+    })
+    .catch(error => console.error('로그인 요청 중 오류 발생:', error));
+  });
+});
+
+
+/*
+// JSON 형식의 웹 통신에서의 사용 예시
+// 아래의 코드에는 서버로부터 데이터를 받아서 화면에 출력하는 것과 사용자 입력 데이터를 서버로 보내는 방법이 모두 포함돼 있다.
+$(document).ready(function() {
+  $('#loginForm').on('submit', function(event) {
+    event.preventDefault(); // 기본 폼 제출 막기
+
+    const userid = $('#userid').val();
+    const pwd = $('#pwd').val();
+
+    // JSON 형식으로 보내기
+    fetch('/login_proc_json', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'  // ★ JSON 전송
+      },
+      body: JSON.stringify({
+      // ★ 사용자가 입력한 데이터를 자바스크립트 객체로 만든 후, JSON.stringify()로 JSON 문자열로 변환해서 서버로 보냅니다.
+        username: userid,
+        password: pwd
+      // 이 부분은 객체 리터럴(object literal) 을 선언한 것이고,
+      // 특정 변수에 할당하지 않고 바로 사용한 형태입니다.
+      })
+    })
+    .then(response => {
+      // HTTP 200(정상응답) 일 경우만 `.json()` 파싱 시도
+      // 만약 서버가 401 등 에러코드면 아래 else문에서 처리
+      if (response.ok) {
+        return response.json();
+      } else {
+        // HTTP 상태가 200이 아니면 throw로 캐치
+        throw new Error('로그인 실패(HTTP 상태: ' + response.status + ')');
+      }
+    })
+    .then(data => {
+      // 여기서 data는 서버가 JSON으로 준 객체
+      // 예: { "result": "success", "message": "로그인 성공!" } 형태
+
+      if (data.result === 'success') {
+        // 로그인 성공 처리
+        alert('로그인 성공: ' + data.message);
+        window.location.href = '/index';
+      } else {
+        // result = fail
+        alert('로그인 실패: ' + data.message);
+      }
+    })
+    .catch(error => {
+      // 200이 아닌 상태거나, 네트워크 에러 등
+      console.error('로그인 에러:', error);
+      alert('로그인 실패: ' + error.message);
+    });
+  });
+});
+*/

@@ -29,7 +29,7 @@ public class SecurityConfig {
                         "/createPost/**", "/createPost_proc/**", "/join/**", "/join_proc/**", "/login_proc/**", "/download/**",
                         "/childCommentDel/**", "/commentDel/**", "/postDel/**", "/boardDel/**", "/modifyPost/**", "/modifyPost_proc/**",
                         "/postModifyPwdCheck/**", "/checkPostPassword/**", "/postDelete/**", "checkCommentPwd/**",
-                        "/css/**", "/js/**", "/img/**", "/webjars/**", "/h2-console/**").permitAll() // 누구든지 접속 가능
+                        "/css/**", "/js/**", "/img/**", "/webjars/**", "/h2-console/**", "/findId/**", "/setPwd/**").permitAll() // 누구든지 접속 가능
                 .requestMatchers("/createBoard/**").hasRole("USER") // USER는 "/createBoard" 접속 가능
                 .requestMatchers("/notice/**").hasRole("MANAGER") // MANAGER는 "/notice" 접속 가능
                 .anyRequest().authenticated()
@@ -43,6 +43,7 @@ public class SecurityConfig {
                 .defaultSuccessUrl("/index", true) // 로그인 성공 후 이동할 페이지
                 //.failureUrl("/index?error=true") // 로그인 실패 후 출력 url
                 .failureHandler((request, response, exception) -> {
+
                     response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
                     // 실패 시 401 반환하고 어떠한 세션도 생성하지 않는다.
                 })

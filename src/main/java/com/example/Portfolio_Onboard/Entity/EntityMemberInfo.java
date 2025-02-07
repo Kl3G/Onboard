@@ -31,16 +31,19 @@ public class EntityMemberInfo implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
+
         return List.of();
     }
 
     @Override
     public String getPassword() {
+
         return this.pwd;
     }
 
     @Override
     public String getUsername() {
+
         return this.userid;
     }
 }

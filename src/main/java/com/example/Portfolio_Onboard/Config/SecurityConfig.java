@@ -29,10 +29,33 @@ public class SecurityConfig {
                         "/createPost/**", "/createPost_proc/**", "/join/**", "/join_proc/**", "/login_proc/**", "/download/**",
                         "/childCommentDel/**", "/commentDel/**", "/postDel/**", "/boardDel/**", "/modifyPost/**", "/modifyPost_proc/**",
                         "/postModifyPwdCheck/**", "/checkPostPassword/**", "/postDelete/**", "checkCommentPwd/**",
-                        "/css/**", "/js/**", "/img/**", "/webjars/**", "/h2-console/**", "/findId/**", "/setPwd/**").permitAll() // 누구든지 접속 가능
+                        "/css/**", "/js/**", "/img/**", "/webjars/**", "/h2-console/**", "/findId/**", "/findPwd/**",
+                        "/findId_proc/**", "/foundInfo/**", "/findPwd_proc/**", "/newPwd/**", "/newPwd_proc/**", "/idNotFound/**",
+                        "/pwdNotFound/**").permitAll() // 누구든지 접속 가능
                 .requestMatchers("/createBoard/**").hasRole("USER") // USER는 "/createBoard" 접속 가능
                 .requestMatchers("/notice/**").hasRole("MANAGER") // MANAGER는 "/notice" 접속 가능
                 .anyRequest().authenticated()
+        );
+
+        http.exceptionHandling(exception -> exception
+                .accessDeniedHandler((request, response, accessDeniedException) -> {
+                    response.setContentType("text/html;charset=UTF-8");
+                    response.setStatus(HttpServletResponse.SC_FORBIDDEN);
+                    response.getWriter().write(
+                            "<script>alert('권한이 없습니다.'); window.location.href='/index';</script>"
+                    );
+                })
+        );
+
+        http.exceptionHandling(exception -> exception
+                .authenticationEntryPoint((request, response, authException) -> {
+                    response.setContentType("text/html;charset=UTF-8");
+                    response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+                    response.getWriter().write(
+                            "<script>alert('로그인이 필요합니다.'); history.back();</script>"
+                    );
+                    response.getWriter().flush();
+                })
         );
 
         http.formLogin(login -> login // 로그인 요청 처리 시 HTTP 응답 상태 코드를 설정하는 역할을 합니다.

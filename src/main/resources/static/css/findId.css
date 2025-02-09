@@ -109,6 +109,11 @@ section {
     background-color: #ffffff;
 }
 
+#button_select button:nth-of-type(2):hover {
+
+    background-color: #EEEEEE;
+}
+
 .divTitle__section {
 
     flex: 0.3;

@@ -160,6 +160,7 @@
                 </form>
                 <div th:unless="${session.userid != null}" class="aside__loginFormUnder">
                     <a id="join" href="/join">회원가입</a>
+                    <p>ㅣ</p>
                     <a id="find" href="/findId">아이디 or 비밀번호 찾기</a>
                 </div>
                 <!-- 로그인 후 보이는 박스 -->
@@ -168,6 +169,8 @@
                 </div>
                 <div th:if="${session.userid != null}" class="aside__loginFormUnder">
                     <a id="logoutBtn" href="/index/logout">로그아웃</a>
+                    <p>ㅣ</p>
+                    <a id="modifyBtn" href="/index/logout">회원정보수정</a>
                 </div>
             </div>
             <div style="flex: 5; display: flex; flex-direction: column;">

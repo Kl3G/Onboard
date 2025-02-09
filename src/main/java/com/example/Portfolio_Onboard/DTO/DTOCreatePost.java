@@ -28,7 +28,6 @@ public class DTOCreatePost {
 
     public EntityPost entityPost(EntityMemberInfo memberInfo, EntityWorld board, EntityFiles entityFiles){
 
-
         return new EntityPost(null, board, memberInfo, ppwd, nick, category, title, text, userip, new Date(), null, 0L, 0L, null, entityFiles);
     }
 }

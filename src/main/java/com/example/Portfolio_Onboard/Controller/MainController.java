@@ -12,10 +12,13 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
 import java.util.List;
 
 @Log4j2
@@ -25,14 +28,16 @@ public class MainController {
 
     private final ServiceJoin serviceJoin;
     private final ServiceWorld serviceWorld;
-    private final ServiceTest serviceTest;
+    private final ServiceFindId serviceFindId;
+    private final ServiceFindPwd serviceFindPwd;
 
     @Autowired
-    MainController(ServiceJoin serviceJoin, ServiceWorld serviceWorld, ServiceTest serviceTest){
+    MainController(ServiceJoin serviceJoin, ServiceWorld serviceWorld, ServiceFindId serviceFindId, ServiceFindPwd serviceFindPwd){
 
         this.serviceJoin = serviceJoin;
         this.serviceWorld = serviceWorld;
-        this.serviceTest = serviceTest;
+        this.serviceFindId = serviceFindId;
+        this.serviceFindPwd = serviceFindPwd;
     }
 
     @GetMapping("/index")
@@ -59,17 +64,67 @@ public class MainController {
         return serviceJoin.setJoin(dtoJoin);
     }
 
+
+    // 아이디 찾기
     @GetMapping("/findId")
-    public String getFind_id(){
+    public String getFindId(){
 
         return "findId";
     }
 
-    @GetMapping("/setPwd")
-    public String getSet_pwd(){
+    @PostMapping("/findId_proc")
+    public String setFindId(DTOFindId dtoFindId, RedirectAttributes redirectAttributes){
 
-        return "setPwd";
+        return serviceFindId.findId(dtoFindId, redirectAttributes);
     }
+
+    @GetMapping("/foundInfo")
+    public String getFoundInfo(@ModelAttribute("userid") String userid, Model model) {
+
+        model.addAttribute("userid", userid);
+
+        return "foundInfo";
+    }
+
+    @GetMapping("/idNotFound")
+    public String getIdNotFound(){
+
+        return "idNotFound";
+    }
+    // ---------------------------------------------------------
+
+
+    // 비밀번호 찾기, 재설정
+    @GetMapping("/findPwd")
+    public String getFindPwd(){
+
+        return "findPwd";
+    }
+
+    @PostMapping("/findPwd_proc")
+    public String setFindPwd(DTOFindPwd dtoFindPwd, RedirectAttributes redirectAttributes){
+
+        return serviceFindPwd.findPwd(dtoFindPwd, redirectAttributes);
+    }
+
+    @GetMapping("/pwdNotFound")
+    public String getPwdNotFound(){
+
+        return "pwdNotFound";
+    }
+
+    @GetMapping("/newPwd")
+    public String getNewPwd(){
+
+        return "newPwd";
+    }
+
+    @PostMapping("/newPwd_proc")
+    public String setNewPwd(DTONewPwd dtoNewPwd){
+
+        return serviceFindPwd.newPwd(dtoNewPwd);
+    }
+    // ----------------------------------------------------------
 
     @GetMapping("/board")
     public String getBoard(@RequestParam("bidx") Long bidx, Model model){
@@ -182,11 +237,5 @@ public class MainController {
             return ResponseEntity.ok(nick);
         }
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
-    }
-
-    @GetMapping("/test")
-    public String test(){
-
-        return serviceTest.test2();
     }
 }

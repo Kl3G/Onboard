@@ -50,12 +50,14 @@ public class AuthenticationProviderImpl implements AuthenticationProvider {
         EntityMemberInfo memberInfo = (EntityMemberInfo) user;
         String userid2 = memberInfo.getUserid();
         String nick = memberInfo.getNick();
+        String mail = memberInfo.getMail();
 
         ServletRequestAttributes attr = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
         HttpSession session = attr.getRequest().getSession();
 
         session.setAttribute("nick", nick);
         session.setAttribute("userid", userid2);
+        session.setAttribute("mail", mail);
         // 세션 생성 //
 
         List<GrantedAuthority> authorities = new ArrayList<>();

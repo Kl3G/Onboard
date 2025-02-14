@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>join</title>
+    <link rel="stylesheet" href="../css/infoModify.css">
+</head>
+<body>
+<header>
+    <div class="divLogo__header">
+        <a href="/index">
+            Onboard
+        </a>
+    </div>
+    <div class="divTitle__header">
+        <a href="/index">
+            모두의 보드, 즐거운 여행
+        </a>
+    </div>
+</header>
+
+<main>
+    <section>
+        <div class="divTitle__section">
+            <h3 style="color: #29367c;">회원정보수정</h3>
+        </div>
+        <form class="form__section" action="/join_proc" method="post">
+            <fieldset class="fieldset__section">
+                <legend>회원가입</legend>
+                <div class="idGroup__fieldset">
+                    <div class="title__form">아이디</div>
+                    <div class="msgBox__idGroup msgBox">
+                        <input type="text" id="userid" name="userid" th:placeholder="${memberInfo.userid}"
+                               readonly style="background-color: #f3f3f3; border: none; font-weight: bold;">
+                    </div>
+                </div>
+                <div class="pwGroup__fieldset group">
+                    <div class="title__form">비밀번호</div>
+                    <div class="msgBox__pwGroup msgBox">
+                        <button class="modButton" type="button" onclick="window.location.href='/modifyPwd'">수정</button>
+                    </div>
+                </div>
+                <div class="nickGroup__fieldset group">
+                    <div class="title__form">닉네임</div>
+                    <div class="msgBox__nickGroup msgBox">
+                        <input type="text" id="nick" name="nick" th:placeholder="${memberInfo.nick}"
+                               readonly style="background-color: #f3f3f3; border: none; font-weight: bold;">
+                        <button class="modButton" type="button" onclick="window.location.href='/modifyNick'">수정</button>
+                    </div>
+                </div>
+                <div class="mailGroup__fieldset group">
+                    <div class="title__form">메일</div>
+                    <div class="msgBox__mailGroup msgBox">
+                        <input type="text" id="mail" name="mail" th:placeholder="${memberInfo.mail}"
+                               readonly style="background-color: #f3f3f3; border: none; font-weight: bold;">
+                        <button class="modButton" type="button" onclick="window.location.href='/modifyMail'">수정</button>
+                    </div>
+                </div>
+            </fieldset>
+        </form>
+    </section>
+</main>
+
+
+<footer style="box-sizing: border-box;">
+    <div>
+        <ul class="footer__ul">
+            <li style="min-width: 65px;">
+                회사소개
+                <span>|</span>
+            </li>
+            <li style="min-width: 65px;">
+                이용약관
+                <span>|</span>
+            </li>
+            <li style="min-width: 112px;">
+                개인정보처리방침
+                <span>|</span>
+            </li>
+            <li style="min-width: 100px;">
+                청소년보호정책
+            </li>
+        </ul>
+    </div>
+    <div>
+        <span style="font-size: 12px;">Copyright ⓒ 2024 - 2025 ondoard. All rights reserved.</span>
+    </div>
+</footer>
+</body>
+</html>

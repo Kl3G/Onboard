@@ -2,9 +2,9 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>findPwd</title>
+    <title>modifyNick</title>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <link rel="stylesheet" href="../css/setPwd.css">
+    <link rel="stylesheet" href="../css/findId.css">
 </head>
 <body>
 <header>
@@ -22,22 +22,17 @@
 
 <main>
     <section>
-        <div id="button_select">
-            <button id="button_findId">아이디 찾기</button>
-            <button>비밀번호 재설정</button>
-        </div>
         <div class="divTitle__section">
-            <h3 style="color: #29367c;">비밀번호 재설정</h3>
+            <h3 style="color: #29367c;">닉네임 재설정</h3>
         </div>
-        <form class="form__section" action="/findPwd_proc" method="post">
+        <form class="form__section" id="form__section" action="/modifyNick_proc" method="post">
             <fieldset class="fieldset__section">
-                <legend>비밀번호 재설정</legend>
-                <p style="color: #d31900;">아이디, 이메일을 입력해서 찾기</p>
-                <p>&#8251; 가입 시 입력한 아이디, 이메일 정보를 입력해 주세요.</p>
+                <legend>닉네임 재설정</legend>
+                <p>새로 사용할 닉네임을 입력해 주세요.</p>
                 <div class="mailGroup__fieldset group">
                     <div class="msgBox__mailGroup msgBox">
-                        <input type="text" id="mail" name="mail" placeholder="메일을 입력해 주세요.">
-                        <input type="text" id="userid" name="userid" placeholder="아이디를 입력해 주세요.">
+                        <input type="hidden" name="userid" th:value=${userid}>
+                        <input type="text" id="newNick" name="newNick" placeholder="새 닉네임을 입력해 주세요.">
                         <button type="submit">
                             확인
                         </button>
@@ -74,6 +69,6 @@
     </div>
 </footer>
 
-<script src="../js/findPwd.js"></script>
+<script src="../js/findId.js"></script>
 </body>
 </html>

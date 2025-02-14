@@ -1,7 +1,9 @@
 package com.example.Portfolio_Onboard.Controller;
 
 import com.example.Portfolio_Onboard.DTO.*;
+import com.example.Portfolio_Onboard.Entity.EntityMemberInfo;
 import com.example.Portfolio_Onboard.Service.*;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,14 +13,13 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.List;
 
 @Log4j2
@@ -30,14 +31,16 @@ public class MainController {
     private final ServiceWorld serviceWorld;
     private final ServiceFindId serviceFindId;
     private final ServiceFindPwd serviceFindPwd;
+    private final ServiceModifyInfo serviceModifyInfo;
 
     @Autowired
-    MainController(ServiceJoin serviceJoin, ServiceWorld serviceWorld, ServiceFindId serviceFindId, ServiceFindPwd serviceFindPwd){
+    MainController(ServiceJoin serviceJoin, ServiceWorld serviceWorld, ServiceFindId serviceFindId, ServiceFindPwd serviceFindPwd, ServiceModifyInfo serviceModifyInfo){
 
         this.serviceJoin = serviceJoin;
         this.serviceWorld = serviceWorld;
         this.serviceFindId = serviceFindId;
         this.serviceFindPwd = serviceFindPwd;
+        this.serviceModifyInfo = serviceModifyInfo;
     }
 
     @GetMapping("/index")
@@ -80,7 +83,8 @@ public class MainController {
 
     @GetMapping("/foundInfo")
     public String getFoundInfo(@ModelAttribute("userid") String userid, Model model) {
-
+    /* return "redirect:/post?pidx="+pidx+"&bidx="+bidx; 처럼 url에 포함시키지 않고,
+    redirectAttributes.addFlashAttribute 로 전송했기 때문에 @ModelAttribute로 받았다. */
         model.addAttribute("userid", userid);
 
         return "foundInfo";
@@ -126,8 +130,125 @@ public class MainController {
     }
     // ----------------------------------------------------------
 
+
+    // 회원 정보 수정
+    @GetMapping("/infoModifyPwdCheck")
+    public String getInfoModifyCheckPwd(Model model){
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication != null && authentication.isAuthenticated()) {
+
+            HttpSession session = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest().getSession();
+
+            model.addAttribute("userid", session.getAttribute("userid"));
+            model.addAttribute("boardCount", serviceWorld.countBoard()); // 전체보드수
+            model.addAttribute("postCount", serviceWorld.countPost()); // 전체게시글수
+            model.addAttribute("commentsCount", serviceWorld.countComments()); // 전체댓글수
+        }
+        return "infoModify/infoModifyPwdCheck";
+    }
+
+    @PostMapping("/infoModifyPwdCheck_proc")
+    public String setInfoModifyPwdCheck(DTOModifyPwdCheck dtoModifyPwdCheck,
+                                      RedirectAttributes redirectAttributes,
+                                      HttpServletResponse response) throws IOException {
+
+        DTOCheckPwdResult checkResult = serviceFindPwd.checkPwd(dtoModifyPwdCheck);
+
+        if("SUCCESS".equals(checkResult.getResult())){
+            // 필요한 경우 Flash attribute 추가
+            // 예를 들어, 회원 정보를 다시 조회하거나 추가하는 작업 수행
+
+            redirectAttributes.addFlashAttribute("memberInfo", checkResult.getEntityMemberInfo());
+            return "redirect:/infoModify";
+        }else{
+
+            response.setContentType("text/html;charset=UTF-8");
+            PrintWriter out = response.getWriter();
+            out.println("<script>alert('비밀번호가 일치하지 않습니다.'); history.back();</script>");
+            out.flush();
+            return null;
+        }
+    }
+
+    @GetMapping("/infoModify")
+    public String getInfoModify(@ModelAttribute("memberInfo") EntityMemberInfo memberInfo,
+                                Model model, RedirectAttributes redirectAttributes,
+                                HttpServletResponse response) throws IOException{
+
+        if(memberInfo.getUserid() == null){
+
+            response.setContentType("text/html;charset=UTF-8");
+            PrintWriter out = response.getWriter();
+            out.println("<script>alert('잘못된 접근입니다.'); history.back();</script>");
+            out.flush();
+            return null;
+        }else {
+
+            model.addAttribute("memberInfo", memberInfo);
+            return "infoModify/infoModify";
+        }
+    }
+
+    @GetMapping("/modifyPwd")
+    public String getModifyPwd(Model model){
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication != null && authentication.isAuthenticated()) {
+
+            HttpSession session = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest().getSession();
+
+            model.addAttribute("userid", session.getAttribute("userid"));
+            model.addAttribute("mail", session.getAttribute("mail"));
+        }
+
+        return "infoModify/modifyPwd";
+    }
+
+    @GetMapping("/modifyNick")
+    public String getModifyNick(Model model){
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication != null && authentication.isAuthenticated()) {
+
+            HttpSession session = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest().getSession();
+
+            model.addAttribute("userid", session.getAttribute("userid"));
+        }
+
+        return "infoModify/modifyNick";
+    }
+
+    @PostMapping("/modifyNick_proc")
+    public String setModifyNick(DTOModifyNick dtoModifyNick){
+
+        return serviceModifyInfo.modifyNick(dtoModifyNick);
+    }
+
+    @GetMapping("/modifyMail")
+    public String getModifyMail(Model model){
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication != null && authentication.isAuthenticated()) {
+
+            HttpSession session = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest().getSession();
+
+            model.addAttribute("userid", session.getAttribute("userid"));
+        }
+
+        return "infoModify/modifyMail";
+    }
+
+    @PostMapping("/newMail_proc")
+    public String setModifyMail(DTOModifyMail dtoModifyMail){
+
+        return serviceModifyInfo.modifyMail(dtoModifyMail);
+    }
+    // ----------------------------------------------------------
+
     @GetMapping("/board")
     public String getBoard(@RequestParam("bidx") Long bidx, Model model){
+    // /board?bidx=1 처럼 url에 포함시킨 데이터를 받기 위해 @RequestParam 를 사용했다.
 
         DTOBoardInfo boardInfo = serviceWorld.boardInfo(bidx);
         String regdate = String.valueOf(boardInfo.getRegdate());

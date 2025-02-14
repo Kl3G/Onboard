@@ -1,5 +1,5 @@
 
-// 버튼 호버 색상 변경
+// 페이지 이동 버튼
 $(document).ready(function(){
 
     $('#button_findPwd').on('click', function(event){
@@ -23,7 +23,7 @@ $(document).ready(function(){
 
             event.preventDefault();
             alert('이메일을 입력해 주세요.');
-        }else if (!mail.includes('@')) {
+        }else if(!mail.includes('@') || !mail.includes('.')){
 
             event.preventDefault();
             alert("올바른 이메일 형식이 아닙니다.");

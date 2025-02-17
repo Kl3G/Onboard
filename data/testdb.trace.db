@@ -1,0 +1,18 @@
+2025-02-17 15:58:11.849609+09:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Value too long for column "TEXT CHARACTER VARYING(255)": "U&'1111111111111111111111111111111111111111111111111111111\\000d\\000a111111111111... (4292)"; SQL statement:
+insert into post (bidx,category,good_count,userid,newdate,nick,ppwd,regdate,text,title,userip,view_count,pidx) values (?,?,?,?,?,?,?,?,?,?,?,?,?) [22001-224]
+2025-02-17 15:58:26.518118+09:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Value too long for column "TEXT CHARACTER VARYING(255)": "U&'1111111111111111111111111111111111111111111111111111111\\000d\\000a111111111111... (1887)"; SQL statement:
+insert into post (bidx,category,good_count,userid,newdate,nick,ppwd,regdate,text,title,userip,view_count,pidx) values (?,?,?,?,?,?,?,?,?,?,?,?,?) [22001-224]
+2025-02-17 15:58:41.264271+09:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Value too long for column "TEXT CHARACTER VARYING(255)": "U&'1111111111111111111111111111111111111111111111111111111\\000d\\000a111111111111... (677)"; SQL statement:
+insert into post (bidx,category,good_count,userid,newdate,nick,ppwd,regdate,text,title,userip,view_count,pidx) values (?,?,?,?,?,?,?,?,?,?,?,?,?) [22001-224]
+2025-02-17 15:59:05.483708+09:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Value too long for column "TEXT CHARACTER VARYING(255)": "U&'1111111111111111111111111111111111111111111111111111111\\000d\\000a111111111111... (305)"; SQL statement:
+insert into post (bidx,category,good_count,userid,newdate,nick,ppwd,regdate,text,title,userip,view_count,pidx) values (?,?,?,?,?,?,?,?,?,?,?,?,?) [22001-224]
+2025-02-17 15:59:17.301911+09:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Value too long for column "TEXT CHARACTER VARYING(255)": "U&'1111111111111111111111111111111111111111111111111111111\\000d\\000a111111111111... (305)"; SQL statement:
+insert into post (bidx,category,good_count,userid,newdate,nick,ppwd,regdate,text,title,userip,view_count,pidx) values (?,?,?,?,?,?,?,?,?,?,?,?,?) [22001-224]
+2025-02-17 15:59:20.621424+09:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Value too long for column "TEXT CHARACTER VARYING(255)": "U&'1111111111111111111111111111111111111111111111111111111\\000d\\000a111111111111... (305)"; SQL statement:
+insert into post (bidx,category,good_count,userid,newdate,nick,ppwd,regdate,text,title,userip,view_count,pidx) values (?,?,?,?,?,?,?,?,?,?,?,?,?) [22001-224]

@@ -271,6 +271,8 @@
 
         min-height: 450px;
         box-sizing: border-box;
+        word-wrap: break-word; /* 긴 단어나 URL 등이 있을 때 자동으로 줄바꿈 */
+        white-space: pre-wrap; /* 개행 문자(\n)도 HTML에서 줄바꿈 */
     }
 
     .container__main {

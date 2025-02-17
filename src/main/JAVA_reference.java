@@ -428,7 +428,9 @@ package com.example.Sep20Join;/*
     이유: JPA가 이 쿼리가 데이터에 변화를 줄 것임을 미리 인지하게 해주어, UPDATE나 DELETE 같은 작업을 정상적으로 실행할 수 있게 해줍니다.
 
 
-  29.
+  29. Session에 대해
+    세션은 key-value 저장소와 같아서, 각 정보를 고유한 키로 저장하면 서로 덮어쓰이지 않고 따로 보관할 수 있다.
+    예를 들어, "userid", "mail", "pwdCheckPassed"와 같이 다른 키를 사용하면, 각각의 정보가 독립적으로 저장된다.
 
 
   30.

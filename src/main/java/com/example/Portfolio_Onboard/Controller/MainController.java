@@ -124,8 +124,9 @@ public class MainController {
     }
 
     @PostMapping("/newPwd_proc")
-    public String setNewPwd(DTONewPwd dtoNewPwd){
+    public String setNewPwd(DTONewPwd dtoNewPwd, HttpSession session){
 
+        session.removeAttribute("pwdCheckPassed");
         return serviceFindPwd.newPwd(dtoNewPwd);
     }
     // ----------------------------------------------------------
@@ -133,12 +134,10 @@ public class MainController {
 
     // 회원 정보 수정
     @GetMapping("/infoModifyPwdCheck")
-    public String getInfoModifyCheckPwd(Model model){
+    public String getInfoModifyCheckPwd(Model model, HttpSession session){
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication != null && authentication.isAuthenticated()) {
-
-            HttpSession session = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest().getSession();
 
             model.addAttribute("userid", session.getAttribute("userid"));
             model.addAttribute("boardCount", serviceWorld.countBoard()); // 전체보드수
@@ -151,7 +150,8 @@ public class MainController {
     @PostMapping("/infoModifyPwdCheck_proc")
     public String setInfoModifyPwdCheck(DTOModifyPwdCheck dtoModifyPwdCheck,
                                       RedirectAttributes redirectAttributes,
-                                      HttpServletResponse response) throws IOException {
+                                      HttpServletResponse response,
+                                        HttpSession session) throws IOException {
 
         DTOCheckPwdResult checkResult = serviceFindPwd.checkPwd(dtoModifyPwdCheck);
 
@@ -160,10 +160,15 @@ public class MainController {
             // 예를 들어, 회원 정보를 다시 조회하거나 추가하는 작업 수행
 
             redirectAttributes.addFlashAttribute("memberInfo", checkResult.getEntityMemberInfo());
+            // 리다이렉트 후 단 한 번만 사용할 수 있도록 세션에 임시 저장되는 데이터
+            // 오직 리다이렉트("redirect:/...")를 사용할 때만 작동한다.
+            // 뷰 리졸버를 사용해 직접 템플릿 이름을 반환하면 Flash Attribute는 적용되지 않는다.
+            session.setAttribute("pwdCheckPassed", true);
             return "redirect:/infoModify";
         }else{
 
             response.setContentType("text/html;charset=UTF-8");
+
             PrintWriter out = response.getWriter();
             out.println("<script>alert('비밀번호가 일치하지 않습니다.'); history.back();</script>");
             out.flush();
@@ -174,14 +179,15 @@ public class MainController {
     @GetMapping("/infoModify")
     public String getInfoModify(@ModelAttribute("memberInfo") EntityMemberInfo memberInfo,
                                 Model model, RedirectAttributes redirectAttributes,
-                                HttpServletResponse response) throws IOException{
+                                HttpServletResponse response, HttpSession session) throws IOException{
 
-        if(memberInfo.getUserid() == null){
+        if(session.getAttribute("pwdCheckPassed") == null || memberInfo.getUserid() == null){
 
             response.setContentType("text/html;charset=UTF-8");
             PrintWriter out = response.getWriter();
             out.println("<script>alert('잘못된 접근입니다.'); history.back();</script>");
             out.flush();
+
             return null;
         }else {
 
@@ -191,56 +197,83 @@ public class MainController {
     }
 
     @GetMapping("/modifyPwd")
-    public String getModifyPwd(Model model){
+    public String getModifyPwd(Model model, HttpSession session,
+                               HttpServletResponse response) throws IOException{
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if (authentication != null && authentication.isAuthenticated()) {
-
-            HttpSession session = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest().getSession();
+        if (authentication != null && authentication.isAuthenticated() && session.getAttribute("pwdCheckPassed") != null) {
 
             model.addAttribute("userid", session.getAttribute("userid"));
             model.addAttribute("mail", session.getAttribute("mail"));
-        }
 
-        return "infoModify/modifyPwd";
+            return "infoModify/modifyPwd";
+        }else{
+
+            session.removeAttribute("pwdCheckPassed");
+            response.setContentType("text/html;charset=UTF-8");
+            PrintWriter out = response.getWriter();
+            out.println("<script>alert('잘못된 접근입니다.'); history.back();</script>");
+            out.flush();
+
+            return null;
+        }
     }
 
     @GetMapping("/modifyNick")
-    public String getModifyNick(Model model){
+    public String getModifyNick(Model model, HttpSession session,
+                                HttpServletResponse response) throws IOException{
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if (authentication != null && authentication.isAuthenticated()) {
-
-            HttpSession session = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest().getSession();
+        if (authentication != null && authentication.isAuthenticated() && session.getAttribute("pwdCheckPassed") != null) {
 
             model.addAttribute("userid", session.getAttribute("userid"));
-        }
 
-        return "infoModify/modifyNick";
+            return "infoModify/modifyNick";
+        }else {
+
+            session.removeAttribute("pwdCheckPassed");
+            response.setContentType("text/html;charset=UTF-8");
+            PrintWriter out = response.getWriter();
+            out.println("<script>alert('잘못된 접근입니다.'); history.back();</script>");
+            out.flush();
+
+            return null;
+        }
     }
 
     @PostMapping("/modifyNick_proc")
-    public String setModifyNick(DTOModifyNick dtoModifyNick){
+    public String setModifyNick(DTOModifyNick dtoModifyNick, HttpSession session){
 
+        session.removeAttribute("pwdCheckPassed");
         return serviceModifyInfo.modifyNick(dtoModifyNick);
     }
 
     @GetMapping("/modifyMail")
-    public String getModifyMail(Model model){
+    public String getModifyMail(Model model, HttpSession session,
+                                HttpServletResponse response) throws IOException{
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if (authentication != null && authentication.isAuthenticated()) {
-
-            HttpSession session = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest().getSession();
+        if (authentication != null && authentication.isAuthenticated() && session.getAttribute("pwdCheckPassed") != null) {
 
             model.addAttribute("userid", session.getAttribute("userid"));
-        }
 
-        return "infoModify/modifyMail";
+            return "infoModify/modifyMail";
+        }else {
+
+            session.removeAttribute("pwdCheckPassed");
+            response.setContentType("text/html;charset=UTF-8");
+            PrintWriter out = response.getWriter();
+            out.println("<script>alert('잘못된 접근입니다.'); history.back();</script>");
+            out.flush();
+
+            return null;
+        }
     }
 
     @PostMapping("/newMail_proc")
-    public String setModifyMail(DTOModifyMail dtoModifyMail){
+    public String setModifyMail(DTOModifyMail dtoModifyMail, HttpSession session){
+
+        session.removeAttribute("pwdCheckPassed");
 
         return serviceModifyInfo.modifyMail(dtoModifyMail);
     }

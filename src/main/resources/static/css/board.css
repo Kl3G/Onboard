@@ -15,21 +15,21 @@
         border-collapse: collapse;
     }
 
+    tr {
+
+        height: 25px;
+        max-height: 25px;
+        vertical-align: middle;
+        text-align: center;
+        font-size: 12px;
+    }
+
     th {
 
         height: 37px;
         border-width: 2px 0 1px;
         border-style: solid;
         border-color: #29367c;
-        vertical-align: middle;
-        text-align: center;
-        font-size: 12px;
-    }
-
-    tr {
-
-        height: 25px;
-        max-height: 25px;
         vertical-align: middle;
         text-align: center;
         font-size: 12px;
@@ -45,7 +45,11 @@
         vertical-align: middle;
         text-align: center;
         font-size: 11px;
-        font-family: tahoma
+        /*white-space: nowrap; 한 줄로 표시 */
+        /*overflow: hidden; 영역을 벗어나는 내용은 숨김 */
+        /* text-overflow: clip; 잘린 부분은 '...' 대신 그대로 숨김 */
+        /* text-overflow: ellipsis; 잘린 부분은 '...' 로 출력 */
+        word-break: break-all; /* 길게 이어진 단어도 강제로 줄바꿈 */
     }
 
     .slick-class {
@@ -220,7 +224,7 @@
     .container__main {
 
         display: flex;
-        height: calc(900px - 100px);
+        height: calc(950px - 100px);
         margin-top: 50px;
         margin-left: auto;
         margin-right: auto;
@@ -262,10 +266,17 @@
         max-width: 258.338px;
     }
 
-    .main__section div div{
+    .main__section div div {
 
         padding: 9px;
         flex: 1;
+    }
+
+    #pageNav {
+
+        align-items: center;
+        justify-content: center;
+        flex-grow: 1;
     }
 
     .main__aside {

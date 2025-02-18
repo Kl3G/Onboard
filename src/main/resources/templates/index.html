@@ -19,7 +19,7 @@
                 Onboard
             </a>
             <a href="/index" style="font-size: 12px;">
-                모두의 보드, 즐거운 여행
+                Everyone's Board, Fun Trip
             </a>
         </div>
         <div class="header__form">
@@ -39,35 +39,35 @@
         <ul class="nav__ul">
             <li style="flex: 0.8;">
                 <div>
-                    <a href="/world/asia?place=1">아시아</a>
+                    <a href="/world/asia?place=1">アジア</a>
                 </div>
             </li>
             <li style="flex: 0.65;">
                 <div>
-                    <a href="/world/europe?place=2">유럽</a>
+                    <a href="/world/europe?place=2">ヨーロッパ</a>
                 </div>
             </li>
             <li>
                 <div>
-                    <a href="/world/northAmerica?place=3">북아메리카</a>
+                    <a href="/world/northAmerica?place=3">北アメリカ</a>
                 </div>
             </li>
             <li>
                 <div>
-                    <a href="/world/southAmerica?place=4">남아메리카</a>
+                    <a href="/world/southAmerica?place=4">南アメリカ</a>
                 </div>
             </li>
             <li >
                 <div>
-                    <a href="/world/oceania?place=5">오세아니아</a>
+                    <a href="/world/oceania?place=5">オセアニア</a>
                 </div>
             </li>
         </ul>
         <div class="slick-class">
             <!-- th:text는 CSS는 그대로 적용되지만 HTML 태그는 단순 텍스트로 처리됩니다. -->
-            <div th:utext="'전체보드&#8201;&#8201;' + ${boardCount} + '개'"> 전체보드수</div>
-            <div th:utext="'전체게시글&#8201;&#8201;' + ${postCount} + '개'"> 전체게시글수</div>
-            <div th:utext="'전체댓글&#8201;&#8201;' + ${commentsCount} + '개'"> 전체댓글수</div>
+            <div th:utext="'全ボード数&#8201;&#8201;' + ${boardCount} + 'ボード'"> 全ボード数</div>
+            <div th:utext="'全投稿数&#8201;&#8201;' + ${postCount} + '件'"> 全投稿数</div>
+            <div th:utext="'全コメント数&#8201;&#8201;' + ${commentsCount} + '件'"> 全コメント数</div>
         </div>
     </div>
 </nav>
@@ -82,7 +82,7 @@
                 </div>
                 <div style="flex: 1; padding: 3px; justify-content: flex-end;">
                     <button class="button__boardCreate" type="button" onclick="location.href='/createBoard'">
-                        보드  만들기
+                        ボードを作成する
                     </button>
                 </div>
             </div>
@@ -121,7 +121,7 @@
                 </div>
             </div>
             <div class="main__divBotTitle" style="gap: 8px;">
-                <span>최근 등록 보드</span>
+                <span>最近作成したボード</span>
                 <i class="fa-solid fa-check" style="color: #ff9900; font-weight: bold; font-size: 20px;"></i>
             </div>
             <div style="flex: 17.5;">
@@ -153,24 +153,24 @@
                         </div>
                         <div class="aside__loginRight">
                             <button>
-                                로그인
+                                ログイン
                             </button>
                         </div>
                     </fieldset>
                 </form>
                 <div th:unless="${session.userid != null}" class="aside__loginFormUnder">
-                    <a id="join" href="/join">회원가입</a>
+                    <a id="join" href="/join">会員登録</a>
                     <p>ㅣ</p>
-                    <a id="find" href="/findId">아이디 or 비밀번호 찾기</a>
+                    <a id="find" href="/findId">ID・PWをお忘れの方</a>
                 </div>
                 <!-- 로그인 후 보이는 박스 -->
                 <div th:if="${session.userid != null}" class="aside__userInfo">
-                    <span>안녕하세요!</span><br><span style= "font-weight: bold;" th:text="${session.nick}"></span>님
+                    <span>こんにちは!</span><br><span style= "font-weight: bold;" th:text="${session.nick}"></span>さん
                 </div>
                 <div th:if="${session.userid != null}" class="aside__loginFormUnder">
-                    <a id="logoutBtn" href="/index/logout">로그아웃</a>
+                    <a id="logoutBtn" href="/index/logout">ログアウト</a>
                     <p>ㅣ</p>
-                    <a id="modifyBtn" href="/infoModifyPwdCheck">회원정보수정</a>
+                    <a id="modifyBtn" href="/infoModifyPwdCheck">会員情報更新</a>
                 </div>
             </div>
             <div style="flex: 5; display: flex; flex-direction: column;">
@@ -187,19 +187,11 @@
     <div>
         <ul class="footer__ul">
             <li style="min-width: 65px;">
-                회사소개
+                会社概要
                 <span>|</span>
             </li>
             <li style="min-width: 65px;">
-                이용약관
-                <span>|</span>
-            </li>
-            <li style="min-width: 112px;">
-                개인정보처리방침
-                <span>|</span>
-            </li>
-            <li style="min-width: 100px;">
-                청소년보호정책
+                利用規約
             </li>
         </ul>
     </div>

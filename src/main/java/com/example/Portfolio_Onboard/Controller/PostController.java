@@ -249,7 +249,7 @@ public class PostController {
 
         model.addAttribute("boardInfo", serviceWorld.boardInfo(bidx));
         // index.html 파일에서 생성한 url의 파라미터를 model로 board에 전달해 준다.
-        model.addAttribute("postList", serviceWorld.postList(bidx));
+        //model.addAttribute("postList", serviceWorld.postList(bidx, pageable));
         // 보드의 게시글 리스트 출력
 
         Optional<EntityFiles> getFiles = repoFiles.findById(pidx);

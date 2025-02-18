@@ -62,11 +62,6 @@
                     <a href="/world/oceania?place=5">오세아니아</a>
                 </div>
             </li>
-            <li>
-                <div>
-                    <a href="/notice">공지사항</a>
-                </div>
-            </li>
         </ul>
         <div class="slick-class">
             <div th:utext="'전체보드&#8201;&#8201;' + ${boardCount} + '개'"> 전체보드수</div>
@@ -109,28 +104,28 @@
             </div>
             <table>
                 <colgroup>
-                    <col style="width:7%">
-                    <col style="width:6%">
-                    <col style="width:51%">
-                    <col style="width:18%">
-                    <col style="width:6%">
-                    <col style="width:6%">
-                    <col style="width:6%">
+                    <col style="width:7%;">
+                    <col style="width:8%;">
+                    <col style="width:50%;">
+                    <col style="width:18%;">
+                    <col style="width:6%;">
+                    <col style="width:6%;">
+                    <col style="width:5%;">
                 </colgroup>
                 <thead>
                     <tr>
-                        <th scope="col">번호</th>
-                        <th scope="col">말머리</th>
-                        <th scope="col">제목</th>
-                        <th scope="col">글쓴이</th>
-                        <th scope="col">작성일</th>
-                        <th scope="col">조회</th>
-                        <th scope="col">추천</th>
+                        <th scope="col">No.</th>
+                        <th scope="col">カテゴリー</th>
+                        <th scope="col">タイトル</th>
+                        <th scope="col">作成者</th>
+                        <th scope="col">作成日</th>
+                        <th scope="col">閲覧数</th>
+                        <th scope="col">いいね</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr th:each="post : ${postList}">
-                        <td> number </td>
+                <tr th:each="post, iter : ${postList}">
+                        <td th:text="${totalPosts - ((currentPage - 1) * pageSize) - iter.index}">number</td>
                         <td th:switch="${post.category}" style="font-weight: bold;">
                             <span th:case="'1'">일반</span>
                             <span th:case="'2'">뉴스</span>
@@ -146,6 +141,25 @@
                     </tr>
                 </tbody>
             </table>
+            <div id="pageNav">
+                <!-- 이전 페이지 링크 -->
+                <a th:if="${currentPage > 1}"
+                   th:href="@{'/board'(bidx=${boardInfo.bidx}, page=${currentPage - 1})}">이전
+                </a>
+
+                <!-- 페이지 번호 출력 -->
+                <span th:each="i : ${#numbers.sequence(1, totalPages)}">
+                    <a th:if="${i != currentPage}"
+                       th:href="@{'/board'(bidx=${boardInfo.bidx}, page=${i})}"
+                       th:text="${i}"></a>
+                    <b th:if="${i == currentPage}" th:text="${i}"></b>
+                </span>
+
+                <!-- 다음 페이지 링크 -->
+                <a th:if="${currentPage < totalPages}"
+                   th:href="@{'/board'(bidx=${boardInfo.bidx}, page=${currentPage + 1})}">다음
+                </a>
+            </div>
         </section>
 
         <aside class="main__aside">
@@ -193,19 +207,11 @@
     <div>
         <ul class="footer__ul">
             <li style="min-width: 65px;">
-                회사소개
+                会社概要
                 <span>|</span>
             </li>
             <li style="min-width: 65px;">
-                이용약관
-                <span>|</span>
-            </li>
-            <li style="min-width: 112px;">
-                개인정보처리방침
-                <span>|</span>
-            </li>
-            <li style="min-width: 100px;">
-                청소년보호정책
+                利用規約
             </li>
         </ul>
     </div>

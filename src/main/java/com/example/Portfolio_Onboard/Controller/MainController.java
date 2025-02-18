@@ -7,6 +7,10 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -280,23 +284,55 @@ public class MainController {
     // ----------------------------------------------------------
 
     @GetMapping("/board")
-    public String getBoard(@RequestParam("bidx") Long bidx, Model model){
+    public String getBoard(@RequestParam("bidx") Long bidx,
+                           @RequestParam(value="page", defaultValue="1") int page,
+                           Model model){
     // /board?bidx=1 처럼 url에 포함시킨 데이터를 받기 위해 @RequestParam 를 사용했다.
 
         DTOBoardInfo boardInfo = serviceWorld.boardInfo(bidx);
         String regdate = String.valueOf(boardInfo.getRegdate());
-        String date = regdate.substring(0,10);
-        // 연월일, regdate의 0번째 문자부터 출력하고 10번째 문자부터 출력하지 않고 자른다.
+        String date = regdate.substring(0,10); // 연월일, regdate의 0번째 문자부터 출력하고 10번째 문자부터 출력하지 않고 자른다.
+
+
+        // 페이징 코드
+        int pageSize = 20;
+        Pageable pageable = PageRequest.of(page - 1, pageSize, Sort.by("pidx").descending());
+        // Spring Data JPA의 페이지는 0부터 시작하므로, page 값에서 1을 빼준다.
+        // PageRequest.of(page, size) PageRequest.of(page, size) 형태로 사용한다.
+        // page: 가져올 페이지 번호 (0부터 시작)
+        // size: 한 페이지에 포함할 데이터 개수
+
+        Page<DTOPostView> postPage = serviceWorld.postList(bidx, pageable);
+        // postPage 자체는 Page 타입이고, 그 안에 담긴 각각의 데이터는 DTOPostView 타입이다.
+
+        int totalPages = postPage.getTotalPages();
+        // 전체 페이지 개수를 반환하는 메서드
+        // 예를 들어 데이터가 50개 있고 size=10으로 요청했다면, totalPages = 5가 됨.
+
+        if(totalPages == 0) {
+
+            totalPages = 1;
+        }
+
+        // 현재 페이지의 게시글 목록
+        model.addAttribute("postList", postPage.getContent()); // 20개의 데이터만 담고 있다.
+
+        // 페이징 관련 정보 전달
+        model.addAttribute("currentPage", postPage.getNumber() + 1); // 1부터 보이게 하기 위해 +1
+        model.addAttribute("totalPages", totalPages); // // 전체 페이지 개수를 반환.
+        model.addAttribute("totalPosts", postPage.getTotalElements()); // 페이징에 상관없이 전체 레코드의 갯수를 반환.
+        model.addAttribute("pageSize", pageSize);  // 템플릿에서 내림차순 번호 계산에 사용.
+        // -------------------------------------------------------------------------------------
 
         model.addAttribute("commentsCount", serviceWorld.countComments()); // 전체댓글수
         model.addAttribute("postCount", serviceWorld.countPost());
         model.addAttribute("boardCount", serviceWorld.countBoard());
         model.addAttribute("date", date);
-        log.error(String.valueOf(boardInfo));
         model.addAttribute("boardInfo", serviceWorld.boardInfo(bidx));
         // index.html 파일에서 생성한 url의 파라미터를 model로 board에 전달해 준다.
-        model.addAttribute("postList", serviceWorld.postList(bidx));
+        model.addAttribute("postList", serviceWorld.postList(bidx, pageable));
         // 보드의 게시글 리스트 출력
+
         return "board";
     }
 

@@ -13,7 +13,11 @@ import com.example.Portfolio_Onboard.Repository.RepoMemberInfo;
 import com.example.Portfolio_Onboard.Repository.RepoPost;
 import com.example.Portfolio_Onboard.Repository.RepoWorld;
 import lombok.extern.slf4j.Slf4j;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+
 
 import java.util.List;
 import java.util.Optional;
@@ -125,29 +129,29 @@ public class ServiceWorldImpl implements ServiceWorld {
     }
 
     @Override
-    public List<DTOPostView> postList(Long bidx) {
+    public Page<DTOPostView> postList(Long bidx, Pageable pageable) {
 
-        List<EntityPost> posts = null;
-        posts = repoPost.findByBoard_Bidx(bidx);
+        Page<EntityPost> postsPage  = null;
+        postsPage  = repoPost.findByBoard_Bidx(bidx, pageable);
 
-        List<DTOPostView> postList = null;
-        postList = posts.stream()
-            .map((EntityPost post) -> {
-                DTOPostView view = new DTOPostView();
-                view.setPidx(post.getPidx());
-                view.setBidx(post.getBoard().getBidx());
-                view.setCategory(post.getCategory());
-                view.setNick(post.getNick());
-                view.setUserip(post.getUserip());
-                view.setTitle(post.getTitle());
-                view.setRegdate(post.getRegdate());
-                view.setView_count(post.getView_count());
-                view.setGood_count(post.getGood_count());
-                return view;
-            })
-            .collect(Collectors.toList());
+        Page<DTOPostView> dtoPage = postsPage.map(post -> {
 
-        return postList;
+            DTOPostView view = new DTOPostView();
+
+            view.setPidx(post.getPidx());
+            view.setBidx(post.getBoard().getBidx());
+            view.setCategory(post.getCategory());
+            view.setNick(post.getNick());
+            view.setUserip(post.getUserip());
+            view.setTitle(post.getTitle());
+            view.setRegdate(post.getRegdate());
+            view.setView_count(post.getView_count());
+            view.setGood_count(post.getGood_count());
+
+            return view;
+        });
+
+        return dtoPage;
     }
 
     @Override

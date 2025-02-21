@@ -158,6 +158,17 @@
         flex-grow: 1;
     }
 
+    .nav__ul li div {
+
+        text-align: center;
+    }
+
+    .nav__ul li:nth-child(1) div,
+    .nav__ul li:nth-child(2) div {
+
+        text-align: left; /* 왼쪽 정렬 */
+    }
+
     .nav__ul li {
 
         flex: 1;
@@ -328,7 +339,7 @@
 
     footer {
 
-        margin-top: 50px;
+        margin-top: 150px;
         position: relative;
         bottom: 20px;
         width: 100%;

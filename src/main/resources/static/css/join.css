@@ -15,6 +15,11 @@ p {
     color: #666666;
 }
 
+#policy {
+
+    font-weight: bold;
+}
+
 input {
 
     width: 400px; height: 35px;

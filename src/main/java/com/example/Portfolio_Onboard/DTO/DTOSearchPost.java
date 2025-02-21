@@ -1,0 +1,4 @@
+package com.example.Portfolio_Onboard.DTO;
+
+public class DTOSearchPost {
+}

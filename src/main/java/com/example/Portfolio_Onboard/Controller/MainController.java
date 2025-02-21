@@ -2,6 +2,8 @@ package com.example.Portfolio_Onboard.Controller;
 
 import com.example.Portfolio_Onboard.DTO.*;
 import com.example.Portfolio_Onboard.Entity.EntityMemberInfo;
+import com.example.Portfolio_Onboard.Entity.EntityPost;
+import com.example.Portfolio_Onboard.Entity.EntityWorld;
 import com.example.Portfolio_Onboard.Service.*;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
@@ -24,6 +26,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Collections;
 import java.util.List;
 
 @Log4j2
@@ -36,15 +39,17 @@ public class MainController {
     private final ServiceFindId serviceFindId;
     private final ServiceFindPwd serviceFindPwd;
     private final ServiceModifyInfo serviceModifyInfo;
+    private final ServiceSearch serviceSearch;
 
     @Autowired
-    MainController(ServiceJoin serviceJoin, ServiceWorld serviceWorld, ServiceFindId serviceFindId, ServiceFindPwd serviceFindPwd, ServiceModifyInfo serviceModifyInfo){
+    MainController(ServiceJoin serviceJoin, ServiceWorld serviceWorld, ServiceFindId serviceFindId, ServiceFindPwd serviceFindPwd, ServiceModifyInfo serviceModifyInfo, ServiceSearch serviceSearch){
 
         this.serviceJoin = serviceJoin;
         this.serviceWorld = serviceWorld;
         this.serviceFindId = serviceFindId;
         this.serviceFindPwd = serviceFindPwd;
         this.serviceModifyInfo = serviceModifyInfo;
+        this.serviceSearch = serviceSearch;
     }
 
     @GetMapping("/index")
@@ -70,6 +75,64 @@ public class MainController {
 
         return serviceJoin.setJoin(dtoJoin);
     }
+
+    // 검색 기능 구현
+    @PostMapping("/search_proc")
+    public String setSearchResult(@RequestParam("keyword") String keyword,
+                                  RedirectAttributes redirectAttributes){
+
+        redirectAttributes.addAttribute("keyword", keyword);
+
+        return "redirect:/searchResult";
+    }
+
+    @GetMapping("/searchResult")
+    public String getSearchResult(@RequestParam("keyword") String keyword, Model model){
+
+
+        List<EntityWorld> boards = serviceSearch.setSearchResultBoard(keyword);
+        List<EntityWorld> limitedBoards = boards.size() > 10 ? boards.subList(0, 10) : boards;
+        // 리스트에서 0번 인덱스부터 9번 인덱스까지(총 10개 요소)를 새로운 서브 리스트로 반환한다.
+        model.addAttribute("boards", boards);
+
+        List<EntityPost> posts = serviceSearch.setSearchResultPost(keyword);
+        List<EntityPost> limitedPosts = posts.size() > 10 ? posts.subList(0, 10) : posts;
+        // 리스트에서 0번 인덱스부터 9번 인덱스까지(총 10개 요소)를 새로운 서브 리스트로 반환한다.
+        model.addAttribute("posts", posts);
+
+
+        model.addAttribute("keyword", keyword);
+
+        return "searchResult";
+    }
+    // ---------------------------------------------------------
+
+
+    // 보드, 포스트 검색 결과 더보기
+    @GetMapping("/moreBoard")
+    public String getMoreBoard(@RequestParam("keyword") String keyword, Model model){
+
+        List<EntityWorld> boards = serviceSearch.setSearchResultBoard(keyword);
+        List<EntityWorld> limitedBoards = boards.size() > 10 ? boards.subList(0, 10) : boards;
+        // 리스트에서 0번 인덱스부터 9번 인덱스까지(총 10개 요소)를 새로운 서브 리스트로 반환한다.
+
+        model.addAttribute("boards", boards);
+
+        return "moreBoard";
+    }
+
+    @GetMapping("/morePost")
+    public String getMorePost(@RequestParam("keyword") String keyword, Model model){
+
+        List<EntityPost> posts = serviceSearch.setSearchResultPost(keyword);
+        List<EntityPost> limitedPosts = posts.size() > 10 ? posts.subList(0, 10) : posts;
+        // 리스트에서 0번 인덱스부터 9번 인덱스까지(총 10개 요소)를 새로운 서브 리스트로 반환한다.
+
+        model.addAttribute("posts", posts);
+
+        return "morePost";
+    }
+    // ---------------------------------------------------------
 
 
     // 아이디 찾기

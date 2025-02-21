@@ -19,7 +19,7 @@
             Onboard
           </a>
           <a href="/index" style="font-size: 12px;">
-            모두의 보드, 즐거운 여행
+            Everyone's Board, Fun Trip
           </a>
         </div>
         <div class="header__form">
@@ -38,39 +38,35 @@
         <ul class="nav__ul">
           <li style="flex: 0.8;">
             <div>
-              <a href="/world/asia?place=1">아시아</a>
+              <a href="/world/asia?place=1">アジア</a>
             </div>
           </li>
-          <li style="flex: 0.65;">
+          <li style="flex: 0.8;">
             <div>
-              <a href="/world/europe?place=2">유럽</a>
-            </div>
-          </li>
-          <li>
-            <div>
-              <a href="/world/northAmerica?place=3">북아메리카</a>
+              <a href="/world/europe?place=2">ヨーロッパ</a>
             </div>
           </li>
           <li>
             <div>
-              <a href="/world/southAmerica?place=4">남아메리카</a>
+              <a href="/world/northAmerica?place=3">北アメリカ</a>
+            </div>
+          </li>
+          <li>
+            <div>
+              <a href="/world/southAmerica?place=4">南アメリカ</a>
             </div>
           </li>
           <li >
             <div>
-              <a href="/world/oceania?place=5">오세아니아</a>
-            </div>
-          </li>
-          <li>
-            <div>
-              <a href="/notice">공지사항</a>
+              <a href="/world/oceania?place=5">オセアニア</a>
             </div>
           </li>
         </ul>
         <div class="slick-class">
-          <div th:utext="'전체보드&#8201;&#8201;' + ${boardCount} + '개'"> 전체보드수</div>
-          <div th:utext="'전체게시글&#8201;&#8201;' + ${postCount} + '개'"> 전체게시글수</div>
-          <div th:utext="'전체댓글&#8201;&#8201;' + ${commentsCount} + '개'"> 전체댓글수</div>
+          <!-- th:text는 CSS는 그대로 적용되지만 HTML 태그는 단순 텍스트로 처리됩니다. -->
+          <div th:utext="'全ボード数&#8201;&#8201;' + ${boardCount} + 'ボード'"> 全ボード数</div>
+          <div th:utext="'全投稿数&#8201;&#8201;' + ${postCount} + '件'"> 全投稿数</div>
+          <div th:utext="'全コメント数&#8201;&#8201;' + ${commentsCount} + '件'"> 全コメント数</div>
         </div>
       </div>
     </nav>
@@ -91,7 +87,7 @@
             <form action="/modifyPost" method="get" style="display: flex; flex-direction: column;"
                   onsubmit="checkPassword(event, 'modify')">
               <div style="display: flex; justify-content: center; margin-bottom: 15px;">
-                <span>비밀번호를 입력하세요.</span>
+                <span>パスワードを入力してください。</span>
               </div>
               <div style="margin-bottom: 15px; display: flex; justify-content: center; ">
                 <input type="hidden" id="userid" th:value="${userid}">
@@ -100,8 +96,8 @@
                 <input type="password" id="ppwd" style="height: 30px; width: 180px; border: 1px solid #d5d5d5; padding: 5px 10px;">
               </div>
               <div style="display: flex; justify-content: center; gap: 15px;">
-                <button style="background-color: #666666;" onclick="history.back()">취소</button>
-                <button type="submit">확인</button>
+                <button style="background-color: #666666;" onclick="history.back()">キャンセル</button>
+                <button type="submit">確認</button>
               </div>
             </form>
           </div>

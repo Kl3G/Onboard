@@ -19,7 +19,7 @@
                 Onboard
             </a>
             <a href="/index" style="font-size: 12px;">
-                모두의 보드, 즐거운 여행
+                Everyone's Board, Fun Trip
             </a>
         </div>
         <div class="header__form">
@@ -39,93 +39,89 @@
         <ul class="nav__ul">
             <li style="flex: 0.8;">
                 <div>
-                    <a href="/world/asia?place=1">아시아</a>
+                    <a href="/world/asia?place=1">アジア</a>
                 </div>
             </li>
-            <li style="flex: 0.65;">
+            <li style="flex: 0.8;">
                 <div>
-                    <a href="/world/europe?place=2">유럽</a>
-                </div>
-            </li>
-            <li>
-                <div>
-                    <a href="/world/northAmerica?place=3">북아메리카</a>
+                    <a href="/world/europe?place=2">ヨーロッパ</a>
                 </div>
             </li>
             <li>
                 <div>
-                    <a href="/world/southAmerica?place=4">남아메리카</a>
+                    <a href="/world/northAmerica?place=3">北アメリカ</a>
+                </div>
+            </li>
+            <li>
+                <div>
+                    <a href="/world/southAmerica?place=4">南アメリカ</a>
                 </div>
             </li>
             <li >
                 <div>
-                    <a href="/world/oceania?place=5">오세아니아</a>
-                </div>
-            </li>
-            <li>
-                <div>
-                    <a href="/notice">공지사항</a>
+                    <a href="/world/oceania?place=5">オセアニア</a>
                 </div>
             </li>
         </ul>
         <div class="slick-class">
-            <div th:utext="'전체보드&#8201;&#8201;' + ${boardCount} + '개'"> 전체보드수</div>
-            <div th:utext="'전체게시글&#8201;&#8201;' + ${postCount} + '개'"> 전체게시글수</div>
-            <div th:utext="'전체댓글&#8201;&#8201;' + ${commentsCount} + '개'"> 전체댓글수</div>
+            <!-- th:text는 CSS는 그대로 적용되지만 HTML 태그는 단순 텍스트로 처리됩니다. -->
+            <div th:utext="'全ボード数&#8201;&#8201;' + ${boardCount} + 'ボード'"> 全ボード数</div>
+            <div th:utext="'全投稿数&#8201;&#8201;' + ${postCount} + '件'"> 全投稿数</div>
+            <div th:utext="'全コメント数&#8201;&#8201;' + ${commentsCount} + '件'"> 全コメント数</div>
         </div>
     </div>
 </nav>
 
 <main>
     <section style="margin-bottom: 100px;">
-        <div class="TitleDiv__section">보드 만들기</div>
+        <div class="TitleDiv__section">ボード開設</div>
         <div class="RuleDiv__section">
             <div class="TopDiv__RuleDiv">
-                <p>누구나 보드를 만들 수 있습니다.</p>
-                <p>보드의 운영 권한 및 의무는 개설자에게 부여됩니다.</p>
-                <p>보드는 3개까지 개설할 수 있습니다.</p>
+                <p>誰でもボードを作成できます。</p>
+                <p>ボードの運営権限および義務は、開設者に付与されます。</p>
+                <p>ボードは最大3つまで開設できます。</p>
             </div>
             <div class="BottomDiv__RuleDiv">
                 <p style="line-height: 1.5;">
-                [모든 이용자가 지켜야 하는 원칙]<br>
-                모든 이용자는 보드 주제에 맞는 정상적인 활동을 해주셔야 합니다.<br>
-                온보드 서비스에 등록하는 모든 콘텐츠의 저작권은 게시한 이용자 본인에게 있으며,<br>
-                이로 인해 발생되는 문제에 대해서도 해당 게시물을 게시한 이용자에게 책임이 있습니다.<br>
-                모든 이용자는 이용약관 및 운영원칙을 준수해야 하며,<br>
-                이를 지키지 않아 발생하는 문제에 대해 일체의 책임을 져야 합니다.
+                [全ての利用者が守るべき原則]<br>
+                全ての利用者は、ボードのテーマに沿った適切な活動を行う必要があります。<br>
+                オンボードサービスに登録される全てのコンテンツの著作権は、投稿した利用者本人に帰属し、<br>
+                これにより発生する問題についても、該当の投稿を行った利用者が責任を負います。<br>
+                全ての利用者は、利用規約および運営原則を遵守しなければならず、<br>
+                これを守らなかったことにより発生する問題について、一切の責任を負わなければなりません。
                 </p>
             </div>
         </div>
         <form action="/createBoard_proc" method="post">
             <fieldset>
-                <legend>보드 만들기</legend>
+                <legend>ボード開設</legend>
                 <input type="hidden" id="userid" name="userid" th:value="${userid}">
                 <input type="hidden" id="nick" name="nick" th:value="${nick}">
                 <div class="worldGroup div">
-                    <div class="title">지역</div>
+                    <div class="title">地域</div>
                     <select id="place" name="place">
-                        <option id="asia" value="1">아시아</option>
-                        <option id="europe" value="2">유럽</option>
-                        <option id="northAmerica" value="3">북아메리카</option>
-                        <option id="southAmerica" value="4">남아메리카</option>
-                        <option id="oceania" value="5">오세아니아</option>
+                        <option id="asia" value="1">アジア</option>
+                        <option id="europe" value="2">ヨーロッパ</option>
+                        <option id="northAmerica" value="3">北アメリカ</option>
+                        <option id="southAmerica" value="4">南アメリカ</option>
+                        <option id="oceania" value="5">オセアニア</option>
                     </select>
                 </div>
                 <div class="titleGroup div">
-                    <div class="title">이름</div>
+                    <div class="title">タイトル</div>
                     <input type="text" id="b_name" name="b_name">
                 </div>
                 <div class="introGroup div">
-                    <div class="title">설명</div>
+                    <div class="title">説明</div>
                     <textarea type="text" id="intro" name="intro"></textarea>
                 </div>
                 <div class="reasonGroup div" style="margin-bottom: 40px;">
-                    <div class="title">개설 이유</div>
+                    <div class="title">開設理由</div>
                     <textarea type="text" id="reason" name="reason"></textarea>
                 </div>
                 <div class="ButtonDiv__section">
-                    <button>취소</button>
-                    <button style="background-color: #29367c;">만들기</button>
+                    <button>キャンセル</button>
+                    <button style="background-color: #29367c;">開設</button>
                 </div>
             </fieldset>
         </form>

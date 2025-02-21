@@ -2,12 +2,13 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>index</title>
+    <title>moreBoard</title>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://kit.fontawesome.com/b3af913a6d.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css"/>
     <script type="text/javascript" src="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
-    <link rel="stylesheet" href="../css/index.css">
+    <script src="https://kit.fontawesome.com/b3af913a6d.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="/css/searchResult.css">
 </head>
 
 <body>
@@ -23,7 +24,7 @@
             </a>
         </div>
         <div class="header__form">
-            <form action="/search_proc" method="post">
+            <form action="/search" method="get">
                 <input class="header__search" type="text" name="keyword" spellcheck="false">
                 <button class="header__button"type="submit ">
                     <i class="fa-solid fa-magnifying-glass header__icon"></i>
@@ -75,67 +76,12 @@
 <main class="main__main">
     <div class="container__main">
         <section class="main__section">
-            <div class="main__divTop">
-                <div style="gap: 8px;">
-                    <span style="font-size: 16px; color: #29367c; font-weight: bold;">おすすめ</span>
-                    <i class="fa-solid fa-check" style="color: red; font-weight: bold; font-size: 20px;"></i>
-                </div>
-                <div style="flex: 1; padding: 3px; justify-content: flex-end;">
-                    <button class="button__boardCreate" type="button" onclick="location.href='/createBoard'">
-                        ボードを作成する
-                    </button>
-                </div>
-            </div>
-            <div class="main__divMid">
-                <div style="background-image: url(../img/bangkok.jpg);">
-                    <div style="background-color: black; background: rgba(0, 0, 0, 0.7);
-                                color: white; font-size: 12px; font-weight: bold;
-                                width: calc(100% - 18px); height: 30%; padding: 3px 9px 0;
-                                position: absolute; bottom: 9px; left: 9px;">
-                        후기) 방콕의 장점에 대해 자세히 알아보자
-                    </div>
-                </div>
-                <div style="background-image: url(../img/hunza.webp);">
-                    <div style="background-color: black; background: rgba(0, 0, 0, 0.7);
-                                color: white; font-size: 12px; font-weight: bold;
-                                width: calc(100% - 18px); height: 30%; padding: 3px 9px 0;
-                                position: absolute; bottom: 9px; left: 9px;">
-                        메이저 여행사들이 꼽은 최고의 여행지 top10
-                    </div>
-                </div>
-                <div style="background-image: url(../img/asdasd.jpg);">
-                    <div style="background-color: black; background: rgba(0, 0, 0, 0.7);
-                                color: white; font-size: 12px; font-weight: bold;
-                                width: calc(100% - 18px); height: 30%; padding: 3px 9px 0;
-                                position: absolute; bottom: 9px; left: 9px;">
-                        스압) 한여름에 두바이 갔다 온 생생한 후기
-                    </div>
-                </div>
-                <div style="background-image: url(../img/wewe.webp);">
-                    <div style="background-color: black; background: rgba(0, 0, 0, 0.7);
-                                color: white; font-size: 12px; font-weight: bold;
-                                width: calc(100% - 18px); height: 30%; padding: 3px 9px 0;
-                                position: absolute; bottom: 9px; left: 9px;">
-                        숲이 인간에게 주는 여러 장점은 과연 무엇일까?
-                    </div>
-                </div>
-            </div>
-            <div class="main__divBotTitle" style="gap: 8px;">
-                <span>最近作成したボード</span>
-                <i class="fa-solid fa-check" style="color: #ff9900; font-weight: bold; font-size: 20px;"></i>
-            </div>
-            <div style="flex: 17.5;">
-                <div class="custom-div" th:each="i : ${#numbers.sequence(1, 4)}">
-                    <ul>
-                        <li th:each="board, stat : ${boards}"
-                            th:if="${stat.index < (i * 24)} and ${stat.index >= ((i - 1) * 24)}">
-                            <a th:href="@{/board(bidx=${board.bidx})}">
-                                <span th:text="${#strings.length(board.b_name) > 14 ? board.b_name.substring(0, 14) + '...' : board.b_name}"></span>
-                            </a>
-                            <!--board는 DTOBoardView의 객체이고, 그 안에서 bidx 값을 꺼내 url에 파라미터로 넣어준다-->
-                        </li>
-                    </ul>
-                </div>
+            <div id="boardResult">
+                <h3 th:text="'ボード ' + ${boards.size()}"></h3>
+                <p th:each="board : ${boards}" style="margin-bottom: 10px;">
+                    <a id="board_name" th:text="${board.b_name} + ' &#x24D1;'" th:href="@{/board(bidx=${board.bidx}, page=1)}"></a>
+                    <span id="post_count" th:text="'投稿数 ' + ${board.postList.size()}"></span>
+                </p>
             </div>
         </section>
 
@@ -160,12 +106,11 @@
                 </form>
                 <div th:unless="${session.userid != null}" class="aside__loginFormUnder">
                     <a id="join" href="/join">会員登録</a>
-                    <p>ㅣ</p>
                     <a id="find" href="/findId">ID・PWをお忘れの方</a>
                 </div>
                 <!-- 로그인 후 보이는 박스 -->
                 <div th:if="${session.userid != null}" class="aside__userInfo">
-                    <span>こんにちは!</span><br><span style= "font-weight: bold;" th:text="${session.nick}"></span>さん
+                    <span>こんにちは!</span><br><span style= "font-weight: bold;" th:text="${session.nick}"></span>님
                 </div>
                 <div th:if="${session.userid != null}" class="aside__loginFormUnder">
                     <a id="logoutBtn" href="/index/logout">ログアウト</a>
@@ -174,9 +119,9 @@
                 </div>
             </div>
             <div style="flex: 5; display: flex; flex-direction: column;">
-                <div style="flex: 1; background-image: url('../img/fly.jpg'); background-size: cover; background-repeat: no-repeat; background-position: center;">
+                <div style="flex: 1; background-image: url('/img/fly.jpg'); background-size: cover; background-repeat: no-repeat; background-position: center;">
                 </div>
-                <div style="flex: 1; background-image: url('../img/fly3.jpg'); background-size: cover; background-repeat: no-repeat; background-position: center;">
+                <div style="flex: 1; background-image: url('/img/fly3.jpg'); background-size: cover; background-repeat: no-repeat; background-position: center;">
                 </div>
             </div>
         </aside>
@@ -200,6 +145,6 @@
     </div>
 </footer>
 
-<script src="../js/global.js"></script>
+<script src="/js/global.js"></script>
 </body>
 </html>

@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>morePost</title>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://kit.fontawesome.com/b3af913a6d.js" crossorigin="anonymous"></script>
+  <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css"/>
+  <script type="text/javascript" src="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
+  <script src="https://kit.fontawesome.com/b3af913a6d.js" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="/css/searchResult.css">
+</head>
+
+<body>
+
+<header class="main__header">
+  <div class="container__header">
+    <div class="header__logo">
+      <a href="/index">
+        Onboard
+      </a>
+      <a href="/index" style="font-size: 12px;">
+        Everyone's Board, Fun Trip
+      </a>
+    </div>
+    <div class="header__form">
+      <form action="/search" method="get">
+        <input class="header__search" type="text" name="keyword" spellcheck="false">
+        <button class="header__button"type="submit ">
+          <i class="fa-solid fa-magnifying-glass header__icon"></i>
+        </button>
+      </form>
+    </div>
+  </div>
+</header>
+
+
+<nav class="main__nav">
+  <div class="container__nav">
+    <ul class="nav__ul">
+      <li style="flex: 0.8;">
+        <div>
+          <a href="/world/asia?place=1">アジア</a>
+        </div>
+      </li>
+      <li style="flex: 0.8;">
+        <div>
+          <a href="/world/europe?place=2">ヨーロッパ</a>
+        </div>
+      </li>
+      <li>
+        <div>
+          <a href="/world/northAmerica?place=3">北アメリカ</a>
+        </div>
+      </li>
+      <li>
+        <div>
+          <a href="/world/southAmerica?place=4">南アメリカ</a>
+        </div>
+      </li>
+      <li >
+        <div>
+          <a href="/world/oceania?place=5">オセアニア</a>
+        </div>
+      </li>
+    </ul>
+    <div class="slick-class">
+      <!-- th:text는 CSS는 그대로 적용되지만 HTML 태그는 단순 텍스트로 처리됩니다. -->
+      <div th:utext="'全ボード数&#8201;&#8201;' + ${boardCount} + 'ボード'"> 全ボード数</div>
+      <div th:utext="'全投稿数&#8201;&#8201;' + ${postCount} + '件'"> 全投稿数</div>
+      <div th:utext="'全コメント数&#8201;&#8201;' + ${commentsCount} + '件'"> 全コメント数</div>
+    </div>
+  </div>
+</nav>
+
+<main class="main__main">
+  <div class="container__main">
+    <section class="main__section">
+      <div id="postResult">
+        <h3 th:text="'投稿 ' + ${posts.size()}"></h3>
+        <div th:each="post : ${posts}" style="gap: 5px;">
+          <a id="title" th:text="${post.title}" th:href="@{/post(pidx=${post.pidx}, bidx=${post.board.bidx})}"></a>
+          <span id="text" th:text="${post.text}"></span>
+          <p>
+            <a id="b_name" th:text="${post.board.b_name}"
+               th:href="@{/board(bidx=${post.board.bidx}, page=1)}"></a>
+            <span id="reg_date" th:text="${#strings.substring(post.regdate, 0, 16)}"></span>
+          </p>
+          <br>
+        </div>
+      </div>
+    </section>
+
+    <aside class="main__aside">
+      <div class="aside__loginDiv">
+        <!-- 로그인 전 보이는 박스 -->
+        <form th:unless="${session.userid != null}" id="loginForm" class="aside__loginForm" action="/login_proc" method="post">
+          <fieldset>
+            <legend>ログイン</legend>
+            <div class="aside__loginLeft">
+              <input type="text" id="userid" name="username">
+              <input type="password" id="pwd" name="password">
+              <!--<input> 요소는 기본적으로 설정된 최소 크기가 있습니다. 만약 너비나 높이가 설정되지 않으면, Flexbox는 이 기본 크기를 기준으로 계산하게 되는데, 이 경우 flex: 1;이 유효하게 작동하지 않습니다.
+              기본적으로 입력 필드가 너무 작게 설정되면 Flexbox는 해당 요소의 크기를 조정할 수 없게 됩니다.-->
+            </div>
+            <div class="aside__loginRight">
+              <button>
+                ログイン
+              </button>
+            </div>
+          </fieldset>
+        </form>
+        <div th:unless="${session.userid != null}" class="aside__loginFormUnder">
+          <a id="join" href="/join">会員登録</a>
+          <a id="find" href="/findId">ID・PWをお忘れの方</a>
+        </div>
+        <!-- 로그인 후 보이는 박스 -->
+        <div th:if="${session.userid != null}" class="aside__userInfo">
+          <span>こんにちは!</span><br><span style= "font-weight: bold;" th:text="${session.nick}"></span>님
+        </div>
+        <div th:if="${session.userid != null}" class="aside__loginFormUnder">
+          <a id="logoutBtn" href="/index/logout">ログアウト</a>
+          <p>ㅣ</p>
+          <a id="modifyBtn" href="/infoModifyPwdCheck">会員情報更新</a>
+        </div>
+      </div>
+      <div style="flex: 5; display: flex; flex-direction: column;">
+        <div style="flex: 1; background-image: url('/img/fly.jpg'); background-size: cover; background-repeat: no-repeat; background-position: center;">
+        </div>
+        <div style="flex: 1; background-image: url('/img/fly3.jpg'); background-size: cover; background-repeat: no-repeat; background-position: center;">
+        </div>
+      </div>
+    </aside>
+  </div>
+</main>
+
+<footer style="box-sizing: border-box;">
+  <div>
+    <ul class="footer__ul">
+      <li style="min-width: 65px;">
+        会社概要
+        <span>|</span>
+      </li>
+      <li style="min-width: 65px;">
+        利用規約
+      </li>
+    </ul>
+  </div>
+  <div>
+    <span style="font-size: 12px;">Copyright ⓒ 2024 - 2025 ondoard. All rights reserved.</span>
+  </div>
+</footer>
+
+<script src="/js/global.js"></script>
+</body>
+</html>

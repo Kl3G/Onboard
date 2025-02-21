@@ -14,7 +14,7 @@
     </div>
     <div class="divTitle__header">
         <a href="/index">
-        모두의 보드, 즐거운 여행
+            Everyone's Board, Fun Trip
         </a>
     </div>
 </header>
@@ -22,52 +22,52 @@
 <main>
     <section>
         <div class="divTitle__section">
-            <h3 style="color: #29367c;">기본정보입력</h3>
+            <h3 style="color: #29367c;">基本情報入力</h3>
         </div>
         <form class="form__section" action="/join_proc" method="post">
             <fieldset class="fieldset__section">
-                <legend>회원가입</legend>
+                <legend>会員登録</legend>
                 <div class="idGroup__fieldset">
-                    <div class="title__form">아이디</div>
+                    <div class="title__form">ID</div>
                     <div class="msgBox__idGroup msgBox">
-                        <input type="text" id="userid" name="userid" placeholder="아이디를 입력해주세요.">
-                        <p>아이디를 저장해 주세요.</p>
-                        <p style="color: red;">아이디를 저장하지 않을 경우 찾을 수 없습니다.</p>
-                        <p style="color: red;">한 번 등록된 아이디는 변경할 수 없습니다.</p>
+                        <input type="text" id="userid" name="userid" placeholder="IDを入力">
+                        <p>IDを忘れないようにしてください。</p>
+                        <p style="color: red;">IDは後で探すことができません。</p>
+                        <p style="color: red;">一度登録されたIDは変更できません。</p>
                     </div>
                 </div>
                 <div class="pwGroup__fieldset group">
-                    <div class="title__form">비밀번호</div>
+                    <div class="title__form">パスワード</div>
                     <div class="msgBox__pwGroup msgBox">
-                        <input type="password" id="pwd" name="pwd" placeholder="비밀번호를 입력해 주세요.">
-                        <input type="password" placeholder="비밀번호를 재확인해 주세요." style="margin-top: 10px;">
-                        <p>비밀번호 필수 조건</p>
-                        <p>1. 영문, 숫자, 특수문자 조합입니다.</p>
-                        <p>2. 8~20자입니다.</p>
+                        <input type="password" id="pwd" name="pwd" placeholder="パスワードを入力">
+                        <input type="password" placeholder="パスワードを再入力" style="margin-top: 10px;">
+                        <p id="policy">パスワードポリシー</p>
+                        <p>1. 英字、数字、記号を組み合わせなければいけません。</p>
+                        <p>2. 8から20文字の文字列を使用してください。</p>
                     </div>
                 </div>
                 <div class="nickGroup__fieldset group">
-                    <div class="title__form">닉네임</div>
+                    <div class="title__form">ニックネーム</div>
                     <div class="msgBox__nickGroup msgBox">
-                        <input type="text" id="nick" name="nick" placeholder="닉네임을 입력해 주세요.">
-                        <p>2~15자 닉네임을 입력해 주세요.  (띄어쓰기는 할 수 없습니다.)</p>
+                        <input type="text" id="nick" name="nick" placeholder="ニックネームを入力">
+                        <p>ニックネーム（2から15文字）を入力してください。  <br>※スペースは使用できません。</p>
                         <p></p>
                     </div>
                 </div>
                 <div class="mailGroup__fieldset group">
-                    <div class="title__form">메일</div>
+                    <div class="title__form">メールアドレス</div>
                     <div class="msgBox__mailGroup msgBox">
-                        <input type="text" id="mail" name="mail" placeholder="메일을 입력해 주세요.">
-                        <input type="text" placeholder="메일을 재확인해 주세요." style="margin-top: 10px;">
+                        <input type="text" id="mail" name="mail" placeholder="メールアドレスを入力">
+                        <input type="text" placeholder="メールアドレスを再入力" style="margin-top: 10px;">
                     </div>
                 </div>
             </fieldset>
             <div class="divButton__section" style="display: flex; justify-content: center; gap: 50px; margin-top: 30px;">
                 <button>
-                    취소
+                    キャンセル
                 </button>
                 <button type="submit" style="background-color: #29367c;">
-                    완료
+                    登録
                 </button>
             </div>
         </form>

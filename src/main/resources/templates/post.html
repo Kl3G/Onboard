@@ -7,6 +7,7 @@
   <script src="https://kit.fontawesome.com/b3af913a6d.js" crossorigin="anonymous"></script>
   <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css"/>
   <script type="text/javascript" src="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
+  <script src="https://kit.fontawesome.com/b3af913a6d.js" crossorigin="anonymous"></script>
   <link rel="stylesheet" href="/css/post.css">
 </head>
 
@@ -19,7 +20,7 @@
         Onboard
       </a>
       <a href="/index" style="font-size: 12px;">
-        모두의 보드, 즐거운 여행
+        Everyone's Board, Fun Trip
       </a>
     </div>
     <div class="header__form">
@@ -39,39 +40,35 @@
     <ul class="nav__ul">
       <li style="flex: 0.8;">
         <div>
-          <a href="/world/asia?place=1">아시아</a>
+          <a href="/world/asia?place=1">アジア</a>
         </div>
       </li>
-      <li style="flex: 0.65;">
+      <li style="flex: 0.8;">
         <div>
-          <a href="/world/europe?place=2">유럽</a>
-        </div>
-      </li>
-      <li>
-        <div>
-          <a href="/world/northAmerica?place=3">북아메리카</a>
+          <a href="/world/europe?place=2">ヨーロッパ</a>
         </div>
       </li>
       <li>
         <div>
-          <a href="/world/southAmerica?place=4">남아메리카</a>
+          <a href="/world/northAmerica?place=3">北アメリカ</a>
+        </div>
+      </li>
+      <li>
+        <div>
+          <a href="/world/southAmerica?place=4">南アメリカ</a>
         </div>
       </li>
       <li >
         <div>
-          <a href="/world/oceania?place=5">오세아니아</a>
-        </div>
-      </li>
-      <li>
-        <div>
-          <a href="/notice">공지사항</a>
+          <a href="/world/oceania?place=5">オセアニア</a>
         </div>
       </li>
     </ul>
     <div class="slick-class">
-      <div th:utext="'전체보드&#8201;&#8201;' + ${boardCount} + '개'"> 전체보드수</div>
-      <div th:utext="'전체게시글&#8201;&#8201;' + ${postCount} + '개'"> 전체게시글수</div>
-      <div th:utext="'전체댓글&#8201;&#8201;' + ${commentsCount} + '개'"> 전체댓글수</div>
+      <!-- th:text는 CSS는 그대로 적용되지만 HTML 태그는 단순 텍스트로 처리됩니다. -->
+      <div th:utext="'全ボード数&#8201;&#8201;' + ${boardCount} + 'ボード'"> 全ボード数</div>
+      <div th:utext="'全投稿数&#8201;&#8201;' + ${postCount} + '件'"> 全投稿数</div>
+      <div th:utext="'全コメント数&#8201;&#8201;' + ${commentsCount} + '件'"> 全コメント数</div>
     </div>
   </div>
 </nav>
@@ -80,7 +77,9 @@
   <div class="postBox__main">
     <div style="margin: 0 25px 0 25px;">
       <div class="main__divTop">
-        <div th:text="${boardInfo.b_name}"></div>
+        <div>
+          <a th:text="${boardInfo.b_name}" th:href="@{/board(bidx=${boardInfo.bidx}, page=1)}"></a>
+        </div>
         <div>
           <span style="position: relative; bottom: 2px; color: #29367c; padding: 0;">&#x24D1;</span>
           <!--보드 이름 옆의 B 아이콘 출력-->
@@ -89,7 +88,7 @@
 
       <div class="postTitle__main">
         <div style="font-size: 14px; font-weight: bold;">
-          <span th:text="${post.category == '1' ? '[일반]' : (post.category == '2' ? '[뉴스]' : (post.category == '3' ? '[공지]' : '기타')) }">게시글 제목</span>
+          <span th:text="${post.category == '1' ? '[一般]' : (post.category == '2' ? '[ニュース]' : (post.category == '3' ? '[告知]' : 'その他')) }">게시글 제목</span>
           <span th:text="${post.title}"></span>
         </div>
         <div style="font-size: 13px;">
@@ -106,7 +105,7 @@
       <!--첨부 파일-->
       <div class="postFiles__main" style="border: 1px solid #d5d5d5; height: 60px; box-sizing: border-box;">
         <div style="padding: 8px 13px 9px; box-sizing: border-box;">
-          <span style="font-size: 12px; font-weight: bold;">원본 첨부파일</span>
+          <span style="font-size: 12px; font-weight: bold;">添付ファイル</span>
           <span style="color: #D31900; font-size: 12px; font-weight: bold;">1</span><br>
           <a th:each="sfile, iterStat : ${sfileList}"
              th:href="@{/download(fileName=${sfile})}"
@@ -119,9 +118,9 @@
 
       <div class="postComment__main">
         <div style="font-weight: bold; font-size: 13px; height: 38px; padding: 15px 10px 5px 10px; box-sizing: border-box; margin-top: 15px;">
-          <span>전체 댓글</span>
+          <span>コメント</span>
           <span th:text="${commentCount}" style="color: #D31900;"></span>
-          <span>개</span>
+          <span>個</span>
         </div>
         <div>
           <ul style="border:solid #29367c; border-width: 2px 0; list-style: none;">
@@ -153,8 +152,8 @@
                         <input type="hidden" id="bidx" th:value="${comment.post.board.bidx}">
                         <input type="hidden" id="pidx" th:value="${comment.post.pidx}">
                         <input type="hidden" id="cidx" th:value="${comment.cidx}">
-                        <input type="password" id="cpwd" placeholder="비밀번호">
-                        <button type="submit">확인</button>
+                        <input type="password" id="cpwd" placeholder="パスワード">
+                        <button type="submit">確認</button>
                       </form>
                     </div>
                   <!--<button class="deleteButton"
@@ -171,14 +170,14 @@
                           <input type="hidden" name="userid" th:value="${userid}">
                           <input type="hidden" name="nick" th:value="${nick}">
                           <input type="hidden" name="userip" th:value="${userip}">
-                          <input type="text" name="ccpwd" placeholder="비밀번호" style="padding: 1px 7px 1px 7px; box-sizing: box-border; max-width: 126px; height: 28px;">
+                          <input type="text" name="ccpwd" placeholder="パスワード" style="padding: 1px 7px 1px 7px; box-sizing: box-border; max-width: 126px; height: 28px;">
                         </div>
                         <div style="width: 100%;">
                           <textarea name= "text" style="height:106px; width: 100%; resize: none; padding: 10px; box-sizing: border-box;"></textarea>
                         </div>
                       </div>
                       <div style="margin-top: 5px; text-align: right;">
-                        <button style="width: 85px; height: 30px; background-color: #3b4890; font-weight: bold; color: white; border: none;">등록</button>
+                        <button style="width: 85px; height: 30px; background-color: #3b4890; font-weight: bold; color: white; border: none;">投稿</button>
                       </div>
                     </form>
                     <!--대댓글 입력-->
@@ -206,8 +205,8 @@
                       </div>
                       <div id="childCommentDel" style="display: none; top: 0; left: 0; width: 100%; z-index: 1000; padding: 10px;">
                         <form th:action="@{/childCommentDel(ccidx=${childcomment.ccidx})}" method="post">
-                          <input type="password" name="ccpwd" placeholder="비밀번호">
-                          <button>확인</button>
+                          <input type="password" name="ccpwd" placeholder="パスワード">
+                          <button>確認</button>
                         </form>
                       </div>
                     </li>
@@ -227,16 +226,16 @@
               <input type="hidden" name="userid" th:value="${userid}">
               <input type="hidden" name="userip" th:value="${userip}">
               <input type="hidden" name="nick" th:value="${nick}">
-              <input type="password" name="cpwd" placeholder="비밀번호" style="padding: 1px 7px 1px 7px; box-sizing: box-border; max-width: 126px; height: 28px;">
+              <input type="password" name="cpwd" placeholder="パスワード" style="padding: 1px 7px 1px 7px; box-sizing: box-border; max-width: 126px; height: 28px;">
             </div>
             <div style="width: 100%;">
-              <textarea name="text" style="height:106px; width: 100%; resize: none; padding: 10px; box-sizing: border-box" placeholder="타인의 권리를 침해하거나 명예를 훼손하는 댓글은 운영원칙 및 관련 법률에 제재를 받을 수 있습니다.
+              <textarea name="text" style="height:106px; width: 100%; resize: none; padding: 10px; box-sizing: border-box" placeholder="他人の権利を侵害または名誉を毀損するコメントは、運営原則および関連法令により罰せられる可能性があります。
 
-Shift+Enter 키를 동시에 누르면 줄바꿈이 됩니다."></textarea>
+Shift+Enter キーを同時に押すと、改行されます。"></textarea>
             </div>
         </div>
         <div style="margin-top: 5px; text-align: right;">
-            <button style="width: 85px; height: 30px; background-color: #3b4890; font-weight: bold; color: white; border: none;">등록</button>
+            <button style="width: 85px; height: 30px; background-color: #3b4890; font-weight: bold; color: white; border: none;">投稿</button>
         </div>
       </form>
       <!--댓글 입력-->
@@ -244,9 +243,9 @@ Shift+Enter 키를 동시에 누르면 줄바꿈이 됩니다."></textarea>
       <!--게시글 수정 삭제-->
       <div style="margin: 12px 0 36px 0; text-align: right;">
         <button class="modifyButton"
-                th:onclick="|location.href='@{/postModifyPwdCheck(bidx=${post.board.bidx}, pidx=${post.pidx}, userid=${userid})}'|">수정</button>
+                th:onclick="|location.href='@{/postModifyPwdCheck(bidx=${post.board.bidx}, pidx=${post.pidx}, userid=${userid})}'|">修正</button>
         <button class="deleteButton"
-                th:onclick="|location.href='@{/postDelete(bidx=${post.board.bidx}, pidx=${post.pidx}, userid=${userid})}'|">삭제</button>
+                th:onclick="|location.href='@{/postDelete(bidx=${post.board.bidx}, pidx=${post.pidx}, userid=${userid})}'|">削除</button>
       </div>
       <!--게시글 수정 삭제-->
     </div>
@@ -276,12 +275,12 @@ Shift+Enter 키를 동시에 누르면 줄바꿈이 됩니다."></textarea>
         </tr>
         </thead>
         <tbody>
-        <tr th:each="post : ${postList}">
-          <td> number </td>
+        <tr th:each="post, iter : ${postList}">
+          <td th:text="${totalPosts - ((currentPage - 1) * pageSize) - iter.index}">number</td>
           <td th:switch="${post.category}" style="font-weight: bold;">
-            <span th:case="'1'">일반</span>
-            <span th:case="'2'">뉴스</span>
-            <span th:case="'3'">공지</span>
+            <span th:case="'1'">一般</span>
+            <span th:case="'2'">ニュース</span>
+            <span th:case="'3'">告知</span>
           </td>
           <td>
             <a th:href="@{/post(pidx=${post.pidx}, bidx=${post.bidx})}" th:text="${post.title}"></a>
@@ -294,6 +293,31 @@ Shift+Enter 키를 동시에 누르면 줄바꿈이 됩니다."></textarea>
         </tr>
         </tbody>
       </table>
+      <div id="pageNav" th:with="pageBlock=10,
+                startPage=${((currentPage - 1) / pageBlock) * pageBlock + 1},
+                tempEnd=${startPage + pageBlock - 1},
+                endPage=${tempEnd > totalPages ? totalPages : tempEnd}">
+
+        <!-- 이전 블록 링크: 현재 블록의 시작페이지가 1보다 클 때 -->
+        <a th:if="${startPage > 1}"
+           th:href="@{'/board'(bidx=${boardInfo.bidx}, page=${startPage - 1})}">
+          <i class="fa-solid fa-arrow-left"></i>
+        </a>
+
+        <!-- 페이지 번호 출력: 현재 블록의 startPage부터 endPage까지 -->
+        <span th:each="i : ${#numbers.sequence(startPage, endPage)}">
+            <a th:if="${i != currentPage}"
+               th:href="@{'/board'(bidx=${boardInfo.bidx}, page=${i})}"
+               th:text="${i}"></a>
+            <b th:if="${i == currentPage}" th:text="${i}"></b>
+        </span>
+
+        <!-- 다음 블록 링크: 현재 블록의 끝페이지가 전체 페이지 수보다 작을 때 -->
+        <a th:if="${endPage < totalPages}"
+           th:href="@{'/board'(bidx=${boardInfo.bidx}, page=${endPage + 1})}">
+          <i class="fa-solid fa-arrow-right"></i>
+        </a>
+      </div>
     </section>
 
     <aside class="main__aside">
@@ -301,7 +325,7 @@ Shift+Enter 키를 동시에 누르면 줄바꿈이 됩니다."></textarea>
         <!-- 로그인 전 보이는 박스 -->
         <form th:unless="${session.userid != null}" id="loginForm" class="aside__loginForm" action="/login_proc" method="post">
           <fieldset>
-            <legend>로그인</legend>
+            <legend>ログイン</legend>
             <div class="aside__loginLeft">
               <input type="text" id="userid" name="username">
               <input type="password" id="pwd" name="password">
@@ -310,24 +334,24 @@ Shift+Enter 키를 동시에 누르면 줄바꿈이 됩니다."></textarea>
             </div>
             <div class="aside__loginRight">
               <button>
-                로그인
+                ログイン
               </button>
             </div>
           </fieldset>
         </form>
         <div th:unless="${session.userid != null}" class="aside__loginFormUnder">
-          <a id="join" href="/join">회원가입</a>
+          <a id="join" href="/join">会員登録</a>
           <p>ㅣ</p>
-          <a id="find" href="/findId">아이디 or 비밀번호 찾기</a>
+          <a id="find" href="/findId">ID・PWをお忘れの方</a>
         </div>
         <!-- 로그인 후 보이는 박스 -->
         <div th:if="${session.userid != null}" class="aside__userInfo">
-          <span>안녕하세요!</span><br><span style= "font-weight: bold;" th:text="${session.nick}"></span>님
+          <span>こんにちは!</span><br><span style= "font-weight: bold;" th:text="${session.nick}"></span>さん
         </div>
         <div th:if="${session.userid != null}" class="aside__loginFormUnder">
-          <a id="logoutBtn" href="/index/logout">로그아웃</a>
+          <a id="logoutBtn" href="/index/logout">ログアウト</a>
           <p>ㅣ</p>
-          <a id="modifyBtn" href="/index/logout">회원정보수정</a>
+          <a id="modifyBtn" href="/infoModifyPwdCheck">会員情報更新</a>
         </div>
       </div>
       <div style="flex: 5; display: flex; flex-direction: column;">

@@ -278,7 +278,7 @@
     .container__main {
 
         display: flex;
-        height: calc(950px - 100px);
+        height: calc(975px - 100px);
         margin-top: 40px;
         margin-left: auto;
         margin-right: auto;
@@ -306,6 +306,15 @@
 
         padding: 9px;
         flex: 1;
+    }
+
+    #pageNav {
+
+        align-items: center;
+        justify-content: center;
+        max-height: 25px;
+        margin-top: 10px;
+        gap: 10px;
     }
 
     .main__aside {

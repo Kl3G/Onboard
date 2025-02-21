@@ -15,7 +15,7 @@
     </div>
     <div class="divTitle__header">
         <a href="/index">
-            모두의 보드, 즐거운 여행
+            Everyone's Board, Fun Trip
         </a>
     </div>
 </header>
@@ -23,17 +23,17 @@
 <main>
     <section>
         <div id="button_select">
-            <button>아이디 찾기</button>
-            <button id="button_findPwd">비밀번호 재설정</button>
+            <button>IDを探す</button>
+            <button id="button_findPwd">パスワードを再設定する</button>
         </div>
         <div class="divTitle__section">
-            <h3 style="color: #29367c;">아이디 조회 결과</h3>
+            <h3 style="color: #29367c;">ID照会結果</h3>
         </div>
         <form class="form__section" action="/findId_proc" method="post">
             <fieldset class="fieldset__section">
-                <legend>아이디 찾기</legend>
-                <p>입력한 정보와 일치하는 아이디를 확인해 주세요.</p>
-                <p>로그인할 수 있는 아이디가 표시됩니다.</p>
+                <legend>IDを探す</legend>
+                <p>入力した情報と一致するIDをご確認ください。</p>
+                <p>ログイン可能なIDはこちらです。</p>
                 <div class="mailGroup__fieldset group">
                     <div class="msgBox__mailGroup msgBox">
                         <h3 th:text="${userid}"></h3>

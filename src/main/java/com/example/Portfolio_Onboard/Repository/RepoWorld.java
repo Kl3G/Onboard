@@ -23,6 +23,9 @@ public interface RepoWorld extends JpaRepository<EntityWorld, Long> {
     List<DTOBoardView> findByPlace(@Param("place") String place);*/
     List<EntityWorld> findByPlace(@Param("place") String place);
 
+    @Query("SELECT w FROM EntityWorld w WHERE w.b_name LIKE CONCAT('%', :keyword, '%')")
+    List<EntityWorld> findBoardByKeyword(@Param("keyword") String keyword);
+
 /*
     findBy 뒤에 나오는 Property는 반드시 엔티티 클래스의 필드 이름과 정확히 일치해야 합니다, 대소문자도 구분되므로 주의해야 합니다.
     [Property]는 리포지토리 메서드에서 사용하는 속성을 나타내는 자리 표시자입니다.

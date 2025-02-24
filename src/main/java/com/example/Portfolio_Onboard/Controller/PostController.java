@@ -79,14 +79,18 @@ public class PostController {
         InetAddress local = null;
 
         try {
+
             local = InetAddress.getLocalHost();
         } catch ( UnknownHostException e ) {
+
             e.printStackTrace();
         }
 
         if( local == null ) {
+
             String ip = "";
         } else {
+
             String ip = local.getHostAddress();
             model.addAttribute("ip", ip);
         }

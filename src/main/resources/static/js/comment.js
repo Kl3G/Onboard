@@ -85,26 +85,39 @@ document.addEventListener("DOMContentLoaded", function() {
 
 function toggleChildCommentDel(button) {
     const formComment = button.parentElement.nextElementSibling;
+    /*const liElement = button.parentNode.parentNode;
+    const dateBox = liElement.getElementsByTagName("div")[2];*/
 
     if (formComment) {
         // 현재 display 스타일을 확인하여 폼을 보이게 하거나 숨김
         if (formComment.style.display === "none" || formComment.style.display === "") {
+
             formComment.style.display = "block"; // 폼을 보이게 설정
+            //dateBox.style.display = "none";
         } else {
+
             formComment.style.display = "none"; // 폼을 숨기기
+            dateBox.style.display = "block";
         }
     }
 }
 
 function togglecommentDel(button) {
-    const formComment = button.parentElement.nextElementSibling;
+    const formComment = button.parentElement.previousElementSibling;
+    /*const divElement = button.parentNode.parentNode;
+    const dateBox = divElement.getElementsByTagName("div")[2];*/
 
     if (formComment) {
         // 현재 display 스타일을 확인하여 폼을 보이게 하거나 숨김
         if (formComment.style.display === "none" || formComment.style.display === "") {
-            formComment.style.display = "block"; // 폼을 보이게 설정
+
+            formComment.style.display = "flex"; // 폼을 보이게 설정
+            formComment.style.width = "200px";
+            //dateBox.style.display = "none";
         } else {
+
             formComment.style.display = "none"; // 폼을 숨기기
+            dateBox.style.display = "block";
         }
     }
 }
@@ -186,6 +199,7 @@ function togglePostDel(button) {
       let pidx = document.getElementById('pidx').value;
       let bidx = document.getElementById('bidx').value;
       let userid = document.getElementById('userid').value;
+
 
       $.ajax({
         type: "POST",

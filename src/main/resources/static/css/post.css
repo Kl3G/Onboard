@@ -296,6 +296,11 @@
         margin-left: 25px;
     }
 
+    input::placeholder {
+
+        font-size: 15px;
+    }
+
     .main__section div {
 
         box-sizing: border-box;
@@ -306,6 +311,41 @@
 
         padding: 9px;
         flex: 1;
+    }
+
+    .xBtn {
+
+        border: none; background-color: #ddd; color: white; height: 15px; width: 14px; font-size: 10px;
+    }
+
+    .submitBtn {
+
+        flex: 1; color: #fff; font-weight: bold; background: #3b4890; border: none;
+    }
+
+    .pwdInput {
+
+        width: 100px; flex: 2; border: none; padding: 0 10px; font-size: 20px;
+    }
+
+    .commentDelForm {
+
+        width: 200px; height: 30px; display: flex;
+    }
+
+    .commentDiv {
+
+        display: none; z-index: 1000; position: absolute; top: 1px; right: 36px; border: 2px solid #29367c;
+    }
+
+    .commentDiv2 {
+
+        display: none; z-index: 1000; position: absolute; top: 1px; right: 44px; border: 2px solid #29367c;
+    }
+
+    .childCommentForm {
+
+        padding: 12px; min-height: 145px; background-color: #fafafa; border: solid #ddd; border-width: 1px 1px 0 1px;
     }
 
     #pageNav {

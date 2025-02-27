@@ -153,7 +153,7 @@ public class PostController {
                                                                  @RequestParam("pidx") Long pidx, @RequestParam("userid") String userid) {
         Optional<EntityPost> postOptional = repoPost.findById(pidx);
         EntityPost post = postOptional.get();
-        String DBuserid = post.getMemberInfo().getUserid();
+        String DBuserid = post.getUserid();
 
         if (Objects.equals(DBuserid, userid)){
 

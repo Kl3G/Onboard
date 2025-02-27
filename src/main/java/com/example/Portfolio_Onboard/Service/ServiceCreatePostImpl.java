@@ -41,7 +41,6 @@ public class ServiceCreatePostImpl implements ServiceCreatePost{
     @Override
     public String setPost(DTOCreatePost dtoCreatePost) {
 
-        EntityMemberInfo memberInfo = repoMemberInfo.findByUserid(dtoCreatePost.getUserid());
         Optional<EntityWorld> optionalBoard = repoWorld.findById(dtoCreatePost.getBidx());
         EntityWorld board = optionalBoard.get();
         /*Optional<EntityFiles> optionalFiles = repoFiles.findById(dtoCreatePost.getPidx());*/
@@ -87,7 +86,7 @@ public class ServiceCreatePostImpl implements ServiceCreatePost{
         }
 
         // 1. EntityPost 객체 생성
-        EntityPost entityPost = dtoCreatePost.entityPost(memberInfo, board, null);
+        EntityPost entityPost = dtoCreatePost.entityPost(board, null);
         repoPost.save(entityPost); // 먼저 저장하여 ID가 할당되도록 함
         Long bidx = entityPost.getBoard().getBidx();
         Long pidx = entityPost.getPidx();

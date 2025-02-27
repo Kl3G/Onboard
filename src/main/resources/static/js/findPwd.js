@@ -21,15 +21,15 @@ $(document).ready(function(){
         if(!mail){
 
             event.preventDefault();
-            alert('이메일을 입력해 주세요.');
+            alert('メールアドレスを入力してください。');
         }else if(!mail.includes('@') || !mail.includes('.')){
 
             event.preventDefault();
-            alert("올바른 이메일 형식이 아닙니다.");
+            alert("正しいメールアドレスの形式ではありません。");
         }else if(!userid){
 
             event.preventDefault();
-            alert('아이디를 입력해 주세요.');
+            alert('IDを入力してください。');
         }
     })
 });

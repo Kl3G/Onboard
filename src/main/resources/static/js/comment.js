@@ -179,13 +179,13 @@ function togglePostDel(button) {
             form.submit(); // 폼을 전송하여 POST 요청 실행
         }else if(response.success2) {
 
-            alert("비밀번호가 일치하지 않습니다.");
+            alert("パスワードが一致しません。");
         }
 
       },
       error: function() {
 
-        alert("서버 오류가 발생했습니다.");
+        alert("サーバーエラーが発生しました。");
       }
     });
   }
@@ -237,14 +237,14 @@ function togglePostDel(button) {
               }
           } else if(response.success1) {
 
-              alert("권한이 없는 아이디입니다.");
+              alert("権限がないアカウントです。");
           } else if(response.success2) {
 
-              alert("비밀번호가 일치하지 않습니다.");
+              alert("パスワードが一致しません。");
           }
         },
         error: function() {
-          alert("서버 오류가 발생했습니다.");
+          alert("サーバーエラーが発生しました。");
         }
       });
     }

@@ -21,7 +21,7 @@ public interface RepoPost extends JpaRepository<EntityPost, Long> {
 
     @Transactional
     @Modifying
-    @Query("DELETE FROM EntityPost e WHERE e.memberInfo.userid = :userid AND e.ppwd = :ppwd")
+    @Query("DELETE FROM EntityPost e WHERE e.userid = :userid AND e.ppwd = :ppwd")
     void deleteByUseridAndPpwd(@Param("userid") String userid, @Param("ppwd") String ppwd);
 
     @Query("SELECT e FROM EntityPost e WHERE e.title LIKE CONCAT('%', :keyword, '%') OR e.text LIKE CONCAT('%', :keyword, '%')")

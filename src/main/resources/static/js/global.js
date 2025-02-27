@@ -193,7 +193,7 @@ $(document).ready(function() {
         window.location.href = '/index';
       } else if (response.status === 401) {
         // 로그인 실패 시 알림 띄우기
-        alert('로그인 실패. 아이디와 비밀번호를 확인하세요.');
+        alert('ログインに失敗しました、 IDとパスワードを確認してください。');
       }
     })
     .catch(error => console.error('로그인 요청 중 오류 발생:', error));

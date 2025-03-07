@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
+
 <head>
   <meta charset="UTF-8">
   <title>Post</title>
@@ -66,7 +67,7 @@
     </ul>
     <div class="slick-class">
       <!-- th:text는 CSS는 그대로 적용되지만 HTML 태그는 단순 텍스트로 처리됩니다. -->
-      <div th:utext="'全ボード数&#8201;&#8201;' + ${boardCount} + 'ボード'"> 全ボード数</div>
+      <div th:utext="'全ボード数&#8201;&#8201;' + ${boardCount} + '件'"> 全ボード数</div>
       <div th:utext="'全投稿数&#8201;&#8201;' + ${postCount} + '件'"> 全投稿数</div>
       <div th:utext="'全コメント数&#8201;&#8201;' + ${commentsCount} + '件'"> 全コメント数</div>
     </div>
@@ -94,7 +95,7 @@
         <div style="font-size: 13px;">
           <span th:text="${post.nick} + (${post.nick == 'ㅇㅇ'} ? '(' + ${#strings.substring(post.userip, 0, 7)} + ')' : '')">
             닉네임</span>
-          <span th:text="' ㅣ ' + ${post.regdate}"></span>
+          <span th:text="${post.newdate != null ? 'ㅣ ' + post.newdate + ' (修正)' : 'ㅣ ' + post.regdate}"></span>
         </div>
       </div>
 
@@ -103,14 +104,14 @@
       </div>
 
       <!--첨부 파일-->
-      <div class="postFiles__main" style="border: 1px solid #d5d5d5; height: 60px; box-sizing: border-box;">
-        <div style="padding: 8px 13px 9px; box-sizing: border-box;">
-          <span style="font-size: 12px; font-weight: bold;">添付ファイル</span>
-          <span style="color: #D31900; font-size: 12px; font-weight: bold;">1</span><br>
-          <a th:each="sfile, iterStat : ${sfileList}"
+      <div class="postFiles__main">
+        <div>
+          <span>添付ファイル</span>
+          <span th:text="${sfileList.size()}"></span><br>
+          <a th:each="sfile, iter : ${sfileList}"
              th:href="@{/download(fileName=${sfile})}"
              th:download="${sfile}">
-            <span th:utext="${ofileList[iterStat.index]} + '&nbsp;'" style="font-size: 13px; color: #666666;"></span>
+            <span th:utext="${ofileList[iter.index]} + '&nbsp;'"></span>
           </a>
         </div>
       </div>
@@ -124,7 +125,7 @@
         </div>
         <div>
           <ul style="border:solid #29367c; border-width: 2px 0; list-style: none;">
-            <li id="comment" th:each="comment : ${commentList}" style="display: flex; flex-direction: column; border-bottom: 1px solid #eee; padding-bottom: 15px; position: relative;">
+            <li id="comment" th:each="comment, stat : ${commentList}" style="display: flex; flex-direction: column; border-bottom: 1px solid #eee; padding-bottom: 15px; position: relative;">
                   <!--댓글 출력-->
                 <div class="commentBox">
                     <div class="nickBox">
@@ -136,22 +137,21 @@
                       <button onclick="toggleCommentForm(this)" style="border: none; background: white; cursor: pointer;">
                         <span th:text="${comment.text}" style="font-size: 13px;"></span>
                       </button>
-                      <button></button>
                     </div>
                     <div class="dateBox">
                       <span th:text="${#strings.substring(comment.regdate, 0, 19)}" style="font-size: 12px; color: #999999;"></span>
                     </div>
                     <div class="commentDiv">
                       <form method="post" class="commentDelForm" onsubmit="checkCommentPwd(event)">
-                        <input type="hidden" id="bidx" th:value="${comment.post.board.bidx}">
-                        <input type="hidden" id="pidx" th:value="${comment.post.pidx}">
-                        <input type="hidden" id="cidx" th:value="${comment.cidx}">
-                        <input type="password" class="pwdInput" id="cpwd" placeholder="パスワード">
+                        <input type="hidden" th:id="'bidx' + ${stat.index}" th:value="${comment.post.board.bidx}">
+                        <input type="hidden" th:id="'pidx' + ${stat.index}" th:value="${comment.post.pidx}">
+                        <input type="hidden" th:id="'cidx-' + ${comment.cidx}" th:value="${comment.cidx}">
+                        <input type="password" th:id="'cpwd-' + ${comment.cidx}" class="cpwdInput" placeholder="パスワード">
                         <button type="submit" class="submitBtn">確認</button>
                       </form>
                     </div>
                     <div style="margin-left: 10px;">
-                      <button class="xBtn" onclick="togglecommentDel(this)">
+                      <button class="xBtnComment" onclick="togglecommentDel(this)">
                         ✕
                       </button>
                     </div>
@@ -198,13 +198,16 @@
                         <span th:text="${#strings.substring(childcomment.regdate, 0, 19)}" style="font-size: 12px; color: #999999;"></span>
                       </div>
                       <div style="margin-left: 10px;">
-                        <button class="xBtn" onclick="toggleChildCommentDel(this)">
+                        <button class="xBtnChildComment" onclick="toggleChildCommentDel(this)">
                           ✕
                         </button>
                       </div>
                       <div class="commentDiv2">
-                        <form class="commentDelForm" th:action="@{/childCommentDel(ccidx=${childcomment.ccidx})}" method="post">
-                          <input type="password" class="pwdInput" name="ccpwd" placeholder="パスワード">
+                        <form class="commentDelForm" method="post" onsubmit="checkChildCommentPwd(event)">
+                          <input type="hidden" th:id="'bidx2' + ${stat.index}" th:value="${childcomment.comment.post.board.bidx}">
+                          <input type="hidden" th:id="'pidx2' + ${stat.index}" th:value="${childcomment.comment.post.pidx}">
+                          <input type="hidden" th:id="'ccidx-' + ${childcomment.ccidx}" th:value="${childcomment.ccidx}">
+                          <input type="password" th:id="'ccpwd-' + ${childcomment.ccidx}" class="ccpwdInput"  placeholder="パスワード">
                           <button class="submitBtn">確認</button>
                         </form>
                       </div>
@@ -215,10 +218,34 @@
             </li>
           </ul>
         </div>
+        <div id="pageNav2" th:with="pageBlock2=2,
+                startPage2=${((currentPage2 - 1) / pageBlock2) * pageBlock2 + 1},
+                tempEnd2=${startPage2 + pageBlock2 - 1},
+                endPage2=${tempEnd2 > totalPages2 ? totalPages2 : tempEnd2}">
+          <!-- 이전 블록 링크: 현재 블록의 시작페이지가 1보다 클 때 -->
+          <a th:if="${startPage2 > 1}"
+             th:href="@{'/post'(pidx=${pidx}, bidx=${bidx}, page1=${currentPage1}, page2=${startPage2 - 1})}">
+            <i class="fa-solid fa-arrow-left"></i>
+          </a>
+
+          <!-- 페이지 번호 출력: 현재 블록의 startPage부터 endPage까지 -->
+          <span th:each="i : ${#numbers.sequence(startPage2, endPage2)}">
+            <a class="pageNum" th:if="${i != currentPage2}"
+               th:href="@{'/post'(pidx=${pidx}, bidx=${bidx}, page1=${currentPage1}, page2=${i})}"
+               th:text="${i}"></a>
+            <b th:if="${i == currentPage2}" th:text="${i}"></b>
+            </span>
+
+          <!-- 다음 블록 링크: 현재 블록의 끝페이지가 전체 페이지 수보다 작을 때 -->
+          <a th:if="${endPage2 < totalPages2}"
+             th:href="@{'/post'(pidx=${pidx}, bidx=${bidx}, page1=${currentPage1}, page2=${endPage2 + 1})}">
+            <i class="fa-solid fa-arrow-right"></i>
+          </a>
+        </div>
       </div>
 
       <!--댓글 입력-->
-      <form id="commentForm" action="/comment_proc" method="post" style="padding: 12px; min-height: 145px; background-color: #fafafa; border-bottom: 2px solid #29367c;">
+      <form id="commentForm" action="/comment_proc" method="post">
         <div class="commentInput" style="display: flex; gap: 10px;">
             <div style="max-width: 142px; height: 30px;">
               <input type="hidden" name="pidx" th:value="${post.pidx}">
@@ -282,13 +309,13 @@ Shift+Enter キーを同時に押すと、改行されます。"></textarea>
             <span th:case="'3'">告知</span>
           </td>
           <td>
-            <a th:href="@{/post(pidx=${post.pidx}, bidx=${post.bidx})}" th:text="${post.title}"></a>
+            <a class="postListTitle" th:href="@{/post(pidx=${post.pidx}, bidx=${post.bidx})}" th:text="${post.title}"></a>
             <!--th:onclick="|location.href='@{/modifyPost(pidx=${post.pidx}, bidx=${post.board.bidx})}'|"-->
           </td>
           <td th:text="${post.nick} + (${post.nick == 'ㅇㅇ'} ? '(' + ${#strings.substring(post.userip, 0, 7)} + ')' : '')"></td>
           <td th:text="${#strings.replace(#strings.substring(post.regdate, 2, 10), '-', '/')}"></td>
-          <td th:text="${post.view_count}"></td>
-          <td th:text="${post.good_count}"></td>
+          <td th:text="${post.viewCount}"></td>
+          <td th:text="${post.goodCount}"></td>
         </tr>
         </tbody>
       </table>
@@ -299,21 +326,21 @@ Shift+Enter キーを同時に押すと、改行されます。"></textarea>
 
         <!-- 이전 블록 링크: 현재 블록의 시작페이지가 1보다 클 때 -->
         <a th:if="${startPage > 1}"
-           th:href="@{'/board'(bidx=${boardInfo.bidx}, page=${startPage - 1})}">
+           th:href="@{'/post'(pidx=${pidx}, bidx=${bidx}, page1=${startPage - 1}, page2=${currentPage2})}">
           <i class="fa-solid fa-arrow-left"></i>
         </a>
 
         <!-- 페이지 번호 출력: 현재 블록의 startPage부터 endPage까지 -->
         <span th:each="i : ${#numbers.sequence(startPage, endPage)}">
-            <a th:if="${i != currentPage}"
-               th:href="@{'/board'(bidx=${boardInfo.bidx}, page=${i})}"
+            <a class="pageNum" th:if="${i != currentPage}"
+               th:href="@{'/post'(pidx=${pidx}, bidx=${bidx}, page1=${i}, page2=${currentPage2})}"
                th:text="${i}"></a>
             <b th:if="${i == currentPage}" th:text="${i}"></b>
         </span>
 
         <!-- 다음 블록 링크: 현재 블록의 끝페이지가 전체 페이지 수보다 작을 때 -->
         <a th:if="${endPage < totalPages}"
-           th:href="@{'/board'(bidx=${boardInfo.bidx}, page=${endPage + 1})}">
+           th:href="@{'/post'(pidx=${pidx}, bidx=${bidx}, page1=${endPage + 1}, page2=${currentPage2})}">
           <i class="fa-solid fa-arrow-right"></i>
         </a>
       </div>
@@ -326,8 +353,8 @@ Shift+Enter キーを同時に押すと、改行されます。"></textarea>
           <fieldset>
             <legend>ログイン</legend>
             <div class="aside__loginLeft">
-              <input type="text" id="userid" name="username">
-              <input type="password" id="pwd" name="password">
+              <input type="text" id="userid" name="username" placeholder="ID">
+              <input type="password" id="pwd" name="password" placeholder="パスワード">
               <!--<input> 요소는 기본적으로 설정된 최소 크기가 있습니다. 만약 너비나 높이가 설정되지 않으면, Flexbox는 이 기본 크기를 기준으로 계산하게 되는데, 이 경우 flex: 1;이 유효하게 작동하지 않습니다.
               기본적으로 입력 필드가 너무 작게 설정되면 Flexbox는 해당 요소의 크기를 조정할 수 없게 됩니다.-->
             </div>

@@ -70,7 +70,7 @@ public class AuthenticationProviderImpl implements AuthenticationProvider {
         }
 
         UsernamePasswordAuthenticationToken token =
-                new UsernamePasswordAuthenticationToken(userid, null, authorities);
+                new UsernamePasswordAuthenticationToken(memberInfo, null, authorities);
         return token;
     }
 

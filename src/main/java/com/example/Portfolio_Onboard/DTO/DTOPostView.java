@@ -16,6 +16,7 @@ public class DTOPostView {
     private String category;
     private String title;
     private Date regdate;
-    private Long view_count;
-    private Long good_count;
+    private Date newdate;
+    private Long viewCount;
+    private Long goodCount;
 }

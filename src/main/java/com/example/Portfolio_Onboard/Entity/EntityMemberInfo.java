@@ -36,14 +36,14 @@ public class EntityMemberInfo implements UserDetails {
     }
 
     @Override
-    public String getPassword() {
-
-        return this.pwd;
-    }
-
-    @Override
     public String getUsername() {
 
         return this.userid;
+    }
+
+    @Override
+    public String getPassword() {
+
+        return this.pwd;
     }
 }

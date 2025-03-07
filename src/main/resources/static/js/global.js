@@ -10,6 +10,11 @@ $(document).ready(function() {
 });
 
 
+if(joinSuccess) {
+    alert("회원가입이 완료되었습니다!");
+}
+
+
 /*let isLoggedIn = false; // 전역 변수 선언
 let loginForm = "";
 let emptySpace = "";

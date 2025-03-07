@@ -1,22 +1,16 @@
 package com.example.Portfolio_Onboard.Controller;
 
 import com.example.Portfolio_Onboard.DTO.*;
-import com.example.Portfolio_Onboard.Entity.EntityComments;
-import com.example.Portfolio_Onboard.Entity.EntityFiles;
-import com.example.Portfolio_Onboard.Entity.EntityPost;
-import com.example.Portfolio_Onboard.Entity.EntityWorld;
+import com.example.Portfolio_Onboard.Entity.*;
 import com.example.Portfolio_Onboard.Repository.*;
 import com.example.Portfolio_Onboard.Service.*;
-import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpSession;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.UrlResource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -25,11 +19,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
-import java.io.IOException;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -65,8 +56,8 @@ public class PostController {
 
 
     @GetMapping(value = {"/createPost", "/modifyPost"})
-    public String getCreatePost(@RequestParam("bidx") Long bidx, @RequestParam(value = "pidx", defaultValue = "") Long pidx,
-                                @RequestParam(value = "ppwd", defaultValue = "") String ppwd, Model model){
+    public String getCreatePost(@RequestParam("bidx") Long bidx,
+                                @RequestParam(value = "pidx", defaultValue = "") Long pidx, Model model){
 
 
         Optional<EntityWorld> optionalBoard = repoWorld.findById(bidx);
@@ -89,6 +80,7 @@ public class PostController {
         if( local == null ) {
 
             String ip = "";
+            model.addAttribute("ip", ip);
         } else {
 
             String ip = local.getHostAddress();
@@ -212,7 +204,8 @@ public class PostController {
 
     @GetMapping("/post")
     public String getPost(@RequestParam("pidx") Long pidx, @RequestParam("bidx") Long bidx,
-                          @RequestParam(value="page", defaultValue="1") int page, Model model){
+                          @RequestParam(value="page1", defaultValue="1") int page1,
+                          @RequestParam(value="page2", defaultValue="1") int page2, Model model){
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication != null && authentication.isAuthenticated()) {
@@ -256,7 +249,12 @@ public class PostController {
 
         // 페이징 코드
         int pageSize = 30;
-        Pageable pageable = PageRequest.of(page - 1, pageSize, Sort.by("pidx").descending());
+        Sort sort = Sort.by(
+                Sort.Order.desc("goodCount"),
+                Sort.Order.desc("viewCount"),
+                Sort.Order.desc("regdate")
+        );
+        Pageable pageable = PageRequest.of(page1 - 1, pageSize, sort);
         // Spring Data JPA의 페이지는 0부터 시작하므로, page 값에서 1을 빼준다.
         // PageRequest.of(page, size) PageRequest.of(page, size) 형태로 사용한다.
         // page: 가져올 페이지 번호 (0부터 시작)
@@ -275,7 +273,7 @@ public class PostController {
         }
 
         // 현재 페이지의 게시글 목록
-        model.addAttribute("postList", postPage.getContent()); // 20개의 데이터만 담고 있다.
+        model.addAttribute("postList", postPage.getContent()); // 30개의 데이터만 담고 있다.
 
         // 페이징 관련 정보 전달
         model.addAttribute("currentPage", postPage.getNumber() + 1); // 1부터 보이게 하기 위해 +1
@@ -284,7 +282,7 @@ public class PostController {
         model.addAttribute("pageSize", pageSize);  // 템플릿에서 내림차순 번호 계산에 사용.
         // -------------------------------------------------------------------------------------
 
-        model.addAttribute("date", date);
+        //model.addAttribute("date", date);
 
         model.addAttribute("boardInfo", serviceWorld.boardInfo(bidx));
         // index.html 파일에서 생성한 url의 파라미터를 model로 board에 전달해 준다.
@@ -304,8 +302,42 @@ public class PostController {
         model.addAttribute("commentsCount", serviceWorld.countComments()); // 전체댓글수
         model.addAttribute("post", serviceWorld.postView(pidx)); // 게시글 데이터 전송
         model.addAttribute("commentCount", serviceComment.countComments(pidx)); // 게시글의 댓글 갯수 카운트
-        model.addAttribute("commentList", serviceComment.getCommentList(pidx));
 
+
+
+
+        // 페이징 코드
+        int pageSize2 = 15;
+        Pageable pageable2 = PageRequest.of(page2 - 1, pageSize2, Sort.by("cidx").descending());
+        // Spring Data JPA의 페이지는 0부터 시작하므로, page 값에서 1을 빼준다.
+        // PageRequest.of(page, size) PageRequest.of(page, size) 형태로 사용한다.
+        // page: 가져올 페이지 번호 (0부터 시작)
+        // size: 한 페이지에 포함할 데이터 개수
+
+        Page<DTOCommentView> commentPage = serviceComment.getCommentList(bidx, pageable2);
+        // postPage 자체는 Page 타입이고, 그 안에 담긴 각각의 데이터는 DTOPostView 타입이다.
+
+        int totalPages2 = commentPage.getTotalPages();
+        // 전체 페이지 개수를 반환하는 메서드
+        // 예를 들어 데이터가 50개 있고 size=10으로 요청했다면, totalPages = 5가 됨.
+
+        if(totalPages2 == 0) {
+
+            totalPages2 = 1;
+        }
+
+        model.addAttribute("commentList", commentPage);
+
+        // 페이징 관련 정보 전달
+        model.addAttribute("currentPage2", commentPage.getNumber() + 1); // 1부터 보이게 하기 위해 +1
+        model.addAttribute("totalPages2", totalPages2); // // 전체 페이지 개수를 반환.
+        model.addAttribute("totalPosts2", commentPage.getTotalElements()); // 페이징에 상관없이 전체 레코드의 갯수를 반환.
+        model.addAttribute("pageSize2", pageSize2);  // 템플릿에서 내림차순 번호 계산에 사용.
+        model.addAttribute("currentPage1", page1); // 하단 게시물 페이징
+        model.addAttribute("currentPage2", page2); // 상단 댓글 페이징
+        model.addAttribute("pidx", pidx);
+        model.addAttribute("bidx", bidx);
+        // -------------------------------------------------------------------------------------
 
         return "post";
     }
@@ -328,14 +360,6 @@ public class PostController {
 
     /*---------------------------------삭제 매서드-----------------------------------------*/
     /*-----------------------------------------------------------------------------------*/
-
-    @PostMapping("/childCommentDel")
-    public String delChildComment(@RequestParam("ccidx") Long ccidx, @RequestParam("ccpwd") String ccpwd){
-
-        repoChildComments.deleteByCcidxAndCcpwd(ccidx, ccpwd);
-
-        return "index";
-    }
 
     @PostMapping("/checkCommentPwd")
     @ResponseBody
@@ -360,6 +384,33 @@ public class PostController {
                              @RequestParam("bidx") Long bidx, @RequestParam("pidx") Long pidx){
 
         repoComment.deleteById(cidx);
+
+        return "redirect:/post?pidx="+pidx+"&bidx="+bidx;
+    }
+
+    @PostMapping("/checkChildCommentPwd")
+    @ResponseBody
+    public ResponseEntity<Map<String, Object>> checkChildCommentPwd(@RequestParam(value = "ccpwd", required = false) String ccpwd,
+                                                               @RequestParam("ccidx") Long ccidx) {
+
+        Optional<EntityChildComments> optionalComments = repoChildComments.findById(ccidx);
+        EntityChildComments childComments = optionalComments.get();
+        String DBccpwd = childComments.getCcpwd();
+
+        if (Objects.equals(DBccpwd, ccpwd)){
+
+            return ResponseEntity.ok(Map.of("success", true)); // 비밀번호가 일치함
+        }else {
+
+            return ResponseEntity.ok(Map.of("success2", true));
+        }
+    }
+
+    @PostMapping("/childCommentDel")
+    public String delChildComment(@RequestParam("ccidx") Long ccidx,
+                                  @RequestParam("bidx") Long bidx, @RequestParam("pidx") Long pidx){
+
+        repoChildComments.deleteById(ccidx);
 
         return "redirect:/post?pidx="+pidx+"&bidx="+bidx;
     }

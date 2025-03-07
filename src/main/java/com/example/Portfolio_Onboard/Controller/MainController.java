@@ -2,8 +2,6 @@ package com.example.Portfolio_Onboard.Controller;
 
 import com.example.Portfolio_Onboard.DTO.*;
 import com.example.Portfolio_Onboard.Entity.EntityMemberInfo;
-import com.example.Portfolio_Onboard.Entity.EntityPost;
-import com.example.Portfolio_Onboard.Entity.EntityWorld;
 import com.example.Portfolio_Onboard.Service.*;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
@@ -26,7 +24,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.Collections;
 import java.util.List;
 
 @Log4j2
@@ -71,9 +68,9 @@ public class MainController {
     }
 
     @PostMapping("/join_proc")
-    public String setJoin(DTOJoin dtoJoin){
+    public String setJoin(DTOJoin dtoJoin, RedirectAttributes redirectAttributes){
 
-        return serviceJoin.setJoin(dtoJoin);
+        return serviceJoin.setJoin(dtoJoin, redirectAttributes);
     }
 
     // 검색 기능 구현
@@ -90,13 +87,20 @@ public class MainController {
     public String getSearchResult(@RequestParam("keyword") String keyword, Model model){
 
 
-        List<EntityWorld> boards = serviceSearch.setSearchResultBoard(keyword);
-        List<EntityWorld> limitedBoards = boards.size() > 10 ? boards.subList(0, 10) : boards;
+        model.addAttribute("boardCount", serviceWorld.countBoard()); // 전체보드수
+        model.addAttribute("postCount", serviceWorld.countPost()); // 전체게시글수
+        model.addAttribute("commentsCount", serviceWorld.countComments()); // 전체댓글수
+
+        List<DTOSearchBoard> boards = serviceSearch.setSearchResultBoard(keyword);
         // 리스트에서 0번 인덱스부터 9번 인덱스까지(총 10개 요소)를 새로운 서브 리스트로 반환한다.
         model.addAttribute("boards", boards);
 
-        List<EntityPost> posts = serviceSearch.setSearchResultPost(keyword);
-        List<EntityPost> limitedPosts = posts.size() > 10 ? posts.subList(0, 10) : posts;
+        Sort sort = Sort.by(
+                Sort.Order.desc("goodCount"),
+                Sort.Order.desc("viewCount"),
+                Sort.Order.desc("regdate")
+        );
+        List<DTOSearchPost> posts = serviceSearch.setSearchResultPost(keyword, sort);
         // 리스트에서 0번 인덱스부터 9번 인덱스까지(총 10개 요소)를 새로운 서브 리스트로 반환한다.
         model.addAttribute("posts", posts);
 
@@ -110,25 +114,95 @@ public class MainController {
 
     // 보드, 포스트 검색 결과 더보기
     @GetMapping("/moreBoard")
-    public String getMoreBoard(@RequestParam("keyword") String keyword, Model model){
+    public String getMoreBoard(@RequestParam("keyword") String keyword,
+                               @RequestParam(value="page", defaultValue="1") int page,
+                               Model model){
 
-        List<EntityWorld> boards = serviceSearch.setSearchResultBoard(keyword);
-        List<EntityWorld> limitedBoards = boards.size() > 10 ? boards.subList(0, 10) : boards;
-        // 리스트에서 0번 인덱스부터 9번 인덱스까지(총 10개 요소)를 새로운 서브 리스트로 반환한다.
+        model.addAttribute("boardCount", serviceWorld.countBoard()); // 전체보드수
+        model.addAttribute("postCount", serviceWorld.countPost()); // 전체게시글수
+        model.addAttribute("commentsCount", serviceWorld.countComments()); // 전체댓글수
 
-        model.addAttribute("boards", boards);
+        // 페이징 코드
+        int pageSize = 20;
+        Pageable pageable = PageRequest.of(page - 1, pageSize, Sort.by("bidx").descending());
+        // Spring Data JPA의 페이지는 0부터 시작하므로, page 값에서 1을 빼준다.
+        // PageRequest.of(page, size) PageRequest.of(page, size) 형태로 사용한다.
+        // page: 가져올 페이지 번호 (0부터 시작)
+        // size: 한 페이지에 포함할 데이터 개수
+
+        Page<DTOSearchBoard> boardList = serviceSearch.worldList(keyword, pageable);
+        // postPage 자체는 Page 타입이고, 그 안에 담긴 각각의 데이터는 DTOPostView 타입이다.
+
+        int totalPages = boardList.getTotalPages();
+        // 전체 페이지 개수를 반환하는 메서드
+        // 예를 들어 데이터가 50개 있고 size=10으로 요청했다면, totalPages = 5가 됨.
+
+        if(totalPages == 0) {
+
+            totalPages = 1;
+        }
+
+        // 현재 페이지의 게시글 목록
+        model.addAttribute("boards", boardList.getContent()); // 20개의 데이터만 담고 있다.
+
+        // 페이징 관련 정보 전달
+        model.addAttribute("currentPage", boardList.getNumber() + 1); // 1부터 보이게 하기 위해 +1
+        model.addAttribute("totalPages", totalPages); // // 전체 페이지 개수를 반환.
+        model.addAttribute("totalBoards", boardList.getTotalElements()); // 페이징에 상관없이 전체 레코드의 갯수를 반환.
+        model.addAttribute("pageSize", pageSize);  // 템플릿에서 내림차순 번호 계산에 사용.
+        // -------------------------------------------------------------------------------------
+
+        model.addAttribute("keyword", keyword);
 
         return "moreBoard";
     }
 
     @GetMapping("/morePost")
-    public String getMorePost(@RequestParam("keyword") String keyword, Model model){
+    public String getMorePost(@RequestParam("keyword") String keyword,
+                              @RequestParam(value="page", defaultValue="1") int page,
+                              Model model){
 
-        List<EntityPost> posts = serviceSearch.setSearchResultPost(keyword);
-        List<EntityPost> limitedPosts = posts.size() > 10 ? posts.subList(0, 10) : posts;
-        // 리스트에서 0번 인덱스부터 9번 인덱스까지(총 10개 요소)를 새로운 서브 리스트로 반환한다.
+        model.addAttribute("boardCount", serviceWorld.countBoard()); // 전체보드수
+        model.addAttribute("postCount", serviceWorld.countPost()); // 전체게시글수
+        model.addAttribute("commentsCount", serviceWorld.countComments()); // 전체댓글수
 
-        model.addAttribute("posts", posts);
+        // 페이징 코드
+        int pageSize = 15;
+        Sort sort = Sort.by(
+                Sort.Order.desc("goodCount"),
+                Sort.Order.desc("viewCount"),
+                Sort.Order.desc("regdate")
+        );
+        Pageable pageable = PageRequest.of(page - 1, pageSize, sort);
+        // Spring Data JPA의 페이지는 0부터 시작하므로, page 값에서 1을 빼준다.
+        // PageRequest.of(page, size) PageRequest.of(page, size) 형태로 사용한다.
+        // page: 가져올 페이지 번호 (0부터 시작)
+        // size: 한 페이지에 포함할 데이터 개수
+
+        Page<DTOSearchPost> postList = serviceSearch.postList(keyword, pageable);
+        // postPage 자체는 Page 타입이고, 그 안에 담긴 각각의 데이터는 DTOPostView 타입이다.
+
+        int totalPages = postList.getTotalPages();
+        // 전체 페이지 개수를 반환하는 메서드
+        // 예를 들어 데이터가 50개 있고 size=10으로 요청했다면, totalPages = 5가 됨.
+
+        if(totalPages == 0) {
+
+            totalPages = 1;
+        }
+
+        // 현재 페이지의 게시글 목록
+        model.addAttribute("posts", postList.getContent()); // 15개의 데이터만 담고 있다.
+
+        // 페이징 관련 정보 전달
+        model.addAttribute("currentPage", postList.getNumber() + 1); // 1부터 보이게 하기 위해 +1
+        model.addAttribute("totalPages", totalPages); // // 전체 페이지 개수를 반환.
+        model.addAttribute("totalPosts", postList.getTotalElements()); // 페이징에 상관없이 전체 레코드의 갯수를 반환.
+        model.addAttribute("pageSize", pageSize);  // 템플릿에서 내림차순 번호 계산에 사용.
+        // -------------------------------------------------------------------------------------
+
+        model.addAttribute("keyword", keyword);
+
 
         return "morePost";
     }
@@ -359,7 +433,12 @@ public class MainController {
 
         // 페이징 코드
         int pageSize = 20;
-        Pageable pageable = PageRequest.of(page - 1, pageSize, Sort.by("pidx").descending());
+        Sort sort = Sort.by(
+                Sort.Order.desc("goodCount"),
+                Sort.Order.desc("viewCount"),
+                Sort.Order.desc("regdate")
+        );
+        Pageable pageable = PageRequest.of(page - 1, pageSize, sort);
         // Spring Data JPA의 페이지는 0부터 시작하므로, page 값에서 1을 빼준다.
         // PageRequest.of(page, size) PageRequest.of(page, size) 형태로 사용한다.
         // page: 가져올 페이지 번호 (0부터 시작)

@@ -3,7 +3,6 @@ package com.example.Portfolio_Onboard.DTO;
 import com.example.Portfolio_Onboard.Entity.EntityComments;
 import com.example.Portfolio_Onboard.Entity.EntityMemberInfo;
 import com.example.Portfolio_Onboard.Entity.EntityPost;
-import com.example.Portfolio_Onboard.Repository.RepoMemberInfo;
 import lombok.Data;
 
 import java.util.Date;

@@ -209,6 +209,17 @@
         flex-grow: 1;
     }
 
+    .nav__ul li div {
+
+        text-align: center;
+    }
+
+    .nav__ul li:nth-child(1) div,
+    .nav__ul li:nth-child(2) div {
+
+        text-align: left; /* 왼쪽 정렬 */
+    }
+
     .nav__ul li {
 
         flex: 1;
@@ -313,7 +324,7 @@
         flex: 1;
     }
 
-    .xBtn {
+    .xBtnComment, .xBtnChildComment {
 
         border: none; background-color: #ddd; color: white; height: 15px; width: 14px; font-size: 10px;
     }
@@ -323,7 +334,7 @@
         flex: 1; color: #fff; font-weight: bold; background: #3b4890; border: none;
     }
 
-    .pwdInput {
+    .cpwdInput, .ccpwdInput {
 
         width: 100px; flex: 2; border: none; padding: 0 10px; font-size: 20px;
     }
@@ -348,13 +359,77 @@
         padding: 12px; min-height: 145px; background-color: #fafafa; border: solid #ddd; border-width: 1px 1px 0 1px;
     }
 
+    .postFiles__main {
+
+        border: 1px solid #d5d5d5; height: 60px; box-sizing: border-box;
+    }
+
+    .postFiles__main > div {
+
+        padding: 8px 13px 9px; box-sizing: border-box;
+    }
+
+    .postFiles__main > div > span:nth-of-type(1) {
+
+        font-size: 12px; font-weight: bold;
+    }
+
+    .postFiles__main > div > span:nth-of-type(2) {
+
+        color: #D31900; font-size: 12px; font-weight: bold;
+    }
+
+    .postFiles__main > div > a > span {
+
+        font-size: 13px; color: #666666;
+    }
+
     #pageNav {
 
         align-items: center;
         justify-content: center;
         max-height: 25px;
-        margin-top: 10px;
+        margin-top: 15px;
         gap: 10px;
+    }
+
+    #pageNav2 {
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        max-height: 25px;
+        margin-top: 15px;
+        margin-bottom: 30px;
+        gap: 10px;
+    }
+
+    .pageNum {
+
+        font-weight: bold;
+    }
+
+    .postListTitle {
+
+        display: inline-block;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        width: 350px;
+    }
+
+    b {
+
+        text-decoration: underline;
+        color: #d31900;
+    }
+
+    #commentForm {
+
+        padding: 12px; min-height: 145px;
+        background-color: #fafafa;
+        border-top: 2px solid #29367c;
+        border-bottom: 2px solid #29367c;
     }
 
     .main__aside {

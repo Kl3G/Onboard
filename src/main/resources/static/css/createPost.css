@@ -206,6 +206,17 @@
         flex-grow: 1;
     }
 
+    .nav__ul li div {
+
+        text-align: center;
+    }
+
+    .nav__ul li:nth-child(1) div,
+    .nav__ul li:nth-child(2) div {
+
+        text-align: left; /* 왼쪽 정렬 */
+    }
+
     .nav__ul li {
 
         flex: 1;

@@ -4,6 +4,7 @@ import com.example.Portfolio_Onboard.Entity.EntityPost;
 import jakarta.transaction.Transactional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -25,5 +26,8 @@ public interface RepoPost extends JpaRepository<EntityPost, Long> {
     void deleteByUseridAndPpwd(@Param("userid") String userid, @Param("ppwd") String ppwd);
 
     @Query("SELECT e FROM EntityPost e WHERE e.title LIKE CONCAT('%', :keyword, '%') OR e.text LIKE CONCAT('%', :keyword, '%')")
-    List<EntityPost> findPostByKeyword(@Param("keyword") String keyword);
+    List<EntityPost> findPostByKeyword(@Param("keyword") String keyword, Sort sort);
+
+    @Query("SELECT e FROM EntityPost e WHERE e.title LIKE CONCAT('%', :keyword, '%') OR e.text LIKE CONCAT('%', :keyword, '%')")
+    Page<EntityPost> findPostByKeywordPage(@Param("keyword") String keyword, Pageable pageable);
 }

@@ -19,16 +19,15 @@ public class SecurityConfig {
 
         log.warn("SecurityFilterChain");
 
-        //http.cors(AbstractHttpConfigurer::disable).csrf(AbstractHttpConfigurer::disable);
-        http.csrf(AbstractHttpConfigurer::disable);
-        http.headers(headers -> headers.frameOptions().disable());
+        http.csrf(csrf -> csrf.disable());
+        http.headers(headers -> headers.frameOptions(frame -> frame.disable()));
 
         http.authorizeHttpRequests( authorize -> authorize // 권한부여
 
                 .requestMatchers("/", "/board/**", "/world/**", "/post/**", "/comment_proc/**", "/childcomment_proc/**",
                         "/createPost/**", "/createPost_proc/**", "/join/**", "/join_proc/**", "/login_proc/**", "/download/**",
                         "/childCommentDel/**", "/commentDel/**", "/postDel/**", "/boardDel/**", "/modifyPost/**", "/modifyPost_proc/**",
-                        "/postModifyPwdCheck/**", "/checkPostPassword/**", "/postDelete/**", "checkCommentPwd/**",
+                        "/checkChildCommentPwd/**", "/postModifyPwdCheck/**", "/checkPostPassword/**", "/postDelete/**", "checkCommentPwd/**",
                         "/css/**", "/js/**", "/img/**", "/webjars/**", "/h2-console/**", "/findId/**", "/findPwd/**",
                         "/findId_proc/**", "/foundInfo/**", "/findPwd_proc/**", "/newPwd/**", "/newPwd_proc/**", "/idNotFound/**",
                         "/pwdNotFound/**", "/searchResult/**", "/search_proc/**", "/moreBoard/**", "/morePost/**").permitAll() // 누구든지 접속 가능

@@ -65,7 +65,7 @@
             </li>
         </ul>
         <div class="slick-class">
-            <div th:utext="'全ボード数&#8201;&#8201;' + ${boardCount} + 'ボード'"> 全ボード数</div>
+            <div th:utext="'全ボード数&#8201;&#8201;' + ${boardCount} + '件'"> 全ボード数</div>
             <div th:utext="'全投稿数&#8201;&#8201;' + ${postCount} + '件'"> 全投稿数</div>
             <div th:utext="'全コメント数&#8201;&#8201;' + ${commentsCount} + '件'"> 全コメント数</div>
         </div>
@@ -134,12 +134,12 @@
                             <span th:case="'3'">告知</span>
                         </td>
                         <td>
-                            <a th:href="@{/post(pidx=${post.pidx}, bidx=${post.bidx})}" th:text="${post.title}"></a>
+                            <a class="boardListTitle" th:href="@{/post(pidx=${post.pidx}, bidx=${post.bidx})}" th:text="${post.title}"></a>
                         </td>
                         <td th:text="${post.nick} + (${post.nick == 'ㅇㅇ'} ? '(' + ${#strings.substring(post.userip, 0, 7)} + ')' : '')"></td>
                         <td th:text="${#strings.replace(#strings.substring(post.regdate, 2, 10), '-', '/')}"></td>
-                        <td th:text="${post.view_count}"></td>
-                        <td th:text="${post.good_count}"></td>
+                        <td th:text="${post.viewCount}"></td>
+                        <td th:text="${post.goodCount}"></td>
                     </tr>
                 </tbody>
             </table>
@@ -177,8 +177,8 @@
                     <fieldset>
                         <legend>ログイン</legend>
                         <div class="aside__loginLeft">
-                            <input type="text" id="userid" name="username">
-                            <input type="password" id="pwd" name="password">
+                            <input type="text" id="userid" name="username" placeholder="ID">
+                            <input type="password" id="pwd" name="password" placeholder="パスワード">
                             <!--<input> 요소는 기본적으로 설정된 최소 크기가 있습니다. 만약 너비나 높이가 설정되지 않으면, Flexbox는 이 기본 크기를 기준으로 계산하게 되는데, 이 경우 flex: 1;이 유효하게 작동하지 않습니다.
                             기본적으로 입력 필드가 너무 작게 설정되면 Flexbox는 해당 요소의 크기를 조정할 수 없게 됩니다.-->
                         </div>

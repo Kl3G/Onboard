@@ -20,7 +20,7 @@ public class ServiceModifyInfoImpl implements ServiceModifyInfo{
 
         repoMemberInfo.updateMailByUserid(dtoModifyMail.getUserid(), dtoModifyMail.getNewMail());
 
-        return "redirect:/index";
+        return "redirect:/index/logout";
     }
 
     @Override
@@ -28,6 +28,6 @@ public class ServiceModifyInfoImpl implements ServiceModifyInfo{
 
         repoMemberInfo.updateNickByUserid(dtoModifyNick.getUserid(), dtoModifyNick.getNewNick());
 
-        return "redirect:/index";
+        return "redirect:/index/logout";
     }
 }

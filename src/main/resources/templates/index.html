@@ -65,7 +65,7 @@
         </ul>
         <div class="slick-class">
             <!-- th:text는 CSS는 그대로 적용되지만 HTML 태그는 단순 텍스트로 처리됩니다. -->
-            <div th:utext="'全ボード数&#8201;&#8201;' + ${boardCount} + 'ボード'"> 全ボード数</div>
+            <div th:utext="'全ボード数&#8201;&#8201;' + ${boardCount} + '件'"> 全ボード数</div>
             <div th:utext="'全投稿数&#8201;&#8201;' + ${postCount} + '件'"> 全投稿数</div>
             <div th:utext="'全コメント数&#8201;&#8201;' + ${commentsCount} + '件'"> 全コメント数</div>
         </div>
@@ -146,8 +146,8 @@
                     <fieldset>
                         <legend>ログイン</legend>
                         <div class="aside__loginLeft">
-                            <input type="text" id="userid" name="username">
-                            <input type="password" id="pwd" name="password">
+                            <input type="text" id="userid" name="username" placeholder="ID">
+                            <input type="password" id="pwd" name="password" placeholder="パスワード">
                             <!--<input> 요소는 기본적으로 설정된 최소 크기가 있습니다. 만약 너비나 높이가 설정되지 않으면, Flexbox는 이 기본 크기를 기준으로 계산하게 되는데, 이 경우 flex: 1;이 유효하게 작동하지 않습니다.
                             기본적으로 입력 필드가 너무 작게 설정되면 Flexbox는 해당 요소의 크기를 조정할 수 없게 됩니다.-->
                         </div>
@@ -163,6 +163,8 @@
                     <p>ㅣ</p>
                     <a id="find" href="/findId">ID・PWをお忘れの方</a>
                 </div>
+                <!-- ------------------ -->
+
                 <!-- 로그인 후 보이는 박스 -->
                 <div th:if="${session.userid != null}" class="aside__userInfo">
                     <span>こんにちは!</span><br><span style= "font-weight: bold;" th:text="${session.nick}"></span>さん
@@ -172,6 +174,7 @@
                     <p>ㅣ</p>
                     <a id="modifyBtn" href="/infoModifyPwdCheck">会員情報更新</a>
                 </div>
+                <!-- ------------------ -->
             </div>
             <div style="flex: 5; display: flex; flex-direction: column;">
                 <div style="flex: 1; background-image: url('../img/fly.jpg'); background-size: cover; background-repeat: no-repeat; background-position: center;">
@@ -199,7 +202,9 @@
         <span style="font-size: 12px;">Copyright ⓒ 2024 - 2025 ondoard. All rights reserved.</span>
     </div>
 </footer>
-
+<script th:if="${joinSuccess != null}">
+    alert("회원가입이 완료되었습니다!");
+</script>
 <script src="../js/global.js"></script>
 </body>
 </html>

@@ -1,8 +1,8 @@
 package com.example.Portfolio_Onboard.Repository;
 
-import com.example.Portfolio_Onboard.DTO.DTOBoardView;
-import com.example.Portfolio_Onboard.Entity.EntityMemberInfo;
 import com.example.Portfolio_Onboard.Entity.EntityWorld;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -17,14 +17,13 @@ public interface RepoWorld extends JpaRepository<EntityWorld, Long> {
     Optional<EntityWorld> findById(Long bidx);
 
     @Query("SELECT w FROM EntityWorld w WHERE w.place = :place")
-    /*@Query("SELECT new com.example.Portfolio_Onboard.DTO.DTOBoardView(w.bidx, w.nick, w.place, w.b_name) " +
-            "FROM EntityWorld w WHERE w.place = :place")*/
-    /*@Query("SELECT new com.example.DTOBoardView(w.bidx, w.b_name) FROM EntityWorld w WHERE w.place = :place")
-    List<DTOBoardView> findByPlace(@Param("place") String place);*/
     List<EntityWorld> findByPlace(@Param("place") String place);
 
-    @Query("SELECT w FROM EntityWorld w WHERE w.b_name LIKE CONCAT('%', :keyword, '%')")
+    @Query("SELECT w FROM EntityWorld w WHERE w.b_name LIKE CONCAT('%', :keyword, '%') ORDER BY SIZE(w.postList) DESC, w.regdate DESC")
     List<EntityWorld> findBoardByKeyword(@Param("keyword") String keyword);
+
+    @Query("SELECT w FROM EntityWorld w WHERE w.b_name LIKE CONCAT('%', :keyword, '%') ORDER BY SIZE(w.postList) DESC, w.regdate DESC")
+    Page<EntityWorld> findBoardByKeywordPage(@Param("keyword") String keyword, Pageable pageable);
 
 /*
     findBy 뒤에 나오는 Property는 반드시 엔티티 클래스의 필드 이름과 정확히 일치해야 합니다, 대소문자도 구분되므로 주의해야 합니다.

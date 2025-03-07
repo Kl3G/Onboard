@@ -1,198 +1,356 @@
-/*
-function submitComment() {
-  // 폼 데이터를 가져옵니다.
-  const formData = new FormData(document.getElementById("commentForm"));
 
-  // AJAX 요청 설정
-  fetch("/comment_proc", {
-    method: "POST",
-    body: formData,
-  })
-    .then(response => {
-      if (response.ok) {
-        return response.text();  // 서버에서 텍스트 응답을 기대하는 경우
-      } else {
-        throw new Error("댓글 등록에 실패했습니다.");
-      }
-    })
-    .then(data => {
-      alert("댓글이 등록되었습니다!");
-      // 필요한 경우 댓글 등록 후 처리 로직 추가
-    })
-    .catch(error => {
-      console.error(error);
-      alert("댓글 등록 중 오류가 발생했습니다.");
+    function toggleCommentForm(button) {
+        const formComment = button.parentElement.parentElement.nextElementSibling; // 버튼 바로 다음에 위치한 폼
+
+        /* ** 참고 **
+        1. document.getElementById("formComment");
+        이 방식은 id가 "formComment"인 첫 번째 요소만 찾습니다.
+        HTML 문서에는 ** 동일한 id 값을 가진 요소가 여러 개 있을 수 없다고 가정 **하므로,
+        이 방식은 페이지에 여러 댓글 폼이 있을 때 모두 관리하기 어렵습니다.
+        다수의 댓글 폼이 필요하다면 이 접근 방식이 적합하지 않습니다.
+
+        2. button.nextElementSibling.nextElementSibling;
+        이 방식은 버튼 위치를 기준으로 다음의 두 번째 형제 요소를 찾아 접근합니다.
+        따라서, 여러 댓글 폼을 각 댓글 요소에 넣어야 할 경우 더 적합합니다.
+        HTML에서 li 내의 댓글에 따라 폼이 개별적으로 위치하고 있으므로,
+        이 방식을 사용하면 버튼을 클릭할 때마다 각 댓글에 해당하는 폼을 정확히 접근할 수 있습니다.
+
+        3. const formComment = button.nextElementSibling.nextElementSibling.nextElementSibling;
+        실행되지 않는 이유는 nextElementSibling을 사용했기 때문입니다.
+        nextElementSibling은 현재 요소의 바로 다음 형제 요소를 가리킵니다.
+        이 경우, <div> 안에 있는 button 요소 다음에는 <div> (댓글 입력 폼) 요소가 존재하고,
+        그 다음에 더 이상 형제 요소가 없기 때문에 세 번째 nextElementSibling은 null이 됩니다.
+        */
+
+        if (formComment) {
+            // 현재 display 스타일을 확인하여 폼을 보이게 하거나 숨김
+            if (formComment.style.display === "none" || formComment.style.display === "") {
+                formComment.style.display = "block"; // 폼을 보이게 설정
+            } else {
+                formComment.style.display = "none"; // 폼을 숨기기
+            }
+        }
+    }
+
+    // 대댓글이 존재할 때만 padding-bottom: 15px; 적용
+    document.addEventListener("DOMContentLoaded", function() {
+      const commentElements = document.querySelectorAll('#comment');
+
+      commentElements.forEach(commentElement => {
+        const childComment = commentElement.querySelector('#childcomment');
+
+        if (childComment) {
+          commentElement.style.paddingBottom = '15px';
+        } else {
+          commentElement.style.paddingBottom = '0';
+        }
+      });
     });
-}*/
 
-/*function formComment(){
 
-    alert("댓글 작성 중입니다.");
+    // X 버튼 누르면 대댓글 삭제 form 출력
+    function togglecommentDel(button) {
 
-    const formComment = document.getElementById("formComment");
-    if (formComment) {
-        formComment.style.display = "block"; // 요소를 보이게 설정
-    }
-}*/
+        const formComment = button.parentElement.previousElementSibling;
+        /*const divElement = button.parentNode.parentNode;
+        const dateBox = divElement.getElementsByTagName("div")[2];*/
 
-function toggleCommentForm(button) {
-    const formComment = button.parentElement.parentElement.nextElementSibling; // 버튼 바로 다음에 위치한 폼
+        if (formComment) {
+            // 현재 display 스타일을 확인하여 폼을 보이게 하거나 숨김
+            if (formComment.style.display === "none" || formComment.style.display === "") {
 
-    /* ** 참고 **
-    1. document.getElementById("formComment");
-    이 방식은 id가 "formComment"인 첫 번째 요소만 찾습니다.
-    HTML 문서에는 ** 동일한 id 값을 가진 요소가 여러 개 있을 수 없다고 가정 **하므로,
-    이 방식은 페이지에 여러 댓글 폼이 있을 때 모두 관리하기 어렵습니다.
-    다수의 댓글 폼이 필요하다면 이 접근 방식이 적합하지 않습니다.
+                formComment.style.display = "flex"; // 폼을 보이게 설정
+                let input = formComment.querySelector('[id^="cpwd-"]');
+                input.focus();
+            } else {
 
-    2. button.nextElementSibling.nextElementSibling;
-    이 방식은 버튼 위치를 기준으로 다음의 두 번째 형제 요소를 찾아 접근합니다.
-    따라서, 여러 댓글 폼을 각 댓글 요소에 넣어야 할 경우 더 적합합니다.
-    HTML에서 li 내의 댓글에 따라 폼이 개별적으로 위치하고 있으므로,
-    이 방식을 사용하면 버튼을 클릭할 때마다 각 댓글에 해당하는 폼을 정확히 접근할 수 있습니다.
-
-    3. const formComment = button.nextElementSibling.nextElementSibling.nextElementSibling;
-    실행되지 않는 이유는 nextElementSibling을 사용했기 때문입니다.
-    nextElementSibling은 현재 요소의 바로 다음 형제 요소를 가리킵니다.
-    이 경우, <div> 안에 있는 button 요소 다음에는 <div> (댓글 입력 폼) 요소가 존재하고,
-    그 다음에 더 이상 형제 요소가 없기 때문에 세 번째 nextElementSibling은 null이 됩니다.
-    */
-
-    if (formComment) {
-        // 현재 display 스타일을 확인하여 폼을 보이게 하거나 숨김
-        if (formComment.style.display === "none" || formComment.style.display === "") {
-            formComment.style.display = "block"; // 폼을 보이게 설정
-        } else {
-            formComment.style.display = "none"; // 폼을 숨기기
+                formComment.style.display = "none"; // 폼을 숨기기
+            }
         }
     }
-}
+    // --------------------------------------------------------------------
 
-// 대댓글이 존재할 때만 padding-bottom: 15px; 적용
-document.addEventListener("DOMContentLoaded", function() {
-  const commentElements = document.querySelectorAll('#comment');
 
-  commentElements.forEach(commentElement => {
-    const childComment = commentElement.querySelector('#childcomment');
+    // X 버튼 누르면 대댓글 삭제 form 출력
+    function toggleChildCommentDel(button) {
 
-    if (childComment) {
-      commentElement.style.paddingBottom = '15px';
-    } else {
-      commentElement.style.paddingBottom = '0';
-    }
-  });
-});
+        const formComment = button.parentElement.nextElementSibling;
+        /*const liElement = button.parentNode.parentNode;
+        const dateBox = liElement.getElementsByTagName("div")[2];*/
 
-function toggleChildCommentDel(button) {
-    const formComment = button.parentElement.nextElementSibling;
-    /*const liElement = button.parentNode.parentNode;
-    const dateBox = liElement.getElementsByTagName("div")[2];*/
+        if (formComment) {
+            // 현재 display 스타일을 확인하여 폼을 보이게 하거나 숨김
+            if (formComment.style.display === "none" || formComment.style.display === "") {
 
-    if (formComment) {
-        // 현재 display 스타일을 확인하여 폼을 보이게 하거나 숨김
-        if (formComment.style.display === "none" || formComment.style.display === "") {
+                formComment.style.display = "flex"; // 폼을 보이게 설정
+                let input = formComment.querySelector('[id^="ccpwd-"]');
+                input.focus();
+            } else {
 
-            formComment.style.display = "block"; // 폼을 보이게 설정
-            //dateBox.style.display = "none";
-        } else {
-
-            formComment.style.display = "none"; // 폼을 숨기기
-            dateBox.style.display = "block";
+                formComment.style.display = "none"; // 폼을 숨기기
+            }
         }
     }
-}
+    // --------------------------------------------------------------------
 
-function togglecommentDel(button) {
-    const formComment = button.parentElement.previousElementSibling;
-    /*const divElement = button.parentNode.parentNode;
-    const dateBox = divElement.getElementsByTagName("div")[2];*/
 
-    if (formComment) {
-        // 현재 display 스타일을 확인하여 폼을 보이게 하거나 숨김
-        if (formComment.style.display === "none" || formComment.style.display === "") {
+    // 댓글, 대댓글 index 선택 함수
+    document.addEventListener('DOMContentLoaded', () => {
 
-            formComment.style.display = "flex"; // 폼을 보이게 설정
-            formComment.style.width = "200px";
-            //dateBox.style.display = "none";
-        } else {
+        // 댓글 삭제 폼 submit 버튼에 마우스 커서 올렸을 때 해당 댓글의 idx와 pwd.value 불러온다.
+        document.querySelectorAll('.submitBtn').forEach(btn => {
 
-            formComment.style.display = "none"; // 폼을 숨기기
-            dateBox.style.display = "block";
-        }
-    }
-}
+            btn.addEventListener('mouseover', (e) => {
 
-function togglePostDel(button) {
-    const formComment = button.parentElement.nextElementSibling;
+                const parent = e.target.closest('.commentDiv');
+                if (parent) {
 
-    if (formComment) {
-        // 현재 display 스타일을 확인하여 폼을 보이게 하거나 숨김
-        if (formComment.style.display === "none" || formComment.style.display === "") {
-            formComment.style.display = "block"; // 폼을 보이게 설정
-        } else {
-            formComment.style.display = "none"; // 폼을 숨기기
-        }
-    }
-}
+                    const inputElem = parent.querySelector('[id^="cidx-"]');
+                    if (inputElem) {
 
-  function checkCommentPwd(event) {
-    event.preventDefault(); // 기본 폼 제출 방지
+                        window.commentId = inputElem.id.replace('cidx-', '');
+                        console.log(window.commentId);
+                    }
 
-    let cidx = document.getElementById('cidx').value;
-    let cpwd = document.getElementById('cpwd').value;
-    let bidx = document.getElementById('bidx').value;
-    let pidx = document.getElementById('pidx').value;
+                    const parent2 = e.target.closest('.commentDiv');
+                    const inputElem2 = parent2.querySelector('[id^="cpwd-"]');
+                    if (inputElem) {
 
-    $.ajax({
-      type: "post",
-      url: "/checkCommentPwd", // 비밀번호 확인 요청을 처리할 URL
-      data: {cidx: cidx, cpwd: cpwd, pidx: pidx, bidx: bidx},
-      success: function(response) {
+                        window.commentPwd = inputElem2.value;
+                        console.log(window.commentPwd);
+                    }
+                }
+            })
+        })
 
-        if(response.success){
+        // 댓글 삭제 폼 input에 focus할 때 해당 댓글의 idx와 pwd.value 불러온다.
+        document.querySelectorAll('.cpwdInput').forEach(input => {
 
-            let form = document.createElement('form');
-            form.method = 'POST';
-            form.action = '/commentDel';
+            input.addEventListener('focus', (e) => {
 
-            let cidxField = document.createElement('input');
-            cidxField.type = 'hidden';
-            cidxField.name = 'cidx';
-            cidxField.value = cidx;
+                const parent = e.target.closest('.commentDiv');
+                const inputElem = parent.querySelector('[id^="cidx-"]');
+                window.commentId = inputElem.id.replace('cidx-', '');
+                console.log(window.commentId);
 
-            let bidxField = document.createElement('input');
-            bidxField.type = 'hidden';
-            bidxField.name = 'bidx';
-            bidxField.value = bidx;
+                const parent2 = e.target.closest('.commentDiv');
+                const inputElem2 = parent2.querySelector('[id^="cpwd-"]');
+                window.commentPwd = inputElem2.value;
+                console.log(window.commentPwd);
+            })
+        })
 
-            let pidxField = document.createElement('input');
-            pidxField.type = 'hidden';
-            pidxField.name = 'pidx';
-            pidxField.value = pidx;
+        // 댓글 삭제 폼 input에 입력값이 변할 때 해당 댓글의 idx와 pwd.value 불러온다.
+        document.querySelectorAll('.cpwdInput').forEach(input => {
 
-            form.appendChild(cidxField); // 폼에 pidx 필드 추가
-            form.appendChild(bidxField);
-            form.appendChild(pidxField);
+            input.addEventListener('input', (e) => {
 
-            // 폼을 body에 추가하고 전송
-            document.body.appendChild(form);
-            form.submit(); // 폼을 전송하여 POST 요청 실행
-        }else if(response.success2) {
+                const parent = e.target.closest('.commentDiv');
+                const inputElem = parent.querySelector('[id^="cidx-"]');
+                window.commentId = inputElem.id.replace('cidx-', '');
+                console.log(window.commentId);
 
-            alert("パスワードが一致しません。");
-        }
+                const parent2 = e.target.closest('.commentDiv');
+                const inputElem2 = parent2.querySelector('[id^="cpwd-"]');
+                window.commentPwd = inputElem2.value;
+                console.log(window.commentPwd);
+            })
+        })
+        // --------------------------------------------------------------------
 
-      },
-      error: function() {
 
-        alert("サーバーエラーが発生しました。");
-      }
+        // 대댓글 삭제 폼 submit 버튼에 마우스 커서 올렸을 때 해당 댓글의 idx와 pwd.value 불러온다.
+        document.querySelectorAll('.submitBtn').forEach(input => {
+
+            input.addEventListener('mouseover', (e) => {
+
+                const parent = e.target.closest('.commentDiv2'); // 가장 가까운 .commentDiv2 탐색.
+                if (parent) {
+
+                    const inputElem = parent.querySelector('[id^="ccidx-"]'); // ccidx- 로 시작하는 ID를 가진 요소 탐색.
+                    if (inputElem) {
+
+                        window.childCommentId = inputElem.id.replace('ccidx-', ''); // ID에서 ccidx- 를 삭제하고 index만 남긴다.
+                        console.log(window.childCommentId);
+                    }
+
+                    const parent2 = e.target.closest('.commentDiv2');
+                    const inputElem2 = parent2.querySelector('[id^="ccpwd-"]');
+                    if (inputElem2) {
+
+                        window.childCommentPwd = inputElem2.value;
+                        console.log(window.childCommentPwd);
+                    }
+                }
+            });
+        });
+
+        // 대댓글 삭제 폼 input에 focus할 때 해당 댓글의 idx와 pwd.value 불러온다.
+        document.querySelectorAll('.ccpwdInput').forEach(input => {
+
+            input.addEventListener('focus', (e) => {
+
+                const parent = e.target.closest('.commentDiv2');
+                const inputElem = parent.querySelector('[id^="ccidx-"]');
+                window.childCommentId = inputElem.id.replace('ccidx-', '');
+                console.log(window.childCommentId);
+
+                const parent2 = e.target.closest('.commentDiv2');
+                const inputElem2 = parent2.querySelector('[id^="ccpwd-"]');
+                window.childCommentPwd = inputElem2.value;
+                console.log(window.childCommentPwd);
+            })
+        })
+
+        // 대댓글 삭제 폼 input에 입력값이 변할 때 해당 댓글의 idx와 pwd.value 불러온다.
+        document.querySelectorAll('.ccpwdInput').forEach(input => {
+
+            input.addEventListener('input', (e) => {
+
+                const parent = e.target.closest('.commentDiv2');
+                const inputElem = parent.querySelector('[id^="ccidx-"]');
+                window.childCommentId = inputElem.id.replace('ccidx-', '');
+                console.log(window.childCommentId);
+
+                const parent2 = e.target.closest('.commentDiv2');
+                const inputElem2 = parent2.querySelector('[id^="ccpwd-"]');
+                window.childCommentPwd = inputElem2.value;
+                console.log(window.childCommentPwd);
+            })
+        })
+        // --------------------------------------------------------------------
     });
-  }
+    // --------------------------------------------------------------------
 
 
+    // 댓글 삭제 함수
+    function checkCommentPwd(event) {
 
-  function checkPassword(event, action) {
+        event.preventDefault(); // 기본 폼 제출 방지
+
+        let form = event.target;
+
+        let bidx = document.getElementById('bidx0').value;
+        let pidx = document.getElementById('pidx0').value;
+
+        let cpwd = window.commentPwd || 0;
+        let cidx = window.commentId || 0;
+
+        $.ajax({
+
+            type: "post",
+            url: "/checkCommentPwd", // 비밀번호 확인 요청을 처리할 URL
+            data: {cidx: cidx, cpwd: cpwd},
+            success: function(response) {
+
+                if(response.success){
+
+                    let form = document.createElement('form');
+                    form.method = 'POST';
+                    form.action = '/commentDel';
+
+                    let bidxField = document.createElement('input');
+                    bidxField.type = 'hidden';
+                    bidxField.name = 'bidx';
+                    bidxField.value = bidx;
+
+                    let pidxField = document.createElement('input');
+                    pidxField.type = 'hidden';
+                    pidxField.name = 'pidx';
+                    pidxField.value = pidx;
+
+                    let cidxField = document.createElement('input');
+                    cidxField.type = 'hidden';
+                    cidxField.name = 'cidx';
+                    cidxField.value = cidx;
+
+                    form.appendChild(cidxField); // 폼에 pidx 필드 추가
+                    form.appendChild(bidxField);
+                    form.appendChild(pidxField);
+
+                    // 폼을 body에 추가하고 전송
+                    document.body.appendChild(form);
+                    form.submit(); // 폼을 전송하여 POST 요청 실행
+                }else if(response.success2) {
+
+                    alert("パスワードが一致しません。");
+                }
+
+            },
+            error: function() {
+
+                alert("サーバーエラーが発生しました。");
+            }
+        });
+    }
+    // --------------------------------------------------------------------
+
+
+    // 대댓글 삭제 함수
+    function checkChildCommentPwd(event) {
+
+        event.preventDefault(); // 기본 폼 제출 방지
+
+        let form = event.target;
+
+        let bidx = document.getElementById('bidx20').value;
+        let pidx = document.getElementById('pidx20').value;
+
+        let ccpwd = window.childCommentPwd || 0;
+        let ccidx = window.childCommentId || 0;
+
+        $.ajax({
+
+            type: "post",
+            url: "/checkChildCommentPwd", // 비밀번호 확인 요청을 처리할 URL
+            data: {ccidx: ccidx, ccpwd: ccpwd},
+            success: function(response) {
+
+                if(response.success){
+
+                    let form = document.createElement('form');
+                    form.method = 'POST';
+                    form.action = '/childCommentDel';
+
+                    let bidxField = document.createElement('input');
+                    bidxField.type = 'hidden';
+                    bidxField.name = 'bidx';
+                    bidxField.value = bidx;
+
+                    let pidxField = document.createElement('input');
+                    pidxField.type = 'hidden';
+                    pidxField.name = 'pidx';
+                    pidxField.value = pidx;
+
+                    let ccidxField = document.createElement('input');
+                    ccidxField.type = 'hidden';
+                    ccidxField.name = 'ccidx';
+                    ccidxField.value = ccidx;
+
+                    form.appendChild(ccidxField); // 폼에 pidx 필드 추가
+                    form.appendChild(bidxField);
+                    form.appendChild(pidxField);
+
+                    // 폼을 body에 추가하고 전송
+                    document.body.appendChild(form);
+                    form.submit(); // 폼을 전송하여 POST 요청 실행
+                }else if(response.success2) {
+
+                    alert("パスワードが一致しません。");
+                }
+
+            },
+            error: function() {
+
+                alert("サーバーエラーが発生しました。");
+            }
+        });
+    }
+    // --------------------------------------------------------------------
+
+
+    // 게시글 삭제 함수
+    function checkPassword(event, action) {
       event.preventDefault(); // 기본 폼 제출 방지
 
       let ppwd = document.getElementById('ppwd').value;
@@ -248,3 +406,4 @@ function togglePostDel(button) {
         }
       });
     }
+    // --------------------------------------------------------------------

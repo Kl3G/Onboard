@@ -39,8 +39,8 @@ public class EntityPost {
     private String userip;
     private Date regdate;
     private Date newdate;
-    private Long view_count;
-    private Long good_count;
+    private Long viewCount;
+    private Long goodCount;
 
     @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<EntityComments> commentList = new ArrayList<>();

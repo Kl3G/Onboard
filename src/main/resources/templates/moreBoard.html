@@ -66,7 +66,7 @@
         </ul>
         <div class="slick-class">
             <!-- th:text는 CSS는 그대로 적용되지만 HTML 태그는 단순 텍스트로 처리됩니다. -->
-            <div th:utext="'全ボード数&#8201;&#8201;' + ${boardCount} + 'ボード'"> 全ボード数</div>
+            <div th:utext="'全ボード数&#8201;&#8201;' + ${boardCount} + '件'"> 全ボード数</div>
             <div th:utext="'全投稿数&#8201;&#8201;' + ${postCount} + '件'"> 全投稿数</div>
             <div th:utext="'全コメント数&#8201;&#8201;' + ${commentsCount} + '件'"> 全コメント数</div>
         </div>
@@ -77,11 +77,37 @@
     <div class="container__main">
         <section class="main__section">
             <div id="boardResult">
-                <h3 th:text="'ボード ' + ${boards.size()}"></h3>
+                <h3 th:text="'ボード ' + ${totalBoards}"></h3>
                 <p th:each="board : ${boards}" style="margin-bottom: 10px;">
                     <a id="board_name" th:text="${board.b_name} + ' &#x24D1;'" th:href="@{/board(bidx=${board.bidx}, page=1)}"></a>
                     <span id="post_count" th:text="'投稿数 ' + ${board.postList.size()}"></span>
                 </p>
+            </div>
+
+            <div id="pageNav" th:with="pageBlock=10,
+                startPage=${((currentPage - 1) / pageBlock) * pageBlock + 1},
+                tempEnd=${startPage + pageBlock - 1},
+                endPage=${tempEnd > totalPages ? totalPages : tempEnd}">
+
+                <!-- 이전 블록 링크: 현재 블록의 시작페이지가 1보다 클 때 -->
+                <a th:if="${startPage > 1}"
+                   th:href="@{'/moreBoard'(keyword=${keyword}, page=${startPage - 1})}">
+                    <i class="fa-solid fa-arrow-left"></i>
+                </a>
+
+                <!-- 페이지 번호 출력: 현재 블록의 startPage부터 endPage까지 -->
+                <span th:each="i : ${#numbers.sequence(startPage, endPage)}">
+                    <a th:if="${i != currentPage}"
+                       th:href="@{'/moreBoard'(keyword=${keyword}, page=${i})}"
+                       th:text="${i}"></a>
+                    <b th:if="${i == currentPage}" th:text="${i}"></b>
+                </span>
+
+                <!-- 다음 블록 링크: 현재 블록의 끝페이지가 전체 페이지 수보다 작을 때 -->
+                <a th:if="${endPage < totalPages}"
+                   th:href="@{'/moreBoard'(keyword=${keyword}, page=${endPage + 1})}">
+                    <i class="fa-solid fa-arrow-right"></i>
+                </a>
             </div>
         </section>
 
@@ -92,8 +118,8 @@
                     <fieldset>
                         <legend>ログイン</legend>
                         <div class="aside__loginLeft">
-                            <input type="text" id="userid" name="username">
-                            <input type="password" id="pwd" name="password">
+                            <input type="text" id="userid" name="username" placeholder="ID">
+                            <input type="password" id="pwd" name="password" placeholder="パスワード">
                             <!--<input> 요소는 기본적으로 설정된 최소 크기가 있습니다. 만약 너비나 높이가 설정되지 않으면, Flexbox는 이 기본 크기를 기준으로 계산하게 되는데, 이 경우 flex: 1;이 유효하게 작동하지 않습니다.
                             기본적으로 입력 필드가 너무 작게 설정되면 Flexbox는 해당 요소의 크기를 조정할 수 없게 됩니다.-->
                         </div>

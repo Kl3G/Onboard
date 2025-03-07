@@ -145,8 +145,9 @@ public class ServiceWorldImpl implements ServiceWorld {
             view.setUserip(post.getUserip());
             view.setTitle(post.getTitle());
             view.setRegdate(post.getRegdate());
-            view.setView_count(post.getView_count());
-            view.setGood_count(post.getGood_count());
+            view.setNewdate(post.getNewdate());
+            view.setViewCount(post.getViewCount());
+            view.setGoodCount(post.getGoodCount());
 
             return view;
         });
@@ -158,7 +159,7 @@ public class ServiceWorldImpl implements ServiceWorld {
     public void incrementViewCount(Long pidx) {
         // 포스트를 찾아서 view_count를 증가시킵니다.
         EntityPost post = repoPost.findById(pidx).orElseThrow(() -> new RuntimeException("Post not found"));
-        post.setView_count(post.getView_count() + 1);
+        post.setViewCount(post.getViewCount() + 1);
         repoPost.save(post);
     }
 

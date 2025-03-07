@@ -1,5 +1,6 @@
 package com.example.Portfolio_Onboard.Service;
 
+import com.example.Portfolio_Onboard.DTO.DTOCommentView;
 import com.example.Portfolio_Onboard.DTO.DTOCreateChildComments;
 import com.example.Portfolio_Onboard.DTO.DTOCreateComment;
 import com.example.Portfolio_Onboard.Entity.EntityComments;
@@ -9,6 +10,8 @@ import com.example.Portfolio_Onboard.Repository.RepoChildComments;
 import com.example.Portfolio_Onboard.Repository.RepoComment;
 import com.example.Portfolio_Onboard.Repository.RepoMemberInfo;
 import com.example.Portfolio_Onboard.Repository.RepoPost;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -65,9 +68,26 @@ public class ServiceCommentImpl implements ServiceComment{
     }
 
     @Override
-    public List<EntityComments> getCommentList(Long pidx) {
+    public Page<DTOCommentView> getCommentList(Long pidx, Pageable pageable) {
 
-        return repoComment.findByPost_Pidx(pidx);
+        Page<EntityComments> commentList = repoComment.findByPost_Pidx(pidx, pageable);
+
+        Page<DTOCommentView> commentPage = commentList
+                .map(entityComments -> {
+
+                    DTOCommentView dto = new DTOCommentView();
+                    dto.setText(entityComments.getText());
+                    dto.setRegdate(entityComments.getRegdate());
+                    dto.setPost(entityComments.getPost());
+                    dto.setNick(entityComments.getNick());
+                    dto.setCidx(entityComments.getCidx());
+                    dto.setUserip(entityComments.getUserip());
+                    dto.setChildcommentList(entityComments.getChildcommentList());
+
+                    return dto;
+                });
+
+        return commentPage;
     }
 
 

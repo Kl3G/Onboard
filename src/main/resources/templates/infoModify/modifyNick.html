@@ -15,7 +15,7 @@
     </div>
     <div class="divTitle__header">
         <a href="/index">
-            모두의 보드, 즐거운 여행
+            Everyone's Board, Fun Trip
         </a>
     </div>
 </header>
@@ -23,18 +23,18 @@
 <main>
     <section>
         <div class="divTitle__section">
-            <h3 style="color: #29367c;">닉네임 재설정</h3>
+            <h3 style="color: #29367c;">ニックネーム再設定</h3>
         </div>
         <form class="form__section" id="form__section" action="/modifyNick_proc" method="post">
             <fieldset class="fieldset__section">
-                <legend>닉네임 재설정</legend>
-                <p>새로 사용할 닉네임을 입력해 주세요.</p>
-                <div class="mailGroup__fieldset group">
+                <legend>ニックネーム再設定</legend>
+                <p>新しいニックネームを入力してください。</p>
+                <div class="mailGroup__fieldset group" style="margin-top: 15px;">
                     <div class="msgBox__mailGroup msgBox">
                         <input type="hidden" name="userid" th:value=${userid}>
-                        <input type="text" id="newNick" name="newNick" placeholder="새 닉네임을 입력해 주세요.">
+                        <input type="text" id="newNick" name="newNick" placeholder="新しいニックネーム入力">
                         <button type="submit">
-                            확인
+                            確認
                         </button>
                     </div>
                 </div>

@@ -26,7 +26,7 @@ public class FileController {
 
         try {
             // 기본 저장 폴더 경로 (업로드 시 사용한 경로와 동일)
-            Path filePath = Paths.get("C:\\data").resolve(fileName).normalize();
+            Path filePath = Paths.get("/app/data").resolve(fileName).normalize();
             Resource resource = new UrlResource(filePath.toUri());
 
             if (resource.exists() && resource.isReadable()) {

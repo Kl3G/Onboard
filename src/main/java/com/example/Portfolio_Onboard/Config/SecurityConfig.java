@@ -40,14 +40,14 @@ public class SecurityConfig {
                     response.setContentType("text/html;charset=UTF-8");
                     response.setStatus(HttpServletResponse.SC_FORBIDDEN);
                     response.getWriter().write(
-                            "<script>alert('권한이 없습니다.'); window.location.href='/index';</script>"
+                            "<script>alert('権限がありません。'); window.location.href='/index';</script>"
                     );
                 })
                 .authenticationEntryPoint((request, response, authException) -> {
                     response.setContentType("text/html;charset=UTF-8");
                     response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
                     response.getWriter().write(
-                            "<script>alert('로그인이 필요합니다.'); history.back();</script>"
+                            "<script>alert('ログインしてください。'); history.back();</script>"
                     );
                     response.getWriter().flush();
                 })

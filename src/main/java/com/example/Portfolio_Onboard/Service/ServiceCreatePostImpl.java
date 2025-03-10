@@ -49,7 +49,7 @@ public class ServiceCreatePostImpl implements ServiceCreatePost{
         EntityWorld board = optionalBoard.get();
         /*Optional<EntityFiles> optionalFiles = repoFiles.findById(dtoCreatePost.getPidx());*/
 
-        Path upPath = Paths.get("C:\\data");
+        Path upPath = Paths.get("/app/data");
 
         List<String> ofileList = new ArrayList<>();
         List<String> sfileList = new ArrayList<>();

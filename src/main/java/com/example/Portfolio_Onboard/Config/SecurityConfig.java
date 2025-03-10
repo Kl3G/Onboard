@@ -59,7 +59,7 @@ public class SecurityConfig {
                 .loginPage("/index")
                 .loginProcessingUrl("/login_proc")
                 .defaultSuccessUrl("/index", true) // 로그인 성공 후 이동할 페이지
-                //.failureUrl("/index?error=true") // 로그인 실패 후 출력 url
+                .failureUrl("/index?error=true") // 로그인 실패 후 출력 url
                 .failureHandler((request, response, exception) -> {
 
                     response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);

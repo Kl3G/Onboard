@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -26,7 +28,7 @@ public class EntityMemberInfo implements UserDetails {
     private String mail;
     private Date regdate;
 
-    @OneToMany(mappedBy = "memberInfo", fetch = FetchType.LAZY) //기본설정
+    @OneToMany(mappedBy = "memberInfo", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE, orphanRemoval = true) //기본설정
     private List<EntityWorld> worldList = new ArrayList<>();
 
     @Override

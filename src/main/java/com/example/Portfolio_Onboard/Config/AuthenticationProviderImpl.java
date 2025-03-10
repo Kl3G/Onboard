@@ -36,15 +36,20 @@ public class AuthenticationProviderImpl implements AuthenticationProvider {
 
         UserDetails user = userDetailsService.loadUserByUsername(userid);
 
-        if (user == null){
 
-            throw new UsernameNotFoundException("없는 아이디..");
+        if (user == null) {
+
+            throw new UsernameNotFoundException("아이디가 일치하지 않습니다.");
         }
 
-        if(!pwd.equals(user.getPassword())){
+        if (!pwd.equals(user.getPassword())) {
 
-            throw new BadCredentialsException("비밀번호 오류..");
+            throw new BadCredentialsException("비밀번호가 일치하지 않습니다.");
         }
+        // 위 코드를 try catch 에 넣어버리면 Exception 이 SecurityConfig 로 전송되지 않는다.
+        // catch 문이 SecurityConfig 로 전송될 Exception 을 잡아버리기 때문에 아이디만 일치하면 로그인되는 에러 발생.
+        /* Exception() 안에 텍스트를 넣는 이유 = SecurityConfig 에서
+           System.out.println(exception.getMessage()); 하면 텍스트 출력 가능. */
 
         // 세션 생성 //
         EntityMemberInfo memberInfo = (EntityMemberInfo) user;
@@ -65,7 +70,7 @@ public class AuthenticationProviderImpl implements AuthenticationProvider {
         authorities.add(new SimpleGrantedAuthority("ROLE_USER"));
         // 위의 Exception을 통과 즉, 회원이면 모두에게 "ROLE_USER" 권한을 준다.
 
-        if(userid.equals("qwer")){
+        if(userid.equals("1")){
             authorities.add(new SimpleGrantedAuthority("ROLE_MANAGER"));
         }
 

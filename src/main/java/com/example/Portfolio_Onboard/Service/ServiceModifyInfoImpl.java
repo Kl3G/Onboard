@@ -30,4 +30,12 @@ public class ServiceModifyInfoImpl implements ServiceModifyInfo{
 
         return "redirect:/index/logout";
     }
+
+    @Override
+    public String withdrawal(String userid, String pwd) {
+
+        repoMemberInfo.deleteByUseridAndPwd(userid, pwd);
+
+        return "redirect:/index/logout";
+    }
 }

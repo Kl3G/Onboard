@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>withdrawal</title>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://kit.fontawesome.com/b3af913a6d.js" crossorigin="anonymous"></script>
+  <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css"/>
+  <script type="text/javascript" src="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
+  <link rel="stylesheet" href="/css/pwdCheck.css">
+</head>
+
+<body>
+
+<header class="main__header">
+  <div class="container__header">
+    <div class="header__logo">
+      <a href="/index">
+        Onboard
+      </a>
+      <a href="/index" style="font-size: 12px;">
+        Everyone's Board, Fun Trip
+      </a>
+    </div>
+    <div class="header__form">
+      <form action="/search" method="get">
+        <input class="header__search" type="text" name="keyword" spellcheck="false">
+        <button class="header__button"type="submit ">
+          <i class="fa-solid fa-magnifying-glass header__icon"></i>
+        </button>
+      </form>
+    </div>
+  </div>
+</header>
+
+<nav class="main__nav">
+  <div class="container__nav">
+    <ul class="nav__ul">
+      <li style="flex: 0.8;">
+        <div>
+          <a href="/world/asia?place=1">アジア</a>
+        </div>
+      </li>
+      <li style="flex: 0.8;">
+        <div>
+          <a href="/world/europe?place=2">ヨーロッパ</a>
+        </div>
+      </li>
+      <li>
+        <div>
+          <a href="/world/northAmerica?place=3">北アメリカ</a>
+        </div>
+      </li>
+      <li>
+        <div>
+          <a href="/world/southAmerica?place=4">南アメリカ</a>
+        </div>
+      </li>
+      <li >
+        <div>
+          <a href="/world/oceania?place=5">オセアニア</a>
+        </div>
+      </li>
+    </ul>
+    <div class="slick-class">
+      <!-- th:text는 CSS는 그대로 적용되지만 HTML 태그는 단순 텍스트로 처리됩니다. -->
+      <div th:utext="'全ボード数&#8201;&#8201;' + ${boardCount} + '件'"> 全ボード数</div>
+      <div th:utext="'全投稿数&#8201;&#8201;' + ${postCount} + '件'"> 全投稿数</div>
+      <div th:utext="'全コメント数&#8201;&#8201;' + ${commentsCount} + '件'"> 全コメント数</div>
+    </div>
+  </div>
+</nav>
+
+<main class="main__main">
+  <div class="postBox__main">
+
+    <div style="margin: 0 25px 0 25px;">
+      <div class="main__divTop " style="border-bottom: 2px solid #29367c;">
+        <div>
+          会員脱退
+        </div>
+      </div>
+
+      <div class="divForm">
+        <form id="infoModifyPwdCheckForm" action="/withdrawal_proc" method="post" style="display: flex; flex-direction: column;">
+          <div style="display: flex; justify-content: center; margin-bottom: 15px;">
+            <span>IDとパスワードを入力してください。</span>
+          </div>
+          <div style="margin-bottom: 15px; display: flex; flex-direction: column; align-items: center; gap: 10px; ">
+            <input type="text" name="userid" id="userid" placeholder="ID" style="height: 30px; width: 180px; border: 1px solid #d5d5d5; padding: 5px 10px;">
+            <input type="password" name="pwd" id="pwd" placeholder="パスワード" style="height: 30px; width: 180px; border: 1px solid #d5d5d5; padding: 5px 10px;">
+          </div>
+          <div style="display: flex; justify-content: center; gap: 15px;">
+            <button style="background-color: #666666;" onclick="history.back()">キャンセル</button>
+            <button type="submit">確認</button>
+          </div>
+        </form>
+      </div>
+      <div style="height: 50px; border-top: 2px solid #29367c; margin-bottom: 100px;"></div>
+    </div>
+
+  </div>
+</main>
+
+<footer style="box-sizing: border-box;">
+  <div>
+    <ul class="footer__ul">
+      <li style="min-width: 65px;">
+        会社概要
+        <span>|</span>
+      </li>
+      <li style="min-width: 65px;">
+        利用規約
+      </li>
+    </ul>
+  </div>
+  <div>
+    <span style="font-size: 12px;">Copyright ⓒ 2024 - 2025 ondoard. All rights reserved.</span>
+  </div>
+</footer>
+<script src="/js/global.js"></script>
+<script src="/js/infoModifyPwdCheck.js"></script>
+</body>
+</html>

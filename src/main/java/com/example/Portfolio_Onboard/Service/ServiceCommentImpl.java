@@ -10,6 +10,7 @@ import com.example.Portfolio_Onboard.Repository.RepoChildComments;
 import com.example.Portfolio_Onboard.Repository.RepoComment;
 import com.example.Portfolio_Onboard.Repository.RepoMemberInfo;
 import com.example.Portfolio_Onboard.Repository.RepoPost;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -17,6 +18,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
+@Log4j2
 public class ServiceCommentImpl implements ServiceComment{
 
     private final RepoPost repoPost;
@@ -71,6 +73,7 @@ public class ServiceCommentImpl implements ServiceComment{
     public Page<DTOCommentView> getCommentList(Long pidx, Pageable pageable) {
 
         Page<EntityComments> commentList = repoComment.findByPost_Pidx(pidx, pageable);
+        log.error("commentList :" + commentList);
 
         Page<DTOCommentView> commentPage = commentList
                 .map(entityComments -> {

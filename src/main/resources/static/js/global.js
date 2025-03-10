@@ -9,13 +9,6 @@ $(document).ready(function() {
     });
 });
 
-
-if(joinSuccess) {
-
-    alert("会員登録を完了しました!");
-}
-
-
 /*let isLoggedIn = false; // 전역 변수 선언
 let loginForm = "";
 let emptySpace = "";

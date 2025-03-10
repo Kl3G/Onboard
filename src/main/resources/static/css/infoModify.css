@@ -29,6 +29,13 @@ input {
     margin-top: 60px;
 }
 
+.withdrawalGroup__fieldset {
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
 button {
 
     background-color: #666666;
@@ -47,6 +54,11 @@ button {
     color: #747783;
     width: 60px;
     height: 35px;
+}
+
+.withdrawalButton { /* 이 코드가 나중에 선언되어야지만 .modButton 을 덮을 수 있다. */
+
+    width: 100px;
 }
 
 header {

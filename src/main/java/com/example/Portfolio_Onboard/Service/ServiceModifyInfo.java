@@ -7,4 +7,5 @@ public interface ServiceModifyInfo {
 
     String modifyMail(DTOModifyMail dtoModifyMail);
     String modifyNick(DTOModifyNick dtoModifyNick);
+    String withdrawal(String userid, String pwd);
 }

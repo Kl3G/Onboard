@@ -326,7 +326,7 @@ public class PostController {
         // page: 가져올 페이지 번호 (0부터 시작)
         // size: 한 페이지에 포함할 데이터 개수
 
-        Page<DTOCommentView> commentPage = serviceComment.getCommentList(bidx, pageable2);
+        Page<DTOCommentView> commentPage = serviceComment.getCommentList(pidx, pageable2);
         // postPage 자체는 Page 타입이고, 그 안에 담긴 각각의 데이터는 DTOPostView 타입이다.
 
         int totalPages2 = commentPage.getTotalPages();
@@ -339,6 +339,7 @@ public class PostController {
         }
 
         model.addAttribute("commentList", commentPage);
+        log.error("commentList" + commentPage);
 
         // 페이징 관련 정보 전달
         model.addAttribute("currentPage2", commentPage.getNumber() + 1); // 1부터 보이게 하기 위해 +1

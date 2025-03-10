@@ -22,6 +22,10 @@ public interface RepoMemberInfo extends JpaRepository<EntityMemberInfo, String> 
 
     @Transactional
     @Modifying
+    void deleteByUseridAndPwd(String userid, String pwd);
+
+    @Transactional
+    @Modifying
     @Query("UPDATE EntityMemberInfo e SET e.pwd = :newPwd WHERE e.mail = :mail AND e.userid = :userid")
     void updatePwdByMailAndUserid(@Param("mail") String mail, @Param("userid") String userid, @Param("newPwd") String newPwd);
 

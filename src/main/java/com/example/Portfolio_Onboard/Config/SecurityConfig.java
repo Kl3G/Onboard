@@ -29,7 +29,8 @@ public class SecurityConfig {
                         "/checkChildCommentPwd/**", "/postModifyPwdCheck/**", "/checkPostPassword/**", "/postDelete/**", "checkCommentPwd/**",
                         "/css/**", "/js/**", "/img/**", "/webjars/**", "/h2-console/**", "/findId/**", "/findPwd/**",
                         "/findId_proc/**", "/foundInfo/**", "/findPwd_proc/**", "/newPwd/**", "/newPwd_proc/**", "/idNotFound/**",
-                        "/pwdNotFound/**", "/searchResult/**", "/search_proc/**", "/moreBoard/**", "/morePost/**").permitAll() // 누구든지 접속 가능
+                        "/pwdNotFound/**", "/searchResult/**", "/search_proc/**", "/moreBoard/**", "/morePost/**",
+                        "/withdrawal/**", "/withdrawal_proc/**").permitAll() // 누구든지 접속 가능
                 .requestMatchers("/createBoard/**").hasRole("USER") // USER는 "/createBoard" 접속 가능
                 .requestMatchers("/notice/**").hasRole("MANAGER") // MANAGER는 "/notice" 접속 가능
                 .anyRequest().authenticated()
@@ -38,15 +39,19 @@ public class SecurityConfig {
         http.exceptionHandling(exception -> exception
                 .accessDeniedHandler((request, response, accessDeniedException) -> {
                     response.setContentType("text/html;charset=UTF-8");
-                    response.setStatus(HttpServletResponse.SC_FORBIDDEN);
+                    response.setStatus(HttpServletResponse.SC_FORBIDDEN); // 권한 없음
+                    // SC_FORBIDDEN (403) = 사용자가 인증은 되어 있지만, 요청한 리소스에 접근할 권한이 없는 경우에 사용됩니다.
                     response.getWriter().write(
+
                             "<script>alert('権限がありません。'); window.location.href='/index';</script>"
                     );
                 })
                 .authenticationEntryPoint((request, response, authException) -> {
                     response.setContentType("text/html;charset=UTF-8");
-                    response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+                    response.setStatus(HttpServletResponse.SC_UNAUTHORIZED); // 인증 필요
+                    // SC_UNAUTHORIZED (401) = 사용자가 인증되지 않은 상태에서 보호된 리소스에 접근할 때 사용됩니다.
                     response.getWriter().write(
+
                             "<script>alert('ログインしてください。'); history.back();</script>"
                     );
                     response.getWriter().flush();
@@ -59,11 +64,17 @@ public class SecurityConfig {
                 .loginPage("/index")
                 .loginProcessingUrl("/login_proc")
                 .defaultSuccessUrl("/index", true) // 로그인 성공 후 이동할 페이지
-                .failureUrl("/index?error=true") // 로그인 실패 후 출력 url
                 .failureHandler((request, response, exception) -> {
 
-                    response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-                    // 실패 시 401 반환하고 어떠한 세션도 생성하지 않는다.
+                    //System.out.println(exception.getMessage());
+                    response.setContentType("text/html;charset=UTF-8");
+                    response.setStatus(HttpServletResponse.SC_UNAUTHORIZED); // 인증 필요
+                    // SC_UNAUTHORIZED (401) = 사용자가 인증되지 않은 상태에서 보호된 리소스에 접근할 때 사용됩니다.
+                    response.getWriter().write(
+
+                            "<script>alert('IDもしくはパスワードが正しくありません。'); history.back();</script>"
+                    );
+                    response.getWriter().flush();
                 })
                 .permitAll()
         );

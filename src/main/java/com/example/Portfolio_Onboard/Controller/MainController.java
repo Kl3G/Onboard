@@ -311,7 +311,7 @@ public class MainController {
             response.setContentType("text/html;charset=UTF-8");
 
             PrintWriter out = response.getWriter();
-            out.println("<script>alert('비밀번호가 일치하지 않습니다.'); history.back();</script>");
+            out.println("<script>alert('パスワードが一致しません。'); history.back();</script>");
             out.flush();
             return null;
         }
@@ -326,7 +326,7 @@ public class MainController {
 
             response.setContentType("text/html;charset=UTF-8");
             PrintWriter out = response.getWriter();
-            out.println("<script>alert('잘못된 접근입니다.'); history.back();</script>");
+            out.println("<script>alert('アクセスが拒否されました。'); history.back();</script>");
             out.flush();
 
             return null;
@@ -353,7 +353,7 @@ public class MainController {
             session.removeAttribute("pwdCheckPassed");
             response.setContentType("text/html;charset=UTF-8");
             PrintWriter out = response.getWriter();
-            out.println("<script>alert('잘못된 접근입니다.'); history.back();</script>");
+            out.println("<script>alert('アクセスが拒否されました。'); history.back();</script>");
             out.flush();
 
             return null;
@@ -375,7 +375,7 @@ public class MainController {
             session.removeAttribute("pwdCheckPassed");
             response.setContentType("text/html;charset=UTF-8");
             PrintWriter out = response.getWriter();
-            out.println("<script>alert('잘못된 접근입니다.'); history.back();</script>");
+            out.println("<script>alert('アクセスが拒否されました。'); history.back();</script>");
             out.flush();
 
             return null;
@@ -404,7 +404,7 @@ public class MainController {
             session.removeAttribute("pwdCheckPassed");
             response.setContentType("text/html;charset=UTF-8");
             PrintWriter out = response.getWriter();
-            out.println("<script>alert('잘못된 접근입니다.'); history.back();</script>");
+            out.println("<script>alert('アクセスが拒否されました。'); history.back();</script>");
             out.flush();
 
             return null;
@@ -417,6 +417,19 @@ public class MainController {
         session.removeAttribute("pwdCheckPassed");
 
         return serviceModifyInfo.modifyMail(dtoModifyMail);
+    }
+
+    @GetMapping("/withdrawal")
+    public String getWithdrawal(){
+
+        return "infoModify/withdrawal";
+    }
+
+    @PostMapping("/withdrawal_proc")
+    public String setWithdrawal(@RequestParam("userid") String userid,
+                                @RequestParam("pwd") String pwd){
+
+        return serviceModifyInfo.withdrawal(userid, pwd);
     }
     // ----------------------------------------------------------
 

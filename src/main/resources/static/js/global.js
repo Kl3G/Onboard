@@ -11,7 +11,8 @@ $(document).ready(function() {
 
 
 if(joinSuccess) {
-    alert("회원가입이 완료되었습니다!");
+
+    alert("会員登録を完了しました!");
 }
 
 

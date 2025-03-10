@@ -3,20 +3,25 @@ package com.example.Portfolio_Onboard.Service;
 import com.example.Portfolio_Onboard.DTO.DTOCreatePost;
 import com.example.Portfolio_Onboard.DTO.DTOModifyPost;
 import com.example.Portfolio_Onboard.Entity.EntityFiles;
-import com.example.Portfolio_Onboard.Entity.EntityMemberInfo;
 import com.example.Portfolio_Onboard.Entity.EntityPost;
 import com.example.Portfolio_Onboard.Entity.EntityWorld;
 import com.example.Portfolio_Onboard.Repository.RepoFiles;
 import com.example.Portfolio_Onboard.Repository.RepoMemberInfo;
 import com.example.Portfolio_Onboard.Repository.RepoPost;
 import com.example.Portfolio_Onboard.Repository.RepoWorld;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.log4j.Log4j2;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.UrlResource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -26,13 +31,12 @@ import java.util.*;
 @Log4j2
 public class ServiceCreatePostImpl implements ServiceCreatePost{
 
-    private final RepoMemberInfo repoMemberInfo;
     private final RepoWorld repoWorld;
     private final RepoPost repoPost;
     private final RepoFiles repoFiles;
 
     public ServiceCreatePostImpl(RepoMemberInfo repoMemberInfo, RepoWorld repoWorld, RepoPost repoPost, RepoFiles repoFiles) {
-        this.repoMemberInfo = repoMemberInfo;
+
         this.repoWorld = repoWorld;
         this.repoPost = repoPost;
         this.repoFiles = repoFiles;
@@ -45,7 +49,7 @@ public class ServiceCreatePostImpl implements ServiceCreatePost{
         EntityWorld board = optionalBoard.get();
         /*Optional<EntityFiles> optionalFiles = repoFiles.findById(dtoCreatePost.getPidx());*/
 
-        Path upPath = Paths.get("D:\\data");
+        Path upPath = Paths.get("C:\\data");
 
         List<String> ofileList = new ArrayList<>();
         List<String> sfileList = new ArrayList<>();
@@ -53,6 +57,11 @@ public class ServiceCreatePostImpl implements ServiceCreatePost{
         for (MultipartFile file : dtoCreatePost.getFiles()) {
 
             String fileName = file.getOriginalFilename(); // 원본 파일 이름 생성
+
+            if(fileName == null || !fileName.contains(".")){
+
+                continue;
+            }
 
             try {
 
@@ -70,13 +79,10 @@ public class ServiceCreatePostImpl implements ServiceCreatePost{
                 sfileList.add(newFilename);
                 // S 리스트에 입력
 
-                Path targetLocation = upPath.resolve(newFilename);
+                Path targetLocation = upPath.resolve(newFilename); // resolve()는 기존 경로와 새 경로를 붙여서 최종 경로를 만든다.
 
                 Files.copy(file.getInputStream(), targetLocation);
-                // 내가 전송한 파일을 복사한 새로운 파일이 서버에 생성된다
-
-                /*File destinationFile = new File(fileName);
-                file.transferTo(destinationFile); // 실제로 파일을 저장하는 코드*/
+                // 내가 전송한 파일을 복사한 새로운 파일이 서버(내 PC)에 생성된다.
             } catch (Exception e) {
 
                 e.printStackTrace(); // 예외 처리
@@ -112,7 +118,7 @@ public class ServiceCreatePostImpl implements ServiceCreatePost{
         post.setCategory(dtoModifyPost.getCategory());
         post.setText(dtoModifyPost.getText());
         post.setTitle(dtoModifyPost.getTitle());
-        Path upPath = Paths.get("D:\\data");
+        Path upPath = Paths.get("C:\\data");
 
         // 수정할 때 기존에 있던 파일은 가져와서 삭제
         EntityFiles existingFiles = post.getFiles();
@@ -185,6 +191,7 @@ public class ServiceCreatePostImpl implements ServiceCreatePost{
 
     @Override
     public Optional<EntityPost> createOrUpdate(Long pidx) {
+
         if (pidx != null && pidx > 0) {
 
             return repoPost.findById(pidx);
@@ -194,10 +201,5 @@ public class ServiceCreatePostImpl implements ServiceCreatePost{
         Optional<PeopleEntity> people;처럼 선언만 하면 기본값이 null이 된다.
         이 경우 null 체크를 피할 수 없으며, 나중에 사용 시 NullPointerException이 발생할 위험이 있다.
         따라서, 안전한 코드 작성을 위해 Optional을 선언할 때는 반드시 초기화하는 것이 좋다. */
-    }
-
-    @Override
-    public String download(String idx) {
-        return "";
     }
 }

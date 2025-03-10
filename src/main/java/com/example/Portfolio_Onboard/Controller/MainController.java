@@ -544,11 +544,6 @@ public class MainController {
         return place;
     }
 
-    @GetMapping("/notice")
-    public String getNotice(){
-
-        return "notice";
-    }
 
     @GetMapping("/api/session-status")
     public ResponseEntity<?> checkSessionStatus(HttpSession session) {

@@ -11,5 +11,4 @@ public interface ServiceCreatePost {
     String setPost(DTOCreatePost dtoCreatePost); // 게시글 작성
     String updatePost(DTOModifyPost dtoModifyPost); // 게시글 수정
     Optional<EntityPost> createOrUpdate(Long pidx);
-    String download(String fileName);
 }

@@ -6,7 +6,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
@@ -44,9 +43,6 @@ public class SecurityConfig {
                             "<script>alert('권한이 없습니다.'); window.location.href='/index';</script>"
                     );
                 })
-        );
-
-        http.exceptionHandling(exception -> exception
                 .authenticationEntryPoint((request, response, authException) -> {
                     response.setContentType("text/html;charset=UTF-8");
                     response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);

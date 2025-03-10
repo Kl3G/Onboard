@@ -4,6 +4,7 @@ import com.example.Portfolio_Onboard.DTO.*;
 import com.example.Portfolio_Onboard.Entity.*;
 import com.example.Portfolio_Onboard.Repository.*;
 import com.example.Portfolio_Onboard.Service.*;
+
 import jakarta.servlet.http.HttpSession;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +12,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -19,12 +19,16 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
+import org.springframework.http.ResponseEntity;
+
+import java.io.File;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
+
 
 
 @Log4j2
@@ -53,6 +57,13 @@ public class PostController {
         this.repoWorld = repoWorld;
         this.repoFiles = repoFiles;
     }
+
+    /*@GetMapping("/download")
+    public ResponseEntity<Resource> downloadFile(@RequestParam("fileName") String fileName,
+                                                 HttpServletRequest request) {
+
+        return serviceCreatePost.downloadFile(fileName, request);
+    }*/
 
 
     @GetMapping(value = {"/createPost", "/modifyPost"})
@@ -250,6 +261,7 @@ public class PostController {
         // 페이징 코드
         int pageSize = 30;
         Sort sort = Sort.by(
+
                 Sort.Order.desc("goodCount"),
                 Sort.Order.desc("viewCount"),
                 Sort.Order.desc("regdate")
@@ -350,7 +362,7 @@ public class PostController {
     }
 
     @PostMapping("/childcomment_proc")
-    public String setChildcomment(DTOCreateChildComments dtoCreateChildComments){
+    public String setChildComment(DTOCreateChildComments dtoCreateChildComments){
 
         return serviceComment.setChildComment(dtoCreateChildComments);
     }
@@ -418,7 +430,28 @@ public class PostController {
     @PostMapping("/postDel")
     public String delPost(@RequestParam("pidx") Long pidx, @RequestParam("bidx") Long bidx){
 
-        repoPost.deleteById(pidx);
+        Optional<EntityPost> optionalPost = repoPost.findById(pidx);
+        if (optionalPost.isPresent()) {
+            EntityPost post = optionalPost.get();
+
+            // 2) 해당 게시글에 연결된 파일 정보 가져오기
+            EntityFiles files = post.getFiles();
+            if (files != null) {
+                // 예: 파일 경로나 파일 이름을 합쳐서 실제 경로를 만든다고 가정
+                String filePath = "C:/data/" + files.getSfile();
+                // 혹은 files.getFilePath()를 사용 (DB에 전체 경로 저장했다면)
+
+                // 3) 물리 경로에 있는 파일 삭제
+                File file = new File(filePath);
+                if (file.exists()) {
+                    boolean deleted = file.delete();
+                    System.out.println("파일 삭제 여부: " + deleted);
+                }
+            }
+
+            // 4) 게시글 삭제
+            repoPost.deleteById(pidx);
+        }
 
         return "redirect:/board?bidx="+bidx;
     }

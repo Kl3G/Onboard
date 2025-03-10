@@ -107,7 +107,7 @@
       <div class="postFiles__main">
         <div>
           <span>添付ファイル</span>
-          <span th:text="${sfileList.size()}"></span><br>
+          <span th:text="${sfileList.contains('') ? '0' : sfileList.size()}"></span><br>
           <a th:each="sfile, iter : ${sfileList}"
              th:href="@{/download(fileName=${sfile})}"
              th:download="${sfile}">

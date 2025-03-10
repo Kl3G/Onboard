@@ -10,5 +10,6 @@ public interface ServiceCreatePost {
 
     String setPost(DTOCreatePost dtoCreatePost); // 게시글 작성
     String updatePost(DTOModifyPost dtoModifyPost); // 게시글 수정
+    String delPost(Long pidx, Long bidx);
     Optional<EntityPost> createOrUpdate(Long pidx);
 }

@@ -430,30 +430,7 @@ public class PostController {
     @PostMapping("/postDel")
     public String delPost(@RequestParam("pidx") Long pidx, @RequestParam("bidx") Long bidx){
 
-        Optional<EntityPost> optionalPost = repoPost.findById(pidx);
-        if (optionalPost.isPresent()) {
-            EntityPost post = optionalPost.get();
-
-            // 2) 해당 게시글에 연결된 파일 정보 가져오기
-            EntityFiles files = post.getFiles();
-            if (files != null) {
-                // 예: 파일 경로나 파일 이름을 합쳐서 실제 경로를 만든다고 가정
-                String filePath = "C:/data/" + files.getSfile();
-                // 혹은 files.getFilePath()를 사용 (DB에 전체 경로 저장했다면)
-
-                // 3) 물리 경로에 있는 파일 삭제
-                File file = new File(filePath);
-                if (file.exists()) {
-                    boolean deleted = file.delete();
-                    System.out.println("파일 삭제 여부: " + deleted);
-                }
-            }
-
-            // 4) 게시글 삭제
-            repoPost.deleteById(pidx);
-        }
-
-        return "redirect:/board?bidx="+bidx;
+        return serviceCreatePost.delPost(pidx, bidx);
     }
 
     /*@PostMapping("/boardDel")*/

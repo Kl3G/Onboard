@@ -130,7 +130,7 @@
                 <div class="commentBox">
                     <div class="nickBox">
                       <span th:text="${comment.nick}" style="font-size: 12px;"></span>
-                      <span th:text="(${comment.nick == 'ㅇㅇ'} ? '(' + ${#strings.substring(post.userip, 0, 7)} + ')' : '')"
+                      <span th:text="(${comment.nick == 'ㅇㅇ'} ? '(' + ${#strings.substring(comment.userip, 0, 7)} + ')' : '')"
                             style="font-size: 11px;"></span>
                     </div>
                     <div class="textBox">
@@ -168,7 +168,7 @@
                           <input type="hidden" name="cidx" th:value="${comment.cidx}">
                           <input type="hidden" name="userid" th:value="${userid}">
                           <input type="hidden" name="nick" th:value="${nick}">
-                          <input type="hidden" name="userip" th:value="${userip}">
+                          <input type="hidden" name="userip" th:value="${ip}">
                           <input type="password" name="ccpwd" placeholder="パスワード" style="padding: 1px 7px 1px 7px; box-sizing: box-border; max-width: 126px; height: 28px;">
                         </div>
                         <div style="width: 100%;">
@@ -188,7 +188,7 @@
                     <li id="childcomment" class="childcommentBox" th:each="childcomment, stat : ${comment.childcommentList}" style="display: flex; position: relative;">
                       <div class="nickBox">
                         <span th:text="${childcomment.nick}" style="font-size: 12px;"></span>
-                        <span th:text="(${childcomment.nick == 'ㅇㅇ'} ? '(' + ${#strings.substring(post.userip, 0, 7)} + ')' : '')" style="font-size: 12px;"></span>
+                        <span th:text="(${childcomment.nick == 'ㅇㅇ'} ? '(' + ${#strings.substring(childcomment.userip, 0, 7)} + ')' : '')" style="font-size: 12px;"></span>
                       </div>
                       <div class="childTextBox">
                         <span style="font-weight: bold; color: #29367c;">ㄴ</span>
@@ -250,7 +250,7 @@
             <div style="max-width: 142px; height: 30px;">
               <input type="hidden" name="pidx" th:value="${post.pidx}">
               <input type="hidden" name="userid" th:value="${userid}">
-              <input type="hidden" name="userip" th:value="${userip}">
+              <input type="hidden" name="userip" th:value="${ip}">
               <input type="hidden" name="nick" th:value="${nick}">
               <input type="password" name="cpwd" placeholder="パスワード" style="padding: 1px 7px 1px 7px; box-sizing: box-border; max-width: 126px; height: 28px;">
             </div>

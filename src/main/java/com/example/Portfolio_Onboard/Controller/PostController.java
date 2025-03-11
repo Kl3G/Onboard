@@ -22,8 +22,6 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.http.ResponseEntity;
 
 import jakarta.servlet.http.HttpServletRequest;
-import java.net.InetAddress;
-import java.net.UnknownHostException;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -207,7 +205,8 @@ public class PostController {
     @GetMapping("/post")
     public String getPost(@RequestParam("pidx") Long pidx, @RequestParam("bidx") Long bidx,
                           @RequestParam(value="page1", defaultValue="1") int page1,
-                          @RequestParam(value="page2", defaultValue="1") int page2, Model model){
+                          @RequestParam(value="page2", defaultValue="1") int page2,
+                          HttpServletRequest request, Model model){
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication != null && authentication.isAuthenticated()) {
@@ -227,21 +226,16 @@ public class PostController {
             model.addAttribute("nick", nick);
         }
 
-        InetAddress local = null;
-        try {
-            local = InetAddress.getLocalHost();
-        } catch ( UnknownHostException e ) {
-            e.printStackTrace();
-        }
+        String clientIp = request.getHeader("X-Forwarded-For");
+        if (clientIp != null && !clientIp.isEmpty() && !"unknown".equalsIgnoreCase(clientIp)) {
 
-        if( local == null ) {
-
-            String userip = "";
+            // X-Forwarded-For 헤더는 여러 IP가 콤마로 구분되어 있을 수 있으므로 첫 번째 IP를 사용합니다.
+            clientIp = clientIp.split(",")[0];
         } else {
 
-            String userip = local.getHostAddress();
-            model.addAttribute("userip", userip);
+            clientIp = request.getRemoteAddr();
         }
+        model.addAttribute("ip", clientIp);
 
 
         serviceWorld.incrementViewCount(pidx); // 조회수 증가, 카운트

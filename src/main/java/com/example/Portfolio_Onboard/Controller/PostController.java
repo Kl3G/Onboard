@@ -21,7 +21,7 @@ import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.http.ResponseEntity;
 
-import java.io.File;
+import jakarta.servlet.http.HttpServletRequest;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.List;
@@ -68,7 +68,8 @@ public class PostController {
 
     @GetMapping(value = {"/createPost", "/modifyPost"})
     public String getCreatePost(@RequestParam("bidx") Long bidx,
-                                @RequestParam(value = "pidx", defaultValue = "") Long pidx, Model model){
+                                @RequestParam(value = "pidx", defaultValue = "") Long pidx,
+                                HttpServletRequest request, Model model){
 
 
         Optional<EntityWorld> optionalBoard = repoWorld.findById(bidx);
@@ -78,25 +79,15 @@ public class PostController {
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
-        InetAddress local = null;
-
-        try {
-
-            local = InetAddress.getLocalHost();
-        } catch ( UnknownHostException e ) {
-
-            e.printStackTrace();
-        }
-
-        if( local == null ) {
-
-            String ip = "";
-            model.addAttribute("ip", ip);
+        String clientIp = request.getHeader("X-Forwarded-For");
+        if (clientIp != null && !clientIp.isEmpty() && !"unknown".equalsIgnoreCase(clientIp)) {
+            // X-Forwarded-For 헤더는 여러 IP가 콤마로 구분되어 있을 수 있으므로 첫 번째 IP를 사용합니다.
+            clientIp = clientIp.split(",")[0];
         } else {
-
-            String ip = local.getHostAddress();
-            model.addAttribute("ip", ip);
+            clientIp = request.getRemoteAddr();
         }
+        model.addAttribute("ip", clientIp);
+
 
         if (authentication != null && authentication.isAuthenticated()) {
             HttpSession session = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest().getSession();
@@ -244,8 +235,10 @@ public class PostController {
         }
 
         if( local == null ) {
+
             String userip = "";
         } else {
+
             String userip = local.getHostAddress();
             model.addAttribute("userip", userip);
         }

@@ -67,14 +67,17 @@ public class SecurityConfig {
                 .failureHandler((request, response, exception) -> {
 
                     //System.out.println(exception.getMessage());
-                    response.setContentType("text/html;charset=UTF-8");
-                    response.setStatus(HttpServletResponse.SC_UNAUTHORIZED); // 인증 필요
+                    //response.setContentType("text/html;charset=UTF-8");
+                    response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
                     // SC_UNAUTHORIZED (401) = 사용자가 인증되지 않은 상태에서 보호된 리소스에 접근할 때 사용됩니다.
-                    response.getWriter().write(
+                    /* response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+                    위 코드만 있으면 자바스크립트로 흐름이 넘어간다. 시큐리티에서 alert 처리를 하지 않고
+                    global.js 에서 alert 처리를 한다. */
+                    /*response.getWriter().write(
 
                             "<script>alert('IDもしくはパスワードが正しくありません。'); history.back();</script>"
                     );
-                    response.getWriter().flush();
+                    response.getWriter().flush();*/
                 })
                 .permitAll()
         );

@@ -64,7 +64,7 @@ public class PostController {
         try {
 
             String fileName = file.getOriginalFilename();
-            File dest = new File("/app/data/image/" + fileName);
+            File dest = new File("/app/data/" + fileName);
             file.transferTo(dest); // 실제 파일 저장 이루어짐.
 
             String imageUrl = "/uploads/" + fileName;

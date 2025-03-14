@@ -22,11 +22,10 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.http.ResponseEntity;
 
 import jakarta.servlet.http.HttpServletRequest;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Optional;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.util.*;
 
 
 @Log4j2
@@ -56,12 +55,26 @@ public class PostController {
         this.repoFiles = repoFiles;
     }
 
-    /*@GetMapping("/download")
-    public ResponseEntity<Resource> downloadFile(@RequestParam("fileName") String fileName,
-                                                 HttpServletRequest request) {
+    @PostMapping("/upload-image")
+    @ResponseBody
+    public Map<String, Object> uploadImage(@RequestParam("upload") MultipartFile file) {
 
-        return serviceCreatePost.downloadFile(fileName, request);
-    }*/
+        Map<String, Object> response = new HashMap<>();
+
+        try {
+
+            String fileName = file.getOriginalFilename();
+            File dest = new File("/app/data/image/" + fileName);
+            file.transferTo(dest); // 실제 파일 저장 이루어짐.
+
+            String imageUrl = "/uploads/" + fileName;
+            response.put("url", imageUrl);
+        } catch (Exception e) {
+
+            response.put("error", Collections.singletonMap("message", "이미지 업로드 실패"));
+        }
+        return response;
+    }
 
 
     @GetMapping(value = {"/createPost", "/modifyPost"})

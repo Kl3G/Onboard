@@ -49,9 +49,10 @@ button {
 .modButton{
 
     border: solid 1px #dbdde4;
-    background-color: #f6f6f8;
+    background-color: #3b4890;
     border-radius: 6px;
-    color: #747783;
+    color: white;
+    font-weight: bold;
     width: 60px;
     height: 35px;
 }

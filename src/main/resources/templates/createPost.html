@@ -8,6 +8,8 @@
     <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css"/>
     <script type="text/javascript" src="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
     <link rel="stylesheet" href="/css/createPost.css">
+
+    <script src="https://cdn.ckeditor.com/ckeditor5/39.0.0/classic/ckeditor.js"></script>
 </head>
 
 <body>
@@ -117,7 +119,7 @@
                         </div>
 
                         <div class="divText">
-                            <textarea name="text" style="resize: none;"></textarea>
+                            <textarea id="editor" name="text" style="resize: none;"></textarea>
                         </div>
 
                         <div class="divButton">
@@ -148,6 +150,6 @@
     </footer>
     <script src="/js/comment.js"></script>
     <script src="/js/global.js"></script>
-
+    <script src="/js/uploadAdapter.js"></script>
 </body>
 </html>

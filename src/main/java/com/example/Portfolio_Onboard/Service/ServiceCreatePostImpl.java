@@ -42,7 +42,7 @@ public class ServiceCreatePostImpl implements ServiceCreatePost{
         EntityWorld board = optionalBoard.get();
         /*Optional<EntityFiles> optionalFiles = repoFiles.findById(dtoCreatePost.getPidx());*/
 
-        Path upPath = Paths.get("/app/data");
+        Path upPath = Paths.get("/app/data/file");
 
         List<String> ofileList = new ArrayList<>();
         List<String> sfileList = new ArrayList<>();
@@ -113,7 +113,7 @@ public class ServiceCreatePostImpl implements ServiceCreatePost{
         post.setCategory(dtoModifyPost.getCategory());
         post.setText(dtoModifyPost.getText());
         post.setTitle(dtoModifyPost.getTitle());
-        Path upPath = Paths.get("/app/data");
+        Path upPath = Paths.get("/app/data/file");
 
         // 수정할 때 기존에 있던 파일은 가져와서 삭제
         EntityFiles existingFiles = post.getFiles();
@@ -198,7 +198,7 @@ public class ServiceCreatePostImpl implements ServiceCreatePost{
             if (files != null) {
 
                 // 예: 파일 경로나 파일 이름을 합쳐서 실제 경로를 만든다고 가정
-                String filePath = "/app/data" + files.getSfile();
+                String filePath = "/app/data/file" + files.getSfile();
                 // 혹은 files.getFilePath()를 사용 (DB에 전체 경로 저장했다면)
 
                 // 3) 물리 경로에 있는 파일 삭제

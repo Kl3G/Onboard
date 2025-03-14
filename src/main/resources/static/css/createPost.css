@@ -245,6 +245,13 @@
         box-sizing: border-box; <!--패딩과 테두리 두께를 합친 값이 이미 포함된 것으로 계산됩니다.-->
     }
 
+    .ck-editor__editable_inline {
+
+        max-height: 500px;
+        min-height: 500px;
+        overflow-y: auto;
+    }
+
     .main__divTop {
 
         display: flex;
@@ -315,7 +322,6 @@
 
     .divText {
 
-        height: 400px;
         width: 100%;
     }
 

@@ -52,7 +52,7 @@
                 console.log(result); // { default: '업로드된 이미지의 URL' }가 출력됩니다.
             });
 
-            return new adapter(loader);
+            return adapter;
         };
     }
 

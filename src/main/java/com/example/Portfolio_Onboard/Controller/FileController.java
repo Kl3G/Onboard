@@ -1,7 +1,6 @@
 package com.example.Portfolio_Onboard.Controller;
 
 import jakarta.servlet.http.HttpServletRequest;
-import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.http.HttpHeaders;
@@ -64,6 +63,14 @@ public class FileController {
         try {
 
             String fileName = file.getOriginalFilename();
+
+            File destDir = new File("/app/data/image");
+            if (!destDir.exists()) {
+
+                destDir.mkdirs(); // 디렉토리 및 하위 디렉토리 생성, 이미 존재하는 디렉토리는 자동으로 빼고 생성해 준다.
+            }
+
+            //File dest = new File("C:/data/image/" + fileName);
             File dest = new File("/app/data/image/" + fileName);
             file.transferTo(dest); // 실제 파일 저장 이루어짐.
 
@@ -73,6 +80,7 @@ public class FileController {
 
             response.put("error", Collections.singletonMap("message", "이미지 업로드 실패"));
         }
+
         return response;
     }
 }

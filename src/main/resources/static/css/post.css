@@ -260,10 +260,9 @@
         overflow-y: auto;
     }
 
-    .ck-editor__editable_inline img {
+    .image img {
 
-        max-width: 100%;
-        height: auto;
+        width: 100%;
     }
 
     .main__divTop {

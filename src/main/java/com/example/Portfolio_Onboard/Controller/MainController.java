@@ -52,7 +52,6 @@ public class MainController {
     @GetMapping("/index")
     public String getIndex(Model model){
 
-
         model.addAttribute("boardCount", serviceWorld.countBoard()); // 전체보드수
         model.addAttribute("postCount", serviceWorld.countPost()); // 전체게시글수
         model.addAttribute("commentsCount", serviceWorld.countComments()); // 전체댓글수

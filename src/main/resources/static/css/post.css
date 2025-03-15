@@ -75,10 +75,12 @@
         color: white;
     }
 
+
     a:link {color: #555555; text-decoration: none;}
     a:visited {color: #555555;}
     a:hover {color: #555555;}
     a:active {color: #555555;}
+
 
     .button__boardCreate {
 
@@ -90,14 +92,17 @@
         color: white;
     }
 
+
     .button__boardCreate:hover {
         background-color: #e68a00;
     }
+
 
     .main__header {
 
         display: block;
     }
+
 
     .container__header {
 
@@ -246,6 +251,19 @@
         max-width: 1100px;
         min-width: 1100px;
         box-sizing: border-box; <!--패딩과 테두리 두께를 합친 값이 이미 포함된 것으로 계산됩니다.-->
+    }
+
+    .ck-editor__editable_inline {
+
+        max-height: 500px;
+        min-height: 500px;
+        overflow-y: auto;
+    }
+
+    .ck-editor__editable_inline img {
+
+        max-width: 100%;
+        height: auto;
     }
 
     .main__divTop {

@@ -8,15 +8,17 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 
 @RestController
 public class FileController {
@@ -51,5 +53,26 @@ public class FileController {
             // 파일 MIME 타입 결정 중 오류가 발생한 경우
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
+    }
+
+    @PostMapping("/upload-image")
+    @ResponseBody
+    public Map<String, Object> uploadImage(@RequestParam("upload") MultipartFile file) {
+
+        Map<String, Object> response = new HashMap<>();
+
+        try {
+
+            String fileName = file.getOriginalFilename();
+            File dest = new File("/app/data/image/" + fileName);
+            file.transferTo(dest); // 실제 파일 저장 이루어짐.
+
+            String imageUrl = "/uploads/" + fileName;
+            response.put("url", imageUrl);
+        } catch (Exception e) {
+
+            response.put("error", Collections.singletonMap("message", "이미지 업로드 실패"));
+        }
+        return response;
     }
 }

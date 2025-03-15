@@ -22,9 +22,6 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.http.ResponseEntity;
 
 import jakarta.servlet.http.HttpServletRequest;
-import org.springframework.web.multipart.MultipartFile;
-
-import java.io.File;
 import java.util.*;
 
 
@@ -53,27 +50,6 @@ public class PostController {
         this.repoPost = repoPost;
         this.repoWorld = repoWorld;
         this.repoFiles = repoFiles;
-    }
-
-    @PostMapping("/upload-image")
-    @ResponseBody
-    public Map<String, Object> uploadImage(@RequestParam("upload") MultipartFile file) {
-
-        Map<String, Object> response = new HashMap<>();
-
-        try {
-
-            String fileName = file.getOriginalFilename();
-            File dest = new File("/app/data/" + fileName);
-            file.transferTo(dest); // 실제 파일 저장 이루어짐.
-
-            String imageUrl = "/uploads/" + fileName;
-            response.put("url", imageUrl);
-        } catch (Exception e) {
-
-            response.put("error", Collections.singletonMap("message", "이미지 업로드 실패"));
-        }
-        return response;
     }
 
 

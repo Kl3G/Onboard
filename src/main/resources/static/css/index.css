@@ -74,7 +74,8 @@
 
     .header__logo a {
 
-        width: 168px;
+        min-width: 175px;
+        max-width: 175px;
     }
 
     .header__logo a:link {

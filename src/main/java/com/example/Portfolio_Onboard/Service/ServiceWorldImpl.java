@@ -19,8 +19,10 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 
+import java.io.File;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -48,7 +50,34 @@ public class ServiceWorldImpl implements ServiceWorld {
         // form을 submit할 때 @PostMapping("/createBoard_proc") 실행되고 dtoCreateBoard에 바인딩된다.
         // userid
 
-        repoWorld.save(dtoCreateBoard.entityWorld(memberInfo));
+        try {
+
+            String fileName = dtoCreateBoard.getFiles().getOriginalFilename();
+            log.error(fileName);
+            String extension = "";
+
+            if (fileName != null) {
+
+                extension = fileName.substring(fileName.lastIndexOf("."));
+            }
+
+            String newFileName = UUID.randomUUID() + extension;
+
+            File destDir = new File("/app/data/boardImg");
+            if (!destDir.exists()) {
+
+                destDir.mkdirs(); // 디렉토리 및 하위 디렉토리 생성, 이미 존재하는 디렉토리는 자동으로 빼고 생성해 준다.
+            }
+
+            //File dest = new File("C:/data/image/" + fileName);
+            File dest = new File("/app/data/boardImg/" + newFileName); // 파일을 저장할 때는 반드시 파일명까지 포함된 경로를 지정해야 한다.
+            dtoCreateBoard.getFiles().transferTo(dest); // 실제로 파일 저장을 실행.
+
+            repoWorld.save(dtoCreateBoard.entityWorld(memberInfo, newFileName));
+        }catch (Exception e) {
+
+            log.error("보드 이미지 업로드 실패");
+        }
 
         return "redirect:/index";
     }
@@ -120,6 +149,7 @@ public class ServiceWorldImpl implements ServiceWorld {
             boardInfo.setNick(entityWorld.get().getNick());
             boardInfo.setB_name(entityWorld.get().getB_name());
             boardInfo.setIntro(entityWorld.get().getIntro());
+            boardInfo.setImage(entityWorld.get().getImage());
             boardInfo.setRegdate(entityWorld.get().getRegdate());
         } else {
             System.out.println("값이 없습니다.");

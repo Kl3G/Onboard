@@ -13,5 +13,6 @@ public class DTOBoardInfo {
     private String nick;
     private String b_name;
     private String intro;
+    private String image;
     private Date regdate;
 }

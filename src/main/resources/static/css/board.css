@@ -317,7 +317,7 @@
 
     .boardCoverImg {
 
-        background-image: url('/img/bangkok.jpg');
+        /*background-image: url('/img/bangkok.jpg');*/
         background-size: cover;
         background-size: 80%;
         background-repeat: no-repeat;

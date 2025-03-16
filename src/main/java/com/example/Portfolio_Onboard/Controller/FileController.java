@@ -71,7 +71,7 @@ public class FileController {
                 extension = fileName.substring(fileName.lastIndexOf('.')); // 원본 파일명에서 확장자 추출
             }
 
-            String newFileName = UUID.randomUUID().toString() + extension; // UUID를 사용하여 새로운 파일명 생성
+            String newFileName = UUID.randomUUID() + extension; // UUID를 사용하여 새로운 파일명 생성
 
             // String newFileName = UUID.randomUUID().toString() + extension;
 
@@ -82,7 +82,7 @@ public class FileController {
             }
 
             //File dest = new File("C:/data/image/" + fileName);
-            File dest = new File("/app/data/image/" + newFileName);
+            File dest = new File("/app/data/image/" + newFileName); // 파일을 저장할 때는 반드시 파일명까지 포함된 경로를 지정해야 한다.
             file.transferTo(dest); // 실제로 파일 저장을 실행.
 
             String imageUrl = "/uploads/" + newFileName;

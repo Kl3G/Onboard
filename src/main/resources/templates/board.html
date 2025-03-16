@@ -92,8 +92,6 @@
                         <strong>管理者</strong>
                         <span th:text="${boardInfo.nick} + '(' + ${boardInfo.userid} +')'"></span>
                     </div>
-                    <!--<div>
-                    </div>-->
                     <div>
                         <strong>開設日</strong>
                         <span th:text="${date}"></span>
@@ -232,5 +230,16 @@
 </footer>
 
 <script src="/js/global.js"></script>
+<script th:inline="javascript">
+    /*<![CDATA[*/ <!--생략가능-->
+
+    var boardInfo = /*[[${boardInfo}]]*/ {};
+
+    const dynamicUrl = `/boardImg/${boardInfo.image}`;
+
+    document.querySelector('.boardCoverImg').style.backgroundImage = `url(${dynamicUrl})`;
+
+    /*]]>*/ <!--생략가능-->
+</script>
 </body>
 </html>

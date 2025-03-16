@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -31,6 +32,7 @@ public class EntityWorld {
     private String place;
     private String b_name;
     private String intro;
+    private String image;
     private String reason;
     private Date regdate;
 

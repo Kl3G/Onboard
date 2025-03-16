@@ -92,7 +92,7 @@
                 </p>
             </div>
         </div>
-        <form action="/createBoard_proc" method="post">
+        <form action="/createBoard_proc" method="post" enctype="multipart/form-data">
             <fieldset>
                 <legend>ボード開設</legend>
                 <input type="hidden" id="userid" name="userid" th:value="${userid}">
@@ -110,6 +110,11 @@
                 <div class="titleGroup div">
                     <div class="title">タイトル</div>
                     <input type="text" id="b_name" name="b_name">
+                </div>
+                <div class="imageGroup div">
+                    <div class="title">イメージ</div>
+                    <input type="file" name="files" multiple>
+                    <div>１つだけ登録できます。</div>
                 </div>
                 <div class="introGroup div">
                     <div class="title">説明</div>

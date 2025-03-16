@@ -402,6 +402,38 @@
         font-size: 13px; color: #666666;
     }
 
+    .postThumb__main {
+
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        margin: 60px 0 30px 0;
+        /*height: fit-content;을 사용하면 부모 요소의 높이가 모든 자식 요소의 높이를 합한 값만큼 결정됩니다.*/
+    }
+
+    .postThumb__main > span {
+
+        flex-basis: 100%;
+        margin-top: 5px;
+        text-align: center;
+        font-weight: bold;
+    }
+
+    .postThumb__main > button {
+
+        width: 70px;
+        height: 70px;
+        border-radius: 50%;
+        background-color: #29367c;
+        border: none;
+    }
+
+    .thumb_icon {
+
+        font-size: 40px;
+        color: white;
+    }
+
     #pageNav {
 
         align-items: center;

@@ -27,7 +27,7 @@
     <div class="header__form">
       <form action="/search_proc" method="post">
         <input class="header__search" type="text" name="keyword" spellcheck="false">
-        <button class="header__button"type="submit ">
+        <button class="header__button" type="submit ">
           <i class="fa-solid fa-magnifying-glass header__icon"></i>
         </button>
       </form>
@@ -101,6 +101,15 @@
 
       <div class="postText__main" th:utext="${post.text}" style="padding: 10px;">
         게시글 내용
+      </div>
+
+      <div class="postThumb__main">
+        <button>
+          <i class="fa-solid fa-plane thumb_icon"></i>
+        </button>
+        <span>
+          いいね
+        </span>
       </div>
 
       <!--첨부 파일-->

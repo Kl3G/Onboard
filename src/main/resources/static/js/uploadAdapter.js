@@ -10,7 +10,9 @@
                 .then(() => {
                     // 3. 초기화가 완료되면 extraPlugins 같은 설정들을 적용합니다.
                     if (config.extraPlugins) {
+
                         config.extraPlugins.forEach(plugin => { // plugin 은 MyCustomUploadAdapterPlugin 함수다.
+
                             plugin(editorInstance); // editorInstance 는 document.querySelector('#editor') 이다.
                         });
                     }
@@ -48,9 +50,9 @@
         // 기본 플러그인들이 내장되어 있기 때문에 'FileRepository'를 불러올 수 있다.
 
             const adapter = new UploadAdapter(loader);
-            adapter.upload().then(result => {
-                console.log(result); // { default: '업로드된 이미지의 URL' }가 출력됩니다.
-            });
+//            adapter.upload().then(result => {
+//                console.log(result); // { default: '업로드된 이미지의 URL' }가 출력됩니다.
+//            });
 
             return adapter;
         };
@@ -65,7 +67,7 @@
             this.loader = loader;
         }
 
-        upload() {
+        upload() { // file => new Promise((resolve, reject) 화살표 함수의 return 생략 기능 때문에 upload() 도 Promise 를 반환한다.
 
             return this.loader.file.then(file => new Promise((resolve, reject) => {
 
@@ -92,7 +94,7 @@
             this.xhr.send(data); // this.xhr 를 통해 서버로 데이터를 전송.
         }
 
-        initListeners(resolve, reject, file) { // 요청의 성공, 실패를 감시
+        initListeners(resolve, reject, file) { // 요청의 성공, 실패를 감시, 에디터에 이미지 url 전달
 
             const xhr = this.xhr;
             const genericErrorText = '파일을 업로드 할 수 없습니다.';

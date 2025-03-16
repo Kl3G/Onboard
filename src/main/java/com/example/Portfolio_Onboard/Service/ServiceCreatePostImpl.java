@@ -42,7 +42,7 @@ public class ServiceCreatePostImpl implements ServiceCreatePost{
         EntityWorld board = optionalBoard.get();
         /*Optional<EntityFiles> optionalFiles = repoFiles.findById(dtoCreatePost.getPidx());*/
 
-        Path upPath = Paths.get("/app/data/file");
+        Path upPath = Paths.get("/app/data/file"); // 디렉토리 경로만 생성한다
 
         List<String> ofileList = new ArrayList<>();
         List<String> sfileList = new ArrayList<>();
@@ -58,7 +58,7 @@ public class ServiceCreatePostImpl implements ServiceCreatePost{
 
             try {
 
-                Files.createDirectories(upPath);
+                Files.createDirectories(upPath); // 생성된 디렉토리 경로로 실제 디렉토리를 만든다.
 
                 ofileList.add(fileName);
                 // 원본 파일이름을 O 리스트에 입력

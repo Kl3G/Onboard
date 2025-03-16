@@ -18,6 +18,7 @@ import java.nio.file.Paths;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
 @RestController
 public class FileController {
@@ -63,6 +64,16 @@ public class FileController {
         try {
 
             String fileName = file.getOriginalFilename();
+            String extension = "";
+
+            if (fileName != null && fileName.lastIndexOf('.') != -1) {
+
+                extension = fileName.substring(fileName.lastIndexOf('.')); // 원본 파일명에서 확장자 추출
+            }
+
+            String newFileName = UUID.randomUUID().toString() + extension; // UUID를 사용하여 새로운 파일명 생성
+
+            // String newFileName = UUID.randomUUID().toString() + extension;
 
             File destDir = new File("/app/data/image");
             if (!destDir.exists()) {
@@ -71,10 +82,10 @@ public class FileController {
             }
 
             //File dest = new File("C:/data/image/" + fileName);
-            File dest = new File("/app/data/image/" + fileName);
-            file.transferTo(dest); // 실제 파일 저장 이루어짐.
+            File dest = new File("/app/data/image/" + newFileName);
+            file.transferTo(dest); // 실제로 파일 저장을 실행.
 
-            String imageUrl = "/uploads/" + fileName;
+            String imageUrl = "/uploads/" + newFileName;
             response.put("url", imageUrl);
         } catch (Exception e) {
 

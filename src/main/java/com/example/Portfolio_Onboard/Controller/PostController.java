@@ -12,6 +12,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -22,8 +23,11 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.http.ResponseEntity;
 
 import jakarta.servlet.http.HttpServletRequest;
-import java.util.*;
 
+import java.time.Duration;
+import java.time.LocalDateTime;
+import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 
 @Log4j2
 @Controller
@@ -37,7 +41,7 @@ public class PostController {
     private final RepoPost repoPost;
     private final RepoWorld repoWorld;
     private final RepoFiles repoFiles;
-
+    private static final Map<String, LocalDateTime> ipCache = new ConcurrentHashMap<>();
 
     @Autowired
     PostController(ServiceJoin serviceJoin, ServiceWorld serviceWorld, ServiceCreatePost serviceCreatePost, ServiceComment serviceComment, ServiceCreatePost serviceCreatePost1, RepoChildComments repoChildComments, RepoComment repoComment, RepoPost repoPost, RepoWorld repoWorld, RepoFiles repoFiles){
@@ -187,7 +191,6 @@ public class PostController {
 
     /*---------------------------------게시글 작성, 수정 매서드-----------------------------------------*/
     /*-----------------------------------------------------------------------------------*/
-
 
 
 
@@ -410,8 +413,43 @@ public class PostController {
         return serviceCreatePost.delPost(pidx, bidx);
     }
 
-    /*@PostMapping("/boardDel")*/
-
     /*---------------------------------삭제 매서드-----------------------------------------*/
     /*-----------------------------------------------------------------------------------*/
+
+    @PostMapping("/like")
+    // String 반환: 메서드가 String 을 반환하면, 그 문자열을 뷰 이름으로 해석합니다.
+    // void 반환: 메서드가 void 이면, @ResponseBody 가 없을 경우 요청 URL(매핑 경로)을 기준으로 뷰를 유추하려 합니다.
+    @ResponseBody
+    public ResponseEntity<String> thumbUp (@RequestParam("pidx") Long pidx, HttpServletRequest request) {
+
+        String clientIp = request.getHeader("X-Forwarded-For");
+
+        if (clientIp != null && !clientIp.isEmpty() && !"unknown".equalsIgnoreCase(clientIp)) {
+
+            clientIp = clientIp.split(",")[0];  // X-Forwarded-For 헤더는 여러 IP가 콤마로 구분되어 있을 수 있으므로 첫 번째 IP를 사용합니다.
+        } else {
+
+            clientIp = request.getRemoteAddr();
+        }
+
+        LocalDateTime now = LocalDateTime.now();
+
+        if (ipCache.containsKey(clientIp)) {
+
+            LocalDateTime lastRequestTime = ipCache.get(clientIp);
+
+            if (Duration.between(lastRequestTime, now).toHours() < 24) {
+                // 24시간 이내에 요청한 경우
+                return new ResponseEntity<>("いいねは日に一回だけできます。", HttpStatus.FORBIDDEN);
+            }
+        }
+
+        serviceWorld.incrementGoodCount(pidx);
+        ipCache.put(clientIp, now);
+        return new ResponseEntity<>("ThumbUp", HttpStatus.OK);
+
+        // 같은 결과
+        // return new ResponseEntity<>("좋아요 처리 완료", HttpStatus.OK);
+        // return ResponseEntity.status(HttpStatus.OK).body("좋아요 처리 완료");
+    }
 }

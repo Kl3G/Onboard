@@ -16,6 +16,7 @@ public interface ServiceWorld {
     DTOBoardInfo boardInfo(Long bidx);
     Page<DTOPostView> postList(Long bidx, Pageable pageable); // 보드의 게시글 리스트 출력
     void incrementViewCount(Long pidx); // 조회수 카운트
+    void incrementGoodCount(Long pidx);
     List<DTOBoardView> list(); // 보드리스트 출력
     int countBoard(); // 전체보드 카운트
     List<DTOBoardView> list2(String place); // 대륙보드 카운트, 대륙보드 출력

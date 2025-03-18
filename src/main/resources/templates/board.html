@@ -76,10 +76,10 @@
     <div class="container__main">
         <section class="main__section">
             <div class="main__divTop" style="gap: 5px;">
-                <div style="flex: none; font-size: 24px; color: #29367c; max-height: 48px; font-family: 'Segoe UI'; font-weight: bold; padding: 9px 0 9px 9px;">
-                    <a th:text="${boardInfo.b_name}" th:href="@{/board(bidx=${boardInfo.bidx}, page=1)}"></a>
+                <div style="flex: none; font-size: 24px; max-height: 48px; font-family: 'Segoe UI'; font-weight: bold; padding: 9px 0 9px 9px;">
+                    <a th:text="${boardInfo.b_name}" th:href="@{/board(bidx=${boardInfo.bidx}, page=1)}" style="color: #29367c;"></a>
                 </div>
-                <div style="flex: none; font-size: 24px; color: #29367c; max-height: 48px; font-family: 'Segoe UI'; font-weight: bold; padding: 0;">
+                <div style="flex: none; font-size: 24px; max-height: 48px; font-family: 'Segoe UI'; font-weight: bold; padding: 0;">
                     <span style="position: relative; top: 7px; color: #29367c; padding: 0;">&#x24D1;</span>
                     <!--보드 이름 옆의 B 아이콘 출력-->
                 </div>
@@ -106,11 +106,11 @@
                 <colgroup>
                     <col style="width:7%;">
                     <col style="width:8%;">
-                    <col style="width:50%;">
+                    <col style="width:44%;">
                     <col style="width:18%;">
-                    <col style="width:6%;">
-                    <col style="width:6%;">
-                    <col style="width:5%;">
+                    <col style="width:8%;">
+                    <col style="width:8%;">
+                    <col style="width:7%;">
                 </colgroup>
                 <thead>
                     <tr>

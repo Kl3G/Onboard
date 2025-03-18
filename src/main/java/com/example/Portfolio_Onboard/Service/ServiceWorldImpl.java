@@ -185,11 +185,19 @@ public class ServiceWorldImpl implements ServiceWorld {
         return dtoPage;
     }
 
-    @Override
+    @Override // 게시글 조회수 증가, 출력
     public void incrementViewCount(Long pidx) {
         // 포스트를 찾아서 view_count를 증가시킵니다.
         EntityPost post = repoPost.findById(pidx).orElseThrow(() -> new RuntimeException("Post not found"));
         post.setViewCount(post.getViewCount() + 1);
+        repoPost.save(post);
+    }
+
+    @Override // 게시글 좋아요 증가, 출력
+    public void incrementGoodCount(Long pidx) {
+
+        EntityPost post = repoPost.findById(pidx).orElseThrow(() -> new RuntimeException("Post not found"));
+        post.setGoodCount(post.getGoodCount() + 1);
         repoPost.save(post);
     }
 

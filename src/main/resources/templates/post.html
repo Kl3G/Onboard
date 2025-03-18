@@ -104,12 +104,13 @@
       </div>
 
       <div class="postThumb__main">
-        <button>
-          <i class="fa-solid fa-plane thumb_icon"></i>
-        </button>
-        <span>
-          いいね
-        </span>
+        <div class="postThumb">
+          <button type="button" class="like-btn" th:data-no="${post.pidx}">
+            <i class="fa-solid fa-plane thumb_icon"></i>
+          </button>
+          <span>いいね</span>
+          <span th:text="${post.goodCount}"></span>
+        </div>
       </div>
 
       <!--첨부 파일-->
@@ -292,11 +293,11 @@ Shift+Enter キーを同時に押すと、改行されます。"></textarea>
         <colgroup>
           <col style="width:7%;">
           <col style="width:8%;">
-          <col style="width:50%;">
+          <col style="width:44%;">
           <col style="width:18%;">
-          <col style="width:6%;">
-          <col style="width:6%;">
-          <col style="width:5%;">
+          <col style="width:8%;">
+          <col style="width:8%;">
+          <col style="width:7%;">
         </colgroup>
         <thead>
         <tr>

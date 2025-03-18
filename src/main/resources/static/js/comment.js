@@ -407,3 +407,32 @@
       });
     }
     // --------------------------------------------------------------------
+
+
+    // 게시글 좋아요 증가, 출력
+    document.querySelectorAll(".like-btn").forEach(button => {
+
+        button.addEventListener("click", function () {
+
+            const pidx = this.dataset.no; // data-no 값 가져오기
+
+            fetch(`/like?pidx=${pidx}`, { method: "POST" })
+                .then(response => {
+
+                    if (!response.ok) {
+
+                        return response.text().then(text => {
+
+                            alert(text);
+                            throw new Error(`HTTP error ${text}`);
+                        });
+                    }
+
+                    const countSpan = this.nextElementSibling.nextElementSibling; // 좋아요 수 표시 요소
+                    countSpan.textContent = parseInt(countSpan.textContent) + 1;
+                    return response.text();
+                })
+                .catch(error => console.error(error));
+        });
+    });
+    // --------------------------------------------------------------------

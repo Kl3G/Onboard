@@ -20,6 +20,10 @@ public interface RepoPost extends JpaRepository<EntityPost, Long> {
 
     Page<EntityPost> findByBoard_Bidx(Long bidx, Pageable pageable);
 
+    List<EntityPost> findTop4ByOrderByGoodCountDesc();
+
+    List<EntityPost> findTop4ByBoardPlaceOrderByGoodCountDesc(String boardPlace);
+
     @Transactional
     @Modifying
     @Query("DELETE FROM EntityPost e WHERE e.userid = :userid AND e.ppwd = :ppwd")

@@ -18,11 +18,16 @@ public class WebMvcConfig implements WebMvcConfigurer {
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
 
         registry.addResourceHandler("/uploads/**")
-                //.addResourceLocations("file:///C:/data/image/");
-                .addResourceLocations("file:///app/data/image/");
+                .addResourceLocations("file:///C:/data/image/");
+                //.addResourceLocations("file:///app/data/image/");
 
         registry.addResourceHandler("/boardImg/**")
-                .addResourceLocations("file:///app/data/boardImg/");
+                .addResourceLocations("file:///C:/data/boardImg/");
+                //.addResourceLocations("file:///app/data/boardImg/");
+
+        registry.addResourceHandler("/thumbnail/**")
+                .addResourceLocations("file:///C:/data/image/thumbnail/");
+                //.addResourceLocations("file:///app/data/boardImg/");
     }
 
 

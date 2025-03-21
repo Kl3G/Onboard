@@ -1,9 +1,6 @@
 package com.example.Portfolio_Onboard.Service;
 
-import com.example.Portfolio_Onboard.DTO.DTOBoardInfo;
-import com.example.Portfolio_Onboard.DTO.DTOBoardView;
-import com.example.Portfolio_Onboard.DTO.DTOCreateBoard;
-import com.example.Portfolio_Onboard.DTO.DTOPostView;
+import com.example.Portfolio_Onboard.DTO.*;
 import com.example.Portfolio_Onboard.Entity.EntityComments;
 import com.example.Portfolio_Onboard.Entity.EntityMemberInfo;
 import com.example.Portfolio_Onboard.Entity.EntityPost;
@@ -14,15 +11,21 @@ import com.example.Portfolio_Onboard.Repository.RepoPost;
 import com.example.Portfolio_Onboard.Repository.RepoWorld;
 import lombok.extern.slf4j.Slf4j;
 
+import net.coobird.thumbnailator.Thumbnails;
+import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.IOException;
+import java.util.Base64;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import org.slf4j.Logger;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -33,6 +36,7 @@ public class ServiceWorldImpl implements ServiceWorld {
     private final RepoWorld repoWorld;
     private final RepoPost repoPost;
     private final RepoComment repoComment;
+    private static final Logger logger = LoggerFactory.getLogger(ServiceWorldImpl.class);
 
     ServiceWorldImpl(RepoWorld repoWorld, RepoMemberInfo repoMemberInfo, RepoPost repoPost, RepoComment repoComment){
 
@@ -53,7 +57,6 @@ public class ServiceWorldImpl implements ServiceWorld {
         try {
 
             String fileName = dtoCreateBoard.getFiles().getOriginalFilename();
-            log.error(fileName);
             String extension = "";
 
             if (fileName != null) {
@@ -63,14 +66,16 @@ public class ServiceWorldImpl implements ServiceWorld {
 
             String newFileName = UUID.randomUUID() + extension;
 
-            File destDir = new File("/app/data/boardImg");
+            //File destDir = new File("/app/data/boardImg");
+            File destDir = new File("C:/data/boardImg");
             if (!destDir.exists()) {
 
                 destDir.mkdirs(); // 디렉토리 및 하위 디렉토리 생성, 이미 존재하는 디렉토리는 자동으로 빼고 생성해 준다.
             }
 
             //File dest = new File("C:/data/image/" + fileName);
-            File dest = new File("/app/data/boardImg/" + newFileName); // 파일을 저장할 때는 반드시 파일명까지 포함된 경로를 지정해야 한다.
+            //File dest = new File("/app/data/boardImg/" + newFileName); // 파일을 저장할 때는 반드시 파일명까지 포함된 경로를 지정해야 한다.
+            File dest = new File("C:/data/boardImg/" + newFileName);
             dtoCreateBoard.getFiles().transferTo(dest); // 실제로 파일 저장을 실행.
 
             repoWorld.save(dtoCreateBoard.entityWorld(memberInfo, newFileName));
@@ -144,6 +149,7 @@ public class ServiceWorldImpl implements ServiceWorld {
 
         DTOBoardInfo boardInfo = new DTOBoardInfo();
         if (entityWorld.isPresent()) {
+
             boardInfo.setBidx(entityWorld.get().getBidx());
             boardInfo.setUserid(entityWorld.get().getMemberInfo().getUserid());
             boardInfo.setNick(entityWorld.get().getNick());
@@ -245,4 +251,107 @@ public class ServiceWorldImpl implements ServiceWorld {
 
         return post;
     }
+
+    @Override
+    public List<DTOPopularPost> getPopularPost() {
+
+        List<EntityPost> posts = repoPost.findTop4ByOrderByGoodCountDesc();
+
+        List<DTOPopularPost> dtoList = posts.stream()
+            .map(post -> {
+
+                DTOPopularPost dto = new DTOPopularPost();
+
+                int start = post.getText().indexOf("src=");
+
+                // post.getText() 에서 파일명만 발췌한다.
+                String image = post.getText().substring(start + 14, post.getText().indexOf("\"", start + 5));
+
+                String newImage = "C:/data/image/" + image; // 1. 실제(숨긴) 물리 경로를 붙여준다.
+                String thumbnailFilename = "thumb" + image; // 2. 다른 디렉토리에 저장할 썸네일 이미지 이름 설정.
+                String thumbnailFilePath = "C:/data/image/thumbnail/" + thumbnailFilename; // 3. 썸네일 이미지를 저장할 디렉토리 설정.
+                File thumbnailFile = new File(thumbnailFilePath); // 4. 썸네일 이미지 파일 객체 생성.
+
+                thumbnailFile.getParentFile().mkdirs(); // 썸네일 이미지를 저장할 디렉토리가 없으면 생성해 준다.
+
+                try {
+
+                    Thumbnails.of(new File(newImage)) // 5. 썸네일로 변환할 이미지 가져오기. (물리 경로)
+                            .size(180, 110) // 6. 너비와 높이 변환
+                            .outputQuality(0.6) // 7. 출력 이미지의 품질 70%로 설정, 파일 크기를 줄이면서 압축.
+                            .toFile(thumbnailFile); // 8. 썸네일로 변환한 이미지를 썸네일 디렉토리 경로에 저장.
+
+                    dto.setText("/thumbnail/" + thumbnailFilename); // 9. 썸네일 디렉토리의 상대 경로를 할당.
+                }catch (IOException e) {
+
+                    logger.error("이미지 변환 중 오류 발생", e);
+                };
+
+
+                dto.setPidx(post.getPidx());
+                dto.setBidx(post.getBoard().getBidx());
+                dto.setTitle(post.getTitle());
+
+                /* File thumbnailFile = new File("C:/data/image/thumbnail/" + thumbnailFilename);
+                if (thumbnailFile.exists()) {
+
+                    boolean deleted = thumbnailFile.delete();
+                    if (!deleted) {
+                    // 삭제 실패 시 추가 처리가 필요합니다.
+                    }
+                } */
+
+                return dto;
+            })
+            .collect(Collectors.toList());
+
+        return dtoList;
+    };
+
+
+    @Override
+    public List<DTOPopularPost> getPopularPostOfPlace(String boardPlace) {
+
+        List<EntityPost> posts = repoPost.findTop4ByBoardPlaceOrderByGoodCountDesc(boardPlace);
+
+        List<DTOPopularPost> dtoList = posts.stream()
+            .map(post -> {
+
+                DTOPopularPost dto = new DTOPopularPost();
+
+                int start = post.getText().indexOf("src=");
+
+                String image = post.getText().substring(start + 14, post.getText().indexOf("\"", start + 5));
+
+                String newImage = "C:/data/image/" + image;
+                String thumbnailFilename = "thumb" + image;
+                String thumbnailFilePath = "C:/data/image/thumbnail/" + thumbnailFilename;
+                File thumbnailFile = new File(thumbnailFilePath);
+
+                thumbnailFile.getParentFile().mkdirs();
+
+                try {
+
+                    Thumbnails.of(new File(newImage))
+                            .size(180, 110)
+                            .outputQuality(0.6)
+                            .toFile(thumbnailFile);
+
+                    dto.setText("/thumbnail/" + thumbnailFilename);
+                }catch (IOException e) {
+
+                    logger.error("이미지 변환 중 오류 발생", e);
+                };
+
+
+                dto.setPidx(post.getPidx());
+                dto.setBidx(post.getBoard().getBidx());
+                dto.setTitle(post.getTitle());
+
+                return dto;
+            })
+            .collect(Collectors.toList());
+
+        return dtoList;
+    };
 }

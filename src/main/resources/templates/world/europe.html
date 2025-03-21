@@ -7,7 +7,7 @@
     <script src="https://kit.fontawesome.com/b3af913a6d.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css"/>
     <script type="text/javascript" src="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
-    <link rel="stylesheet" href="/css/index.css">
+    <link rel="stylesheet" href="../css/index.css">
 </head>
 
 <body>
@@ -76,7 +76,7 @@
         <section class="main__section">
             <div class="main__divTop">
                 <div style="gap: 8px;">
-                    <span style="font-size: 16px; color: #29367c; font-weight: bold;">おすすめ</span>
+                    <span style="font-size: 16px; color: #29367c; font-weight: bold;">話題の投稿</span>
                     <i class="fa-solid fa-check" style="color: red; font-weight: bold; font-size: 20px;"></i>
                 </div>
                 <div style="flex: 1; padding: 3px; justify-content: flex-end;">
@@ -86,37 +86,15 @@
                 </div>
             </div>
             <div class="main__divMid">
-                <div style="background-image: url(/img/bangkok.jpg);">
-                    <div style="background-color: black; background: rgba(0, 0, 0, 0.7);
-                                color: white; font-size: 12px; font-weight: bold;
-                                width: calc(100% - 18px); height: 30%; padding: 3px 9px 0;
-                                position: absolute; bottom: 9px; left: 9px;">
-                        후기) 방콕의 장점에 대해 자세히 알아보자
-                    </div>
+                <div class="main__divMid__div" th:each="pp, iter : ${pps}">
+                    <a th:href="@{'post?pidx=' + ${pp.pidx} + '&bidx=' + ${pp.bidx}}"
+                       th:style="|background-image : url('${pp.text}')|">
+                        <span class="ppTitle" th:text="${pp.title}"></span>
+                    </a>
                 </div>
-                <div style="background-image: url(/img/hunza.webp);">
-                    <div style="background-color: black; background: rgba(0, 0, 0, 0.7);
-                                color: white; font-size: 12px; font-weight: bold;
-                                width: calc(100% - 18px); height: 30%; padding: 3px 9px 0;
-                                position: absolute; bottom: 9px; left: 9px;">
-                        메이저 여행사들이 꼽은 최고의 여행지 top10
-                    </div>
-                </div>
-                <div style="background-image: url(/img/asdasd.jpg);">
-                    <div style="background-color: black; background: rgba(0, 0, 0, 0.7);
-                                color: white; font-size: 12px; font-weight: bold;
-                                width: calc(100% - 18px); height: 30%; padding: 3px 9px 0;
-                                position: absolute; bottom: 9px; left: 9px;">
-                        스압) 한여름에 두바이 갔다 온 생생한 후기
-                    </div>
-                </div>
-                <div style="background-image: url(/img/wewe.webp);">
-                    <div style="background-color: black; background: rgba(0, 0, 0, 0.7);
-                                color: white; font-size: 12px; font-weight: bold;
-                                width: calc(100% - 18px); height: 30%; padding: 3px 9px 0;
-                                position: absolute; bottom: 9px; left: 9px;">
-                        숲이 인간에게 주는 여러 장점은 과연 무엇일까?
-                    </div>
+                <div class="main__divMid__div"
+                     th:if="${#lists.size(pps) lt 4}"
+                     th:each="i : ${#numbers.sequence(1, 4 - #lists.size(pps))}">
                 </div>
             </div>
             <div class="main__divBotTitle">

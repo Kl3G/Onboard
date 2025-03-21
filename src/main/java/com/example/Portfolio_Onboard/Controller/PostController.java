@@ -432,20 +432,21 @@ public class PostController {
             clientIp = request.getRemoteAddr();
         }
 
+        String key = clientIp + "_" + pidx;
         LocalDateTime now = LocalDateTime.now();
 
-        if (ipCache.containsKey(clientIp)) {
+        if (ipCache.containsKey(key)) {
 
-            LocalDateTime lastRequestTime = ipCache.get(clientIp);
+            LocalDateTime lastRequestTime = ipCache.get(key);
 
             if (Duration.between(lastRequestTime, now).toHours() < 24) {
                 // 24시간 이내에 요청한 경우
-                return new ResponseEntity<>("いいねは日に一回だけできます。", HttpStatus.FORBIDDEN);
+                return new ResponseEntity<>("いいねは一日に一回だけできます。", HttpStatus.FORBIDDEN);
             }
         }
 
         serviceWorld.incrementGoodCount(pidx);
-        ipCache.put(clientIp, now);
+        ipCache.put(key, now);
         return new ResponseEntity<>("ThumbUp", HttpStatus.OK);
 
         // 같은 결과

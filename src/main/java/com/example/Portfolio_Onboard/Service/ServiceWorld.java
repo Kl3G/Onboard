@@ -1,13 +1,11 @@
 package com.example.Portfolio_Onboard.Service;
 
-import com.example.Portfolio_Onboard.DTO.DTOBoardInfo;
-import com.example.Portfolio_Onboard.DTO.DTOBoardView;
-import com.example.Portfolio_Onboard.DTO.DTOCreateBoard;
-import com.example.Portfolio_Onboard.DTO.DTOPostView;
+import com.example.Portfolio_Onboard.DTO.*;
 import com.example.Portfolio_Onboard.Entity.EntityPost;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
+import java.io.IOException;
 import java.util.List;
 
 public interface ServiceWorld {
@@ -22,5 +20,7 @@ public interface ServiceWorld {
     List<DTOBoardView> list2(String place); // 대륙보드 카운트, 대륙보드 출력
     int countPost(); // 전체게시글 카운트
     int countComments(); // 전체댓글 카운트
-    EntityPost postView(Long pidx);
+    EntityPost postView(Long pidx); // 게시글 데이터 전송
+    List<DTOPopularPost> getPopularPost(); // 인기 게시글 전송
+    List<DTOPopularPost> getPopularPostOfPlace(String boardPlace); // 대륙별 인기 게시글 전송
 }

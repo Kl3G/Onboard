@@ -219,15 +219,38 @@
 
     .main__divMid { /*인기글 사진*/
 
-        flex: 4; padding-top: 6px; padding-bottom: 6px;
+        flex: 4; padding-top: 6px; padding-bottom: 12px;
     }
 
-    .main__divMid div {
+    .main__divMid div a {
 
+        width: 100%;
+        height: 100%;
         background-size: cover;
-        background-repeat: no-repeat; background-position: center;
+        background-repeat: no-repeat;
+        background-position: center;
         background-clip: content-box; /*padding-box;*/
         position: relative;
+    }
+
+    .ppTitle {
+
+        box-sizing: border-box;
+        position: absolute;
+        bottom: 0;
+        width: 100%;
+        height: 40%;
+        padding: 3.5px 6px 0px 6px;
+        font-size: 12px;
+        line-height: 1.5em;
+        color: white;
+        background-color: rgba(0, 0, 0, 0.7);
+
+        display: -webkit-box;
+        -webkit-line-clamp: 2;     /* 2줄까지만 보여줌 */
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        text-overflow: ellipsis;
     }
 
     .main__divBotTitle { /*보드 목록 상단의 대륙 이름*/
@@ -236,10 +259,15 @@
         background-color: #f3f3f3; color: #29367c; font-weight: bold;
     }
 
-    .main__section div div{
+    .main__section > div > div{
 
         padding: 9px;
         flex: 1;
+    }
+
+    .slick-list {
+
+        padding: 0 !important;
     }
 
     .custom-div {

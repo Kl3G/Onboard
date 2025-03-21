@@ -55,9 +55,57 @@ public class MainController {
         model.addAttribute("boardCount", serviceWorld.countBoard()); // 전체보드수
         model.addAttribute("postCount", serviceWorld.countPost()); // 전체게시글수
         model.addAttribute("commentsCount", serviceWorld.countComments()); // 전체댓글수
+
         model.addAttribute("boards", serviceWorld.list());
+        model.addAttribute("pps", serviceWorld.getPopularPost()); // 인기 게시글 get
+        String quote = "\"";
+        model.addAttribute("plz", quote);
 
         return "index";
+    }
+
+    @GetMapping(value= {"/world/asia", "/world/europe", "/wo" +
+            "rld/northAmerica", "/world/southAmerica", "/world/oceania"})
+    public String getWorld(@RequestParam(value = "place") String num, Model model){
+
+        String place = "";
+
+        switch(num){
+
+            case "1" : place = "world/asia";
+                break;
+            case "2" : place = "world/europe";
+                break;
+            case "3" : place = "world/northAmerica";
+                break;
+            case "4" : place = "world/southAmerica";
+                break;
+            case "5" : place = "world/oceania";
+        }
+
+        List<DTOBoardView> boardList = serviceWorld.list2(num); // DTOBoardView 리스트 가져옴
+
+        int worldBoardCount = 0; // 갯수를 세기 위한 변수
+
+        for (DTOBoardView board : boardList) {
+
+            if (board.getPlace().equals(num)) { // DTOBoardView 리스트에서 place 값과 num 값을 비교
+
+                worldBoardCount++; // 일치할 경우 카운트 증가
+            }
+        }
+
+        model.addAttribute("commentsCount", serviceWorld.countComments()); // 전체댓글수
+        model.addAttribute("postCount", serviceWorld.countPost()); // 전체게시글수
+        model.addAttribute("boardCount", serviceWorld.countBoard()); // 전체보드 갯수
+
+        model.addAttribute("worldBoardCount", worldBoardCount); // 대륙보드 갯수
+        model.addAttribute("pps", serviceWorld.getPopularPostOfPlace(num));
+        String quote = "\"";
+        model.addAttribute("plz", quote);
+        model.addAttribute("boards", boardList);
+
+        return place;
     }
 
     @GetMapping("/join")
@@ -517,45 +565,6 @@ public class MainController {
 
         return serviceWorld.setWorld(dtoCreateBoard);
     }
-
-    @GetMapping(value= {"/world/asia", "/world/europe", "/wo" +
-            "rld/northAmerica", "/world/southAmerica", "/world/oceania"})
-    public String getWorld(@RequestParam(value = "place") String num, Model model){
-
-        String place = "";
-
-        switch(num){
-
-            case "1" : place = "world/asia";
-            break;
-            case "2" : place = "world/europe";
-            break;
-            case "3" : place = "world/northAmerica";
-            break;
-            case "4" : place = "world/southAmerica";
-            break;
-            case "5" : place = "world/oceania";
-        }
-
-        List<DTOBoardView> boardList = serviceWorld.list2(num); // DTOBoardView 리스트 가져옴
-        int worldBoardCount = 0; // 갯수를 세기 위한 변수
-
-        // DTOBoardView 리스트에서 place 값과 num 값을 비교
-        for (DTOBoardView board : boardList) {
-            if (board.getPlace().equals(num)) { // num과 board의 place 비교
-                worldBoardCount++; // 일치할 경우 카운트 증가
-            }
-        }
-
-        model.addAttribute("commentsCount", serviceWorld.countComments()); // 전체댓글수
-        model.addAttribute("postCount", serviceWorld.countPost());
-        model.addAttribute("boardCount", serviceWorld.countBoard()); // 전체보드 갯수
-        model.addAttribute("worldBoardCount", worldBoardCount); // 대륙보드 갯수, 정보
-        model.addAttribute("boards", boardList);
-
-        return place;
-    }
-
 
     @GetMapping("/api/session-status")
     public ResponseEntity<?> checkSessionStatus(HttpSession session) {

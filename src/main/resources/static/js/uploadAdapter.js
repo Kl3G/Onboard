@@ -82,8 +82,8 @@
 
             const xhr = this.xhr = new XMLHttpRequest();
             // 업로드를 처리할 서버 엔드포인트 (백엔드에서 해당 URL을 처리해야 합니다)
-            //xhr.open('POST', 'http://localhost:8080/upload-image', true);
-            xhr.open('POST', 'https://port-0-onboard-m7n11lrga828c347.sel4.cloudtype.app/upload-image', true);
+            xhr.open('POST', 'http://localhost:8080/upload-image', true);
+            //xhr.open('POST', 'https://port-0-onboard-m7n11lrga828c347.sel4.cloudtype.app/upload-image', true);
             xhr.responseType = 'json';
         }
 

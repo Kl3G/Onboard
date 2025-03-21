@@ -29,7 +29,7 @@ public class SecurityConfig {
                         "/checkChildCommentPwd/**", "/postModifyPwdCheck/**", "/checkPostPassword/**", "/postDelete/**", "checkCommentPwd/**",
                         "/css/**", "/js/**", "/img/**", "/webjars/**", "/h2-console/**", "/findId/**", "/findPwd/**",
                         "/findId_proc/**", "/foundInfo/**", "/findPwd_proc/**", "/newPwd/**", "/newPwd_proc/**", "/idNotFound/**",
-                        "/pwdNotFound/**", "/searchResult/**", "/search_proc/**", "/moreBoard/**", "/morePost/**",
+                        "/pwdNotFound/**", "/searchResult/**", "/search_proc/**", "/moreBoard/**", "/morePost/**", "/thumbnail/**",
                         "/withdrawal/**", "/withdrawal_proc/**", "/upload-image/**", "/uploads/**", "/boardImg/**", "/like/**").permitAll() // 누구든지 접속 가능
                 .requestMatchers("/createBoard/**").hasRole("USER") // USER는 "/createBoard" 접속 가능
                 .requestMatchers("/notice/**").hasRole("MANAGER") // MANAGER는 "/notice" 접속 가능

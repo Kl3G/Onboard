@@ -260,7 +260,7 @@
         overflow-y: auto;
     }
 
-    .image img {
+    .image img, p img {
 
         max-width: 100%;
         height: auto;

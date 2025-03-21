@@ -410,16 +410,21 @@
 
 
     // 게시글 좋아요 증가, 출력
+    /*1. 첫 번째 콜백 함수가 정상적인 값을 return 하면 then() 이 반환하는 new Promise 는 콜백 함수가 반환한 값으로 즉시 resolve 된다.
+      2. 첫 번째 콜백 함수가 새로운 Promise 를 return 하면 then() 이 반환하는 new Promise 는 콜백 함수가 반환하는 Promise 를 따라서 나중에 resolve 또는 reject 된다.
+      3. then()의 2개의 인자(콜백 함수) 중 순서에 상관 없이 어느 콜백 함수라도 throw 가 실행되면 반드시 reject 가 되고, 정상정인 값이 리턴되면 resolve 가 된다.
+      4. then() 인자(콜백 함수)에서 실행되는 throw 는 데이터를 전달하는 게 아니라 반환되는 데이터가 reject 로 반환되게 하는 역할이다.*/
     document.querySelectorAll(".like-btn").forEach(button => {
 
         button.addEventListener("click", function () {
 
             const pidx = this.dataset.no; // data-no 값 가져오기
 
-            fetch(`/like?pidx=${pidx}`, { method: "POST" })
+            fetch(`/like?pidx=${pidx}`, { method: "POST" }) // fetch() 는 response 객체를 반환한다.
                 .then(response => {
 
-                    if (!response.ok) {
+                    if (!response.ok) { // 단순히 404나 500 같은 HTTP 에러 코드는 reject 하지 않고,
+                    // response.ok가 false 인 상태로 resolve 하기 때문에 response.ok를 확인해야 한다.
 
                         return response.text().then(text => {
 

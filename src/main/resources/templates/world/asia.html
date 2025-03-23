@@ -85,10 +85,13 @@
                     </button>
                 </div>
             </div>
+
+
             <div class="main__divMid">
                 <div class="main__divMid__div" th:each="pp, iter : ${pps}">
-                    <a th:href="@{'post?pidx=' + ${pp.pidx} + '&bidx=' + ${pp.bidx}}"
+                    <a th:href="@{/post(pidx=${pp.pidx}, bidx=${pp.bidx})}"
                        th:style="|background-image : url('${pp.text}')|">
+                        <!--th:href="@{'post?pidx=' + ${pp.pidx} + '&bidx=' + ${pp.bidx}}"-->
                         <span class="ppTitle" th:text="${pp.title}"></span>
                     </a>
                 </div>
@@ -97,6 +100,8 @@
                      th:each="i : ${#numbers.sequence(1, 4 - #lists.size(pps))}">
                 </div>
             </div>
+
+
             <div class="main__divBotTitle">
                 アジア &thinsp; <span th:text="'(' + ${worldBoardCount} + ')'"></span>
             </div>

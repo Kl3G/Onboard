@@ -87,7 +87,7 @@
             </div>
             <div class="main__divMid">
                 <div class="main__divMid__div" th:each="pp, iter : ${pps}">
-                    <a th:href="@{'post?pidx=' + ${pp.pidx} + '&bidx=' + ${pp.bidx}}"
+                    <a th:href="@{/post(pidx=${pp.pidx}, bidx=${pp.bidx})}"
                        th:style="|background-image : url('${pp.text}')|">
                         <span class="ppTitle" th:text="${pp.title}"></span>
                     </a>

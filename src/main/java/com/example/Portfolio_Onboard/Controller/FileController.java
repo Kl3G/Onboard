@@ -55,7 +55,7 @@ public class FileController {
         }
     }
 
-    @PostMapping("/upload-image")
+    @PostMapping("/upload-image") // 게시글 CKEditor 이미지 삽입
     @ResponseBody
     public Map<String, Object> uploadImage(@RequestParam("upload") MultipartFile file) {
 
@@ -75,15 +75,15 @@ public class FileController {
 
             // String newFileName = UUID.randomUUID().toString() + extension;
 
-            File destDir = new File("C://data/image");
-            //File destDir = new File("/app/data/image");
+            //File destDir = new File("C://data/image");
+            File destDir = new File("/app/data/image");
             if (!destDir.exists()) {
 
                 destDir.mkdirs(); // 디렉토리 및 하위 디렉토리 생성, 이미 존재하는 디렉토리는 자동으로 빼고 생성해 준다.
             }
 
-            File dest = new File("C://data/image/" + newFileName);
-            //File dest = new File("/app/data/image/" + newFileName); // 파일을 저장할 때는 반드시 파일명까지 포함된 경로를 지정해야 한다.
+            //File dest = new File("C://data/image/" + newFileName);
+            File dest = new File("/app/data/image/" + newFileName); // 파일을 저장할 때는 반드시 파일명까지 포함된 경로를 지정해야 한다.
             file.transferTo(dest); // 실제로 파일 저장을 실행.
 
             String imageUrl = "/uploads/" + newFileName;

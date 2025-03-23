@@ -79,10 +79,10 @@
     <div style="margin: 0 25px 0 25px;">
       <div class="main__divTop">
         <div>
-          <a th:text="${boardInfo.b_name}" th:href="@{/board(bidx=${boardInfo.bidx}, page=1)}"></a>
+          <a class="boardName" th:text="${boardInfo.b_name}" th:href="@{/board(bidx=${boardInfo.bidx}, page=1)}"></a>
         </div>
         <div>
-          <span style="position: relative; bottom: 2px; color: #29367c; padding: 0;">&#x24D1;</span>
+          <span class="bIcon">&#x24D1;</span>
           <!--보드 이름 옆의 B 아이콘 출력-->
         </div>
       </div>

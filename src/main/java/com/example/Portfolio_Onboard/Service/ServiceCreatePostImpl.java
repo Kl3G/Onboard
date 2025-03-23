@@ -14,11 +14,14 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
+import java.io.FilenameFilter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @Service
 @Log4j2
@@ -96,11 +99,6 @@ public class ServiceCreatePostImpl implements ServiceCreatePost{
         EntityFiles entityFiles = new EntityFiles(dtoCreatePost.getPidx(), entityPost, String.join(",", ofileList), String.join(",", sfileList));
         entityPost.setFiles(entityFiles); // 양방향 관계일 경우 필요
         repoFiles.save(entityFiles); // EntityFiles 저장
-
-        /*EntityPost entityPost = dtoCreatePost.entityPost(memberInfo, board, null);
-        EntityFiles entityFiles = new EntityFiles(dtoCreatePost.getPidx(), entityPost, String.join(",", ofileList), String.join(",", sfileList));
-        entityPost = dtoCreatePost.entityPost(memberInfo, board, entityFiles);
-        repoPost.save(entityPost);*/
 
         return "redirect:/post?pidx="+pidx+"&bidx="+bidx;
     }
@@ -193,24 +191,91 @@ public class ServiceCreatePostImpl implements ServiceCreatePost{
 
             EntityPost post = optionalPost.get();
 
-            // 2) 해당 게시글에 연결된 파일 정보 가져오기
+            // 해당 게시글에 연결된 파일 정보 가져오기
             EntityFiles files = post.getFiles();
-            if (files != null) {
+            if (files != null && !files.getSfile().isEmpty()) {
 
                 // 예: 파일 경로나 파일 이름을 합쳐서 실제 경로를 만든다고 가정
-                String filePath = "/app/data/file" + files.getSfile();
+                String filePath = "/app/data/file/" + files.getSfile();
                 // 혹은 files.getFilePath()를 사용 (DB에 전체 경로 저장했다면)
 
-                // 3) 물리 경로에 있는 파일 삭제
+                // 물리 경로에 있는 파일 삭제
                 File file = new File(filePath);
                 if (file.exists()) {
 
                     boolean deleted = file.delete();
-                    System.out.println("파일 삭제 여부: " + deleted);
+                    log.info("파일 삭제 여부: " + deleted);
                 }
+            } else {
+
+                log.info("삭제할 파일 없음");
             }
 
-            // 4) 게시글 삭제
+            // 게시글 썸네일 삭제
+            File dirThumb = new File("/app/data/image/thumbnail/");
+            File[] matchingThumbFiles = dirThumb.listFiles(new FilenameFilter() {
+
+                @Override
+                public boolean accept(File dir, String name) {
+                    return name.startsWith(String.valueOf(post.getPidx()));
+                }
+            });
+            if (Arrays.stream(matchingThumbFiles).findFirst().isPresent()) {
+
+                if(Arrays.stream(matchingThumbFiles).findFirst().get().delete()){
+
+                    log.info("썸네일 삭제 성공");
+                }else {
+
+                    log.info("썸네일 삭제 실패");
+                }
+            }else {
+
+                log.info("삭제할 썸네일 없음");
+            }
+
+            // 게시글 이미지 삭제
+            Pattern pattern = Pattern.compile("/uploads/" +
+                    "([a-fA-F0-9]{8}-([a-fA-F0-9]{4}-){3}[a-fA-F0-9]{12}\\.(png|jpg|jpeg|gif|bmp))");
+            // 찾고 있는 문자열의 형식(조건)을 지정.
+
+            Matcher matcher = pattern.matcher(post.getText());
+            // post.getText()에서 정규표현식에 부합하는 부분을 가져 올 준비.
+
+            List<String> fileNames = new ArrayList<>();
+            // matcher 에서 찾은 문자열을 담을 리스트 생성.
+
+            while (matcher.find() /* 찾기 실행 */) {
+
+                fileNames.add(matcher.group(1)); // 찾아서 하나씩 fileNames 에 할당.
+            }
+
+            File dirimage = new File("/app/data/image/"); // File 객체는 실제로 파일이나 폴더를 만드는 게 아님.
+            // 이 경로에 이런 파일(또는 폴더)이 있다고 가정하고 만든 객체, 경로 정보만 담고 있다.
+            // 실제 파일이 존재하는지는 exists(), isFile(), isDirectory() 같은 메서드로 확인.
+
+            File[] matchingImgFiles = dirimage.listFiles((dir, name) -> fileNames.contains(name));
+            // dirimage.listFiles((dir, name) -> name.endsWith(".png")); 확장자 조건 걸기
+            // dirimage.listFiles((dir, name) -> name.contains("sample")); 파일명에 특정 문자 포함 여부
+            // File[] files = dirimage.listFiles(); 필터 없이 전부
+
+            if (matchingImgFiles != null && matchingImgFiles.length != 0) {
+                for (File file : matchingImgFiles) {
+
+                    if (file.delete()) {
+
+                        log.info("이미지 삭제 성공: " + file.getName());
+                    } else {
+
+                        log.info("이미지 삭제 실패: " + file.getName());
+                    }
+                }
+            }else {
+
+                log.info("삭제할 이미지 없음");
+            }
+
+
             repoPost.deleteById(pidx);
         }
 

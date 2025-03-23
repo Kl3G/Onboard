@@ -50,9 +50,9 @@
         // 기본 플러그인들이 내장되어 있기 때문에 'FileRepository'를 불러올 수 있다.
 
             const adapter = new UploadAdapter(loader);
-//            adapter.upload().then(result => {
-//                console.log(result); // { default: '업로드된 이미지의 URL' }가 출력됩니다.
-//            });
+            //adapter.upload().then(result => {
+            //console.log(result); // { default: '업로드된 이미지의 URL' }가 출력됩니다.
+            //});
 
             return adapter;
         };
@@ -82,8 +82,8 @@
 
             const xhr = this.xhr = new XMLHttpRequest();
             // 업로드를 처리할 서버 엔드포인트 (백엔드에서 해당 URL을 처리해야 합니다)
-            xhr.open('POST', 'http://localhost:8080/upload-image', true);
-            //xhr.open('POST', 'https://port-0-onboard-m7n11lrga828c347.sel4.cloudtype.app/upload-image', true);
+            //xhr.open('POST', 'http://localhost:8080/upload-image', true);
+            xhr.open('POST', 'https://port-0-onboard-m7n11lrga828c347.sel4.cloudtype.app/upload-image', true);
             xhr.responseType = 'json';
         }
 

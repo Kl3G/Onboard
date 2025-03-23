@@ -275,6 +275,19 @@
         gap: 5px;
     }
 
+    .boardName {
+
+        color: #29367c !important;
+    }
+
+    .bIcon {
+
+        position: relative;
+        bottom: 2px;
+        color: #29367c;
+        padding: 0;
+    }
+
     .main__divTop div{
 
         font-size: 24px; color: #29367c; max-height: 48px;

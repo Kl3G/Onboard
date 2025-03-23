@@ -267,9 +267,9 @@ public class ServiceWorldImpl implements ServiceWorld {
                 // post.getText() 에서 파일명만 발췌한다.
                 String image = post.getText().substring(start + 14, post.getText().indexOf("\"", start + 5));
 
-                String newImage = "C:/data/image/" + image; // 1. 실제(숨긴) 물리 경로를 붙여준다.
-                String thumbnailFilename = "thumb" + image; // 2. 다른 디렉토리에 저장할 썸네일 이미지 이름 설정.
-                String thumbnailFilePath = "C:/data/image/thumbnail/" + thumbnailFilename; // 3. 썸네일 이미지를 저장할 디렉토리 설정.
+                String newImage = "/app/data/image/" + image; // 1. 실제(숨긴) 물리 경로를 붙여준다.
+                String thumbnailFilename = post.getPidx() + image; // 2. 다른 디렉토리에 저장할 썸네일 이미지 이름 설정.
+                String thumbnailFilePath = "/app/data/image/thumbnail/" + thumbnailFilename; // 3. 썸네일 이미지를 저장할 디렉토리 설정.
                 File thumbnailFile = new File(thumbnailFilePath); // 4. 썸네일 이미지 파일 객체 생성.
 
                 thumbnailFile.getParentFile().mkdirs(); // 썸네일 이미지를 저장할 디렉토리가 없으면 생성해 준다.
@@ -323,9 +323,10 @@ public class ServiceWorldImpl implements ServiceWorld {
 
                 String image = post.getText().substring(start + 14, post.getText().indexOf("\"", start + 5));
 
-                String newImage = "C:/data/image/" + image;
-                String thumbnailFilename = "thumb" + image;
-                String thumbnailFilePath = "C:/data/image/thumbnail/" + thumbnailFilename;
+                String newImage = "/app/data/image/" + image;
+
+                String thumbnailFilename = post.getPidx() + image;
+                String thumbnailFilePath = "/app/data/image/thumbnail/" + thumbnailFilename;
                 File thumbnailFile = new File(thumbnailFilePath);
 
                 thumbnailFile.getParentFile().mkdirs();

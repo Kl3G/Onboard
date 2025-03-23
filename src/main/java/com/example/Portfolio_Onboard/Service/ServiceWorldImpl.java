@@ -67,7 +67,7 @@ public class ServiceWorldImpl implements ServiceWorld {
             String newFileName = UUID.randomUUID() + extension;
 
             //File destDir = new File("/app/data/boardImg");
-            File destDir = new File("C:/data/boardImg");
+            File destDir = new File("/app/data/boardImg");
             if (!destDir.exists()) {
 
                 destDir.mkdirs(); // 디렉토리 및 하위 디렉토리 생성, 이미 존재하는 디렉토리는 자동으로 빼고 생성해 준다.
@@ -75,7 +75,7 @@ public class ServiceWorldImpl implements ServiceWorld {
 
             //File dest = new File("C:/data/image/" + fileName);
             //File dest = new File("/app/data/boardImg/" + newFileName); // 파일을 저장할 때는 반드시 파일명까지 포함된 경로를 지정해야 한다.
-            File dest = new File("C:/data/boardImg/" + newFileName);
+            File dest = new File("/app/data/boardImg/" + newFileName);
             dtoCreateBoard.getFiles().transferTo(dest); // 실제로 파일 저장을 실행.
 
             repoWorld.save(dtoCreateBoard.entityWorld(memberInfo, newFileName));
@@ -270,7 +270,7 @@ public class ServiceWorldImpl implements ServiceWorld {
                 String newImage = "/app/data/image/" + image; // 1. 실제(숨긴) 물리 경로를 붙여준다.
                 String thumbnailFilename = post.getPidx() + image; // 2. 다른 디렉토리에 저장할 썸네일 이미지 이름 설정.
                 String thumbnailFilePath = "/app/data/image/thumbnail/" + thumbnailFilename; // 3. 썸네일 이미지를 저장할 디렉토리 설정.
-                File thumbnailFile = new File(thumbnailFilePath); // 4. 썸네일 이미지 파일 객체 생성.
+                File thumbnailFile = new File(thumbnailFilePath); // 4. 썸네일 이미지 파일 경로 객체 생성.
 
                 thumbnailFile.getParentFile().mkdirs(); // 썸네일 이미지를 저장할 디렉토리가 없으면 생성해 준다.
 

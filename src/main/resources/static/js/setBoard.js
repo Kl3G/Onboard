@@ -7,7 +7,7 @@
 
             const boardName = $('#b_name').val().replace(/\s+/g, '');
 
-            $.ajax {
+            $.ajax ({
 
                 url: '/checkBoardName',
                 type: 'post',
@@ -28,7 +28,7 @@
 
                     console.error('error: ', error.status);
                 }
-            }
+            })
         })
 
         $('.formBoard').on('submit', (event) => {

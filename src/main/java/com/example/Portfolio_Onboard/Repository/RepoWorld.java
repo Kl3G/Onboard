@@ -16,6 +16,9 @@ public interface RepoWorld extends JpaRepository<EntityWorld, Long> {
 
     Optional<EntityWorld> findById(Long bidx);
 
+    @Query("SELECT e FROM EntityWorld e WHERE e.b_name = :boardName")
+    Optional<EntityWorld> findByB_name(@Param("boardName") String boardName);
+
     @Query("SELECT w FROM EntityWorld w WHERE w.place = :place")
     List<EntityWorld> findByPlace(@Param("place") String place);
 

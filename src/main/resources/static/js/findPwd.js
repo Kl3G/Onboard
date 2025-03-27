@@ -15,8 +15,8 @@ $(document).ready(function(){
 
     $('.form__section').on('submit', function(event){
 
-        const mail = document.querySelector('input[name="mail"]').value.trim();
-        const userid = document.querySelector('input[name="userid"]').value.trim();
+        const mail = $('input[name="mail"]').val().trim();
+        const userid = $('input[name="userid"]').val().trim();
 
         if(!mail){
 

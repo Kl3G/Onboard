@@ -14,6 +14,9 @@ public interface RepoMemberInfo extends JpaRepository<EntityMemberInfo, String> 
 
     EntityMemberInfo findByUserid(String userid);
     EntityMemberInfo findByMail(String mail);
+    EntityMemberInfo findByNick(String nick);
+    boolean existsByNick(String nick); // 회원가입 닉네임 중복 검사
+    boolean existsByMail(String mail); // 회원가입 메일 중복 검사
     Optional<EntityMemberInfo> findByMailAndUserid(String mail, String userid);
     Optional<EntityMemberInfo> findByUseridAndPwd(String userid, String pwd);
     // findBy + (컬럼 이름1) + And/Or + (컬럼 이름2)

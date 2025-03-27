@@ -202,6 +202,12 @@
 <script th:if="${joinSuccess != null}">
     alert("会員登録を完了しました!");
 </script>
+<script th:if="${error != null}">
+    alert("入力した情報が正しくありません、JavaScriptが作動していません。");
+</script>
+<script th:if="${duplicate != null}">
+    alert("重複の会員情報があります。");
+</script>
 <script src="../js/global.js"></script>
 </body>
 </html>

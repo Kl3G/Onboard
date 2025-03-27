@@ -79,7 +79,6 @@
             <div class="TopDiv__RuleDiv">
                 <p>誰でもボードを作成できます。</p>
                 <p>ボードの運営権限および義務は、開設者に付与されます。</p>
-                <p>ボードは最大3つまで開設できます。</p>
             </div>
             <div class="BottomDiv__RuleDiv">
                 <p style="line-height: 1.5;">
@@ -92,7 +91,7 @@
                 </p>
             </div>
         </div>
-        <form action="/createBoard_proc" method="post" enctype="multipart/form-data">
+        <form action="/createBoard_proc" method="post" enctype="multipart/form-data" class="formBoard">
             <fieldset>
                 <legend>ボード開設</legend>
                 <input type="hidden" id="userid" name="userid" th:value="${userid}">
@@ -162,5 +161,6 @@
         });
     });
 </script>
+<script src="/js/setBoard.js"></script>
 </body>
 </html>

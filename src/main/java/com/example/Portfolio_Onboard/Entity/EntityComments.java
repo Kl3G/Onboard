@@ -18,6 +18,7 @@ import java.util.List;
 public class EntityComments {
 
     @Id
+    @Column(nullable = false)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "cidx")
     @SequenceGenerator(name = "cidx", sequenceName = "cidx", allocationSize = 1)
     private Long cidx;
@@ -32,10 +33,19 @@ public class EntityComments {
     @ToString.Exclude
     private EntityMemberInfo memberInfo;
 
+    @Column(nullable = false, length = 4)
     private String cpwd;
+
+    @Column(nullable = false, length = 10)
     private String nick;
+
+    @Column(nullable = false, length = 500)
     private String text;
+
+    @Column(nullable = false, length = 45)
     private String userip;
+
+    @Column(nullable = false)
     private Date regdate;
 
     @OneToMany(mappedBy = "comment", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)

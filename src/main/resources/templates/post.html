@@ -198,7 +198,7 @@
                     <li id="childcomment" class="childcommentBox" th:each="childcomment, stat : ${comment.childcommentList}" style="display: flex; position: relative;">
                       <div class="nickBox">
                         <span th:text="${childcomment.nick}" style="font-size: 12px;"></span>
-                        <span th:text="(${childcomment.nick == 'ㅇㅇ'} ? '(' + ${#strings.substring(childcomment.userip, 0, 7)} + ')' : '')" style="font-size: 12px;"></span>
+                        <span th:text="(${childcomment.nick == 'ㅇㅇ'} ? '(' + ${#strings.substring(childcomment.userip, 0, 7)} + ')' : '')" style="font-size: 11px;"></span>
                       </div>
                       <div class="childTextBox">
                         <span style="font-weight: bold; color: #29367c;">ㄴ</span>

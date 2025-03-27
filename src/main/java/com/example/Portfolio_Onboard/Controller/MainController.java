@@ -5,6 +5,7 @@ import com.example.Portfolio_Onboard.Entity.EntityMemberInfo;
 import com.example.Portfolio_Onboard.Service.*;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import jakarta.validation.Valid;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -17,6 +18,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
@@ -24,7 +26,9 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Log4j2
 @Controller
@@ -114,8 +118,35 @@ public class MainController {
         return "join";
     }
 
+    @PostMapping("/checkUserid")
+    @ResponseBody
+    public Map<String, Boolean> checkUserid(@RequestParam("userid") String userid) {
+
+        return serviceJoin.duplicateUserid(userid);
+    }
+
+    @PostMapping("/checkNick")
+    @ResponseBody
+    public Map<String, Boolean> checkNick(@RequestParam("nick") String nick) {
+
+        return serviceJoin.duplicateNick(nick);
+    }
+
+    @PostMapping("/checkBoardName")
+    @ResponseBody
+    public Map<String, Boolean> checkBoardName(@RequestParam("boardName") String boardName) {
+
+        return serviceWorld.duplicateBoardName(boardName);
+    }
+
     @PostMapping("/join_proc")
-    public String setJoin(DTOJoin dtoJoin, RedirectAttributes redirectAttributes){
+    public String setJoin(@Valid DTOJoin dtoJoin, BindingResult bindingResult, RedirectAttributes redirectAttributes){
+
+        if (bindingResult.hasErrors()) {
+
+            redirectAttributes.addFlashAttribute("error", bindingResult.getAllErrors());
+            return "redirect:/index"; // 회원가입 폼 페이지로 이동
+        }
 
         return serviceJoin.setJoin(dtoJoin, redirectAttributes);
     }

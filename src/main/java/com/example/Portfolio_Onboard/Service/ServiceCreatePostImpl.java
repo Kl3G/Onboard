@@ -191,8 +191,8 @@ public class ServiceCreatePostImpl implements ServiceCreatePost{
 
             EntityPost post = optionalPost.get();
 
-            // 해당 게시글에 연결된 파일 정보 가져오기
-            EntityFiles files = post.getFiles();
+            // 첨부 파일 삭제
+            EntityFiles files = post.getFiles(); // 해당 게시글에 연결된 파일 정보 가져오기
             if (files != null && !files.getSfile().isEmpty()) {
 
                 // 예: 파일 경로나 파일 이름을 합쳐서 실제 경로를 만든다고 가정

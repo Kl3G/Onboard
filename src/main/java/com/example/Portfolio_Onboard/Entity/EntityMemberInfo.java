@@ -22,10 +22,19 @@ import java.util.List;
 public class EntityMemberInfo implements UserDetails {
 
     @Id
+    @Column(nullable = false, length = 15)
     private String userid;
+
+    @Column(nullable = false, length = 100)
     private String pwd;
+
+    @Column(nullable = false, length = 10, unique = true)
     private String nick;
+
+    @Column(nullable = false, length = 50, unique = true)
     private String mail;
+
+    @Column(nullable = false)
     private Date regdate;
 
     @OneToMany(mappedBy = "memberInfo", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE, orphanRemoval = true) //기본설정

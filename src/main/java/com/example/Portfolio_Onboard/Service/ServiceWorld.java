@@ -7,6 +7,7 @@ import org.springframework.data.domain.Pageable;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
 public interface ServiceWorld {
 
@@ -23,4 +24,5 @@ public interface ServiceWorld {
     EntityPost postView(Long pidx); // 게시글 데이터 전송
     List<DTOPopularPost> getPopularPost(); // 인기 게시글 전송
     List<DTOPopularPost> getPopularPostOfPlace(String boardPlace); // 대륙별 인기 게시글 전송
+    Map<String, Boolean> duplicateBoardName(String boardName);
 }

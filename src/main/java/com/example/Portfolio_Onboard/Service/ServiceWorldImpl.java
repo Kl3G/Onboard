@@ -21,10 +21,8 @@ import org.springframework.stereotype.Service;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
-import java.util.Base64;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
+
 import org.slf4j.Logger;
 import java.util.stream.Collectors;
 
@@ -85,6 +83,28 @@ public class ServiceWorldImpl implements ServiceWorld {
         }
 
         return "redirect:/index";
+    }
+
+    @Override
+    public Map<String, Boolean> duplicateBoardName (String boardName) {
+
+        Optional<EntityWorld> entityWorld = repoWorld.findByB_name(boardName);
+
+        Map<String, Boolean> response = new HashMap<>();
+
+        boolean exists = false;
+
+        if (entityWorld.isPresent()) {
+
+            exists = true;
+
+            response.put("exists", exists);
+        } else {
+
+            response.put("exists", exists);
+        }
+
+        return response;
     }
 
     @Override

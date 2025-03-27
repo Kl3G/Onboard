@@ -14,6 +14,7 @@ import lombok.ToString;
 public class EntityFiles {
 
     @Id
+    @Column(nullable = false)
     private Long pidx; // 식별자 필드 추가
 
     @OneToOne(cascade = CascadeType.ALL)
@@ -22,6 +23,9 @@ public class EntityFiles {
     @ToString.Exclude
     private EntityPost post;
 
+    @Column(length = 50)
     private String ofile;
+
+    @Column(length = 50)
     private String sfile;
 }

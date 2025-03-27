@@ -4,6 +4,7 @@ import com.example.Portfolio_Onboard.DTO.*;
 import com.example.Portfolio_Onboard.Entity.EntityPost;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.io.IOException;
 import java.util.List;
@@ -11,7 +12,7 @@ import java.util.Map;
 
 public interface ServiceWorld {
 
-    String setWorld(DTOCreateBoard dtoCreateBoard);
+    String setWorld(DTOCreateBoard dtoCreateBoard, RedirectAttributes redirectAttributes);
     DTOBoardInfo boardInfo(Long bidx);
     Page<DTOPostView> postList(Long bidx, Pageable pageable); // 보드의 게시글 리스트 출력
     void incrementViewCount(Long pidx); // 조회수 카운트

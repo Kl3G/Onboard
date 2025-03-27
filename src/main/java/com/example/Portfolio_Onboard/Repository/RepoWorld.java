@@ -16,6 +16,9 @@ public interface RepoWorld extends JpaRepository<EntityWorld, Long> {
 
     Optional<EntityWorld> findById(Long bidx);
 
+    @Query("SELECT CASE WHEN COUNT(e) > 0 THEN true ELSE false END FROM EntityWorld e WHERE e.b_name = :boardName")
+    boolean existsByBoardName(@Param("boardName") String boardName);
+
     @Query("SELECT e FROM EntityWorld e WHERE e.b_name = :boardName")
     Optional<EntityWorld> findByB_name(@Param("boardName") String boardName);
 

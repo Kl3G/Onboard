@@ -22,11 +22,11 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -144,7 +144,7 @@ public class MainController {
 
         if (bindingResult.hasErrors()) {
 
-            redirectAttributes.addFlashAttribute("error", bindingResult.getAllErrors());
+            redirectAttributes.addFlashAttribute("joinError", bindingResult.getAllErrors());
             return "redirect:/index"; // 회원가입 폼 페이지로 이동
         }
 
@@ -592,9 +592,17 @@ public class MainController {
     }
 
     @PostMapping("/createBoard_proc")
-    public String setCreateBoard(DTOCreateBoard dtoCreateBoard){
+    public String setCreateBoard(@Valid DTOCreateBoard dtoCreateBoard, BindingResult bindingResult, RedirectAttributes redirectAttributes){
 
-        return serviceWorld.setWorld(dtoCreateBoard);
+        MultipartFile file = dtoCreateBoard.getFiles();
+
+        if (bindingResult.hasErrors() || file.isEmpty() || file.getSize() == 0) {
+
+            redirectAttributes.addFlashAttribute("boardError", bindingResult.getAllErrors());
+            return "redirect:/index";
+        }
+
+        return serviceWorld.setWorld(dtoCreateBoard, redirectAttributes);
     }
 
     @GetMapping("/api/session-status")

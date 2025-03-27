@@ -17,13 +17,13 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.util.*;
 
 import org.slf4j.Logger;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -45,7 +45,14 @@ public class ServiceWorldImpl implements ServiceWorld {
     }
 
     @Override
-    public String setWorld(DTOCreateBoard dtoCreateBoard) {
+    public String setWorld(DTOCreateBoard dtoCreateBoard, RedirectAttributes redirectAttributes) {
+
+        if (repoWorld.existsById(dtoCreateBoard.getBidx()) ||
+                repoWorld.existsByBoardName(dtoCreateBoard.getB_name())) {
+
+            redirectAttributes.addAttribute("boardDuplicate", "boardDuplicate");
+            return "redirect:/index";
+        }
 
         EntityMemberInfo memberInfo = repoMemberInfo.findByUserid(dtoCreateBoard.getUserid());
         // 세션에 담겨 있던 userid를 model로 createBoard.html에 전달,

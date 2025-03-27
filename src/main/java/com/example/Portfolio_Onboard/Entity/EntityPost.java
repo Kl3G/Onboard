@@ -45,7 +45,7 @@ public class EntityPost {
     @Column(nullable = false, length = 25)
     private String title;
 
-    @Column(nullable = false, length = 3000)
+    @Column(nullable = false, length = 3100)
     private String text;
 
     @Column(nullable = false, length = 45)

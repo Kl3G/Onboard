@@ -30,7 +30,7 @@ public class ServiceJoinImpl implements ServiceJoin {
                 repoMemberInfo.existsByNick(dtoJoin.getNick()) ||
                 repoMemberInfo.existsByMail(dtoJoin.getMail())) {
 
-            redirectAttributes.addFlashAttribute("duplicate", "duplicate");
+            redirectAttributes.addFlashAttribute("joinDuplicate", "joinDuplicate");
             return "redirect:/index";
         }
 

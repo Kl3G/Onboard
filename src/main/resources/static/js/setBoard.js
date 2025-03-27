@@ -5,7 +5,7 @@
 
         $('#b_name').on('change', () => {
 
-            const boardName = $('#b_name').val().replace(/\s+/g, '');
+            const boardName = $('#b_name').val();
 
             $.ajax ({
 
@@ -36,7 +36,7 @@
             const bName = $('#b_name').val();
             const bNamePattern = /^(?=.{1,30}$)\S+(?: \S+)*$/;
 
-            const files = $('.files').val();
+            const files = $('.files').prop('files');
             const filesPattern = /^.{1,50}$/;
 
             const intro = $('#intro').val();
@@ -54,7 +54,7 @@
                 event.preventDefault();
                 alert('重複のタイトルがあります。');
             }
-            else if (!filesPattern.test(files) || files === '') {
+            else if (!files || files.length === 0) {
 
                 event.preventDefault();
                 alert('イメージを入れてください。');

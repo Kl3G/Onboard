@@ -13,7 +13,6 @@ import java.util.*;
 @Data
 public class DTOCreateBoard {
 
-    @NotNull(message = "bidx is null")
     private Long bidx;
 
     @NotBlank(message = "userid is null")
@@ -40,7 +39,6 @@ public class DTOCreateBoard {
     @Pattern(regexp = "^.{1,100}$", message = "invalid reason")
     private String reason;
 
-    @NotNull(message = "regdate is null")
     private Date regdate;
 
     public EntityWorld entityWorld(EntityMemberInfo memberInfo, String file){

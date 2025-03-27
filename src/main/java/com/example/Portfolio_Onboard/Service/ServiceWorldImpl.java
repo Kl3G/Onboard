@@ -47,8 +47,7 @@ public class ServiceWorldImpl implements ServiceWorld {
     @Override
     public String setWorld(DTOCreateBoard dtoCreateBoard, RedirectAttributes redirectAttributes) {
 
-        if (repoWorld.existsById(dtoCreateBoard.getBidx()) ||
-                repoWorld.existsByBoardName(dtoCreateBoard.getB_name())) {
+        if (repoWorld.existsByBoardName(dtoCreateBoard.getB_name())) {
 
             redirectAttributes.addAttribute("boardDuplicate", "boardDuplicate");
             return "redirect:/index";

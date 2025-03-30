@@ -203,19 +203,28 @@
     alert("会員登録を完了しました!");
 </script>
 <script th:if="${joinError != null}">
-    alert("joinError");
-    alert("入力した会員情報が正しくありません、JavaScriptが作動していません。");
+    alert("joinError\n入力した会員情報が正しくありません、JavaScriptが作動していません。");
 </script>
 <script th:if="${joinDuplicate != null}">
-    alert("重複の会員情報があります。");
+    alert("joinDuplicate\n重複の会員情報があります。");
 </script>
 <script th:if="${boardError != null}">
-    alert("boardError");
-    alert("入力したボード情報が正しくありません、JavaScriptが作動していません。");
+    alert("boardError\n入力したボード情報が正しくありません、JavaScriptが作動していません。");
 </script>
 <script th:if="${boardDuplicate != null}">
-    alert("boardError");
-    alert("重複のボード情報があります。");
+    alert("boardError\n重複のボード情報があります。");
+</script>
+<script th:if="${postError != null}">
+    alert("postError\n入力した投稿データが正しくありません、JavaScriptが作動していません。");
+</script>
+<script th:if="${postFileError != null}">
+    alert("postFileError\n添付したファイルが多すぎます。");
+</script>
+<script th:if="${commentError != null}">
+    alert("commentError\n入力したコメントが正しくありません、JavaScriptが作動していません。");
+</script>
+<script th:if="${childcommentError != null}">
+    alert("childcommentError\n入力したコメントが正しくありません、JavaScriptが作動していません。");
 </script>
 <script src="../js/global.js"></script>
 </body>

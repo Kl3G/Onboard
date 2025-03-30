@@ -179,10 +179,10 @@
                           <input type="hidden" name="userid" th:value="${userid}">
                           <input type="hidden" name="nick" th:value="${nick}">
                           <input type="hidden" name="userip" th:value="${ip}">
-                          <input type="password" name="ccpwd" placeholder="パスワード" style="padding: 1px 7px 1px 7px; box-sizing: box-border; max-width: 126px; height: 28px;">
+                          <input id="ccpwd" type="password" name="ccpwd" placeholder="パスワード" style="padding: 1px 7px 1px 7px; box-sizing: box-border; max-width: 126px; height: 28px;">
                         </div>
                         <div style="width: 100%;">
-                          <textarea name= "text" style="height:106px; width: 100%; resize: none; padding: 10px; box-sizing: border-box;"></textarea>
+                          <textarea id="childCommentText" id="" name= "text" style="height:106px; width: 100%; resize: none; padding: 10px; box-sizing: border-box;"></textarea>
                         </div>
                       </div>
                       <div style="margin-top: 5px; text-align: right;">
@@ -262,10 +262,10 @@
               <input type="hidden" name="userid" th:value="${userid}">
               <input type="hidden" name="userip" th:value="${ip}">
               <input type="hidden" name="nick" th:value="${nick}">
-              <input type="password" name="cpwd" placeholder="パスワード" style="padding: 1px 7px 1px 7px; box-sizing: box-border; max-width: 126px; height: 28px;">
+              <input id="cpwd" type="password" name="cpwd" placeholder="パスワード" style="padding: 1px 7px 1px 7px; box-sizing: box-border; max-width: 126px; height: 28px;">
             </div>
             <div style="width: 100%;">
-              <textarea name="text" style="height:106px; width: 100%; resize: none; padding: 10px; box-sizing: border-box" placeholder="他人の権利を侵害または名誉を毀損するコメントは、運営原則および関連法令により罰せられる可能性があります。
+              <textarea id="commentText" class="text" name="text" style="height:106px; width: 100%; resize: none; padding: 10px; box-sizing: border-box" placeholder="他人の権利を侵害または名誉を毀損するコメントは、運営原則および関連法令により罰せられる可能性があります。
 
 Shift+Enter キーを同時に押すと、改行されます。"></textarea>
             </div>

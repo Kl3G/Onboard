@@ -85,12 +85,12 @@
                 </div>
             </div>
             <div class="divForm">
-                <form action="/modifyPost_proc" method="post" enctype="multipart/form-data" >
+                <form class="formPost" action="/modifyPost_proc" method="post" enctype="multipart/form-data" >
                     <input type="hidden" name="pidx" th:value="${post.pidx}">
                     <input type="hidden" name="userip" th:value="${ip}">
 
                     <div class="divPpwd">
-                        <input type="text" name="ppwd" th:value="${post.ppwd}"
+                        <input id="ppwd" type="text" name="ppwd" th:value="${post.ppwd}"
                                placeholder="削除パスワードを入力してください。">
                     </div>
                     <div class="divCategory">
@@ -102,12 +102,12 @@
                     </div>
 
                     <div class="divTitle">
-                        <input type="text" name="title" th:value="${post.title}"
+                        <input id="title" type="text" name="title" th:value="${post.title}"
                                placeholder="タイトルを入力してください。">
                     </div>
 
                     <div class="divFiles">
-                        <input type="file" name="files" multiple>
+                        <input id="files" type="file" name="files" multiple>
                     </div>
 
                     <div class="divWarn">
@@ -145,6 +145,7 @@
         <span style="font-size: 12px;">Copyright ⓒ 2024 - 2025 ondoard. All rights reserved.</span>
     </div>
 </footer>
+<script src="/js/setModifyPost.js"></script>
 <script src="/js/comment.js"></script>
 <script src="/js/global.js"></script>
 <script src="/js/uploadAdapter.js"></script>

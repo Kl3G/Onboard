@@ -23,9 +23,9 @@ public class EntityFiles {
     @ToString.Exclude
     private EntityPost post;
 
-    @Column(length = 50)
+    @Column(length = 1000)
     private String ofile;
 
-    @Column(length = 50)
+    @Column(length = 1000)
     private String sfile;
 }

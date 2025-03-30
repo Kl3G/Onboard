@@ -441,3 +441,54 @@
         });
     });
     // --------------------------------------------------------------------
+
+
+    // 댓글, 대댓글 유효성 검사
+    $(document).ready( () => {
+
+        $('#commentForm').on('submit', (event) => {
+
+            const cpwd = $('#cpwd').val();
+            const commentText = $('#commentText').val();
+
+            const patternCpwd = /^\d{4}$/;
+            const patternCommentText = /^(?=.{1,500}$)(?!^\s+$).*$/;
+
+            if (!cpwd || cpwd === '') {
+
+                event.preventDefault();
+                alert('パスワードを入力してください。');
+            } else if (!patternCpwd.test(cpwd)) {
+
+                event.preventDefault();
+                alert('パスワードは4桁の数字です。');
+            } else if (!patternCommentText.test(commentText)) {
+
+                event.preventDefault();
+                alert('コメントは1~500文字以内にしてください。');
+            }
+        })
+
+        $('.childCommentForm').on('submit', (event) => {
+
+            const ccpwd = $('#ccpwd').val();
+            const childCommentText = $('#childCommentText').val();
+
+            const patternCcpwd = /^\d{4}$/;
+            const patternChildCommentText = /^(?=.{1,500}$)(?!^\s+$).*$/;
+
+            if (!ccpwd || ccpwd === '') {
+
+                event.preventDefault();
+                alert('パスワードを入力してください。');
+            } else if (!patternCcpwd.test(ccpwd)) {
+
+                event.preventDefault();
+                alert('パスワードは4桁の数字です。');
+            } else if (!patternChildCommentText.test(childCommentText)) {
+
+                event.preventDefault();
+                alert('コメントは1~500文字以内にしてください。');
+            }
+        })
+    });

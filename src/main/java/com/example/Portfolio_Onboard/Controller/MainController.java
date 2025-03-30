@@ -145,7 +145,6 @@ public class MainController {
         if (bindingResult.hasErrors()) {
 
             redirectAttributes.addFlashAttribute("joinError", bindingResult.getAllErrors());
-            log.error(bindingResult.getAllErrors());
             return "redirect:/index"; // 회원가입 폼 페이지로 이동
         }
 

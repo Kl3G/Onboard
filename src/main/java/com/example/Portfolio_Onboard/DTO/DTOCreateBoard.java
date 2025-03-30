@@ -39,8 +39,6 @@ public class DTOCreateBoard {
     @Pattern(regexp = "^.{1,100}$", message = "invalid reason")
     private String reason;
 
-    private Date regdate;
-
     public EntityWorld entityWorld(EntityMemberInfo memberInfo, String file){
 
         return new EntityWorld(null, memberInfo, nick, place, b_name, intro, file, reason, new Date(), null);

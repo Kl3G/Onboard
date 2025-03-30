@@ -84,15 +84,15 @@
                     </div>
                 </div>
                 <div class="divForm">
-                    <form action="/createPost_proc" method="post" enctype="multipart/form-data">
+                    <form class="formPost" action="/createPost_proc" method="post" enctype="multipart/form-data">
                         <input type="hidden" name="bidx" th:value="${bidx}">
                         <input type="hidden" name="userid" th:value="${userid}">
                         <input type="hidden" name="nick" th:value="${nick}">
                         <input type="hidden" name="userip" th:value="${ip}">
 
                         <div class="divPpwd">
-                            <input type="password" style="width: 230px;" name="ppwd"
-                                   placeholder="削除パスワードを入力してください。">
+                            <input id="ppwd" type="password" style="width: 230px;" name="ppwd"
+                                   placeholder="パスワード (4桁の数字)">
                         </div>
 
                         <div class="divCategory">
@@ -104,11 +104,11 @@
                         </div>
 
                         <div class="divTitle">
-                            <input type="text" name="title" placeholder="タイトルを入力してください。">
+                            <input id="title" type="text" name="title" placeholder="タイトルを入力してください。(25文字以内)">
                         </div>
 
                         <div class="divFiles">
-                            <input type="file" name="files" multiple>
+                            <input id="files" type="file" name="files" multiple>
                         </div>
 
                         <div class="divWarn">
@@ -119,7 +119,7 @@
                         </div>
 
                         <div class="divText">
-                            <textarea id="editor" name="text" style="resize: none;"></textarea>
+                            <textarea id="editor" name="text" style="resize: none;" placeholder="(3000文字以内で入力してください。)"></textarea>
                         </div>
 
                         <div class="divButton">
@@ -148,6 +148,7 @@
             <span style="font-size: 12px;">Copyright ⓒ 2024 - 2025 ondoard. All rights reserved.</span>
         </div>
     </footer>
+    <script src="/js/setPost.js"></script>
     <script src="/js/comment.js"></script>
     <script src="/js/global.js"></script>
     <script src="/js/uploadAdapter.js"></script>

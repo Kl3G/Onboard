@@ -28,8 +28,6 @@ public class DTOJoin {
     @Email(message = "invalid mail")
     private String mail;
 
-    private Date regdate;
-
     public EntityMemberInfo entityMemberInfo(){
 
         return new EntityMemberInfo(userid, pwd, nick, mail, new Date(), null);

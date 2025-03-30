@@ -6,6 +6,7 @@ import com.example.Portfolio_Onboard.Repository.*;
 import com.example.Portfolio_Onboard.Service.*;
 
 import jakarta.servlet.http.HttpSession;
+import jakarta.validation.Valid;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -17,12 +18,15 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.http.ResponseEntity;
 
 import jakarta.servlet.http.HttpServletRequest;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
@@ -177,14 +181,60 @@ public class PostController {
 
 
     @PostMapping("/createPost_proc")
-    public String setCreatePost(@ModelAttribute DTOCreatePost dtoCreatePost) {
+    public String setCreatePost(@Valid DTOCreatePost dtoCreatePost, BindingResult bindingResult,
+                                RedirectAttributes redirectAttributes) {
+
+        MultipartFile[] files = dtoCreatePost.getFiles();
+
+        int totalLength = 0;
+
+        for (MultipartFile file : files) {
+
+            if (!file.isEmpty()) {
+
+                totalLength += file.getOriginalFilename().length();
+            }
+        }
+
+        if (bindingResult.hasErrors()) {
+
+            redirectAttributes.addFlashAttribute("postError", bindingResult.getAllErrors());
+            return "redirect:/index";
+        } else if ( totalLength > 1000) {
+
+            redirectAttributes.addFlashAttribute("postFileError", bindingResult.getAllErrors());
+            return "redirect:/index";
+        }
 
         return serviceCreatePost.setPost(dtoCreatePost);
     }
 
 
     @PostMapping("/modifyPost_proc")
-    public String modifyPost(@ModelAttribute DTOModifyPost dtoModifyPost) {
+    public String modifyPost(@Valid DTOModifyPost dtoModifyPost, BindingResult bindingResult,
+                             RedirectAttributes redirectAttributes) {
+
+        MultipartFile[] files = dtoModifyPost.getFiles();
+
+        int totalLength = 0;
+
+        for (MultipartFile file : files) {
+
+            if (!file.isEmpty()) {
+
+                totalLength += file.getOriginalFilename().length();
+            }
+        }
+
+        if (bindingResult.hasErrors()) {
+
+            redirectAttributes.addFlashAttribute("postError", bindingResult.getAllErrors());
+            return "redirect:/index";
+        } else if ( totalLength > 1000) {
+
+            redirectAttributes.addFlashAttribute("postFileError", bindingResult.getAllErrors());
+            return "redirect:/index";
+        }
 
         return serviceCreatePost.updatePost(dtoModifyPost);
     }
@@ -336,13 +386,27 @@ public class PostController {
 
 
     @PostMapping("/comment_proc")
-    public String setComment(DTOCreateComment dtoCreateComment){
+    public String setComment(@Valid DTOCreateComment dtoCreateComment, BindingResult bindingResult,
+                             RedirectAttributes redirectAttributes){
+
+        if (bindingResult.hasErrors()) {
+
+            redirectAttributes.addFlashAttribute("commentError", "commentError");
+            return "redirect:/index";
+        }
 
         return serviceComment.setComment(dtoCreateComment);
     }
 
     @PostMapping("/childcomment_proc")
-    public String setChildComment(DTOCreateChildComments dtoCreateChildComments){
+    public String setChildComment(@Valid DTOCreateChildComments dtoCreateChildComments, BindingResult bindingResult,
+                                  RedirectAttributes redirectAttributes){
+
+        if (bindingResult.hasErrors()) {
+
+            redirectAttributes.addFlashAttribute("childcommentError", "childcommentError");
+            return "redirect:/index";
+        }
 
         return serviceComment.setChildComment(dtoCreateChildComments);
     }

@@ -289,9 +289,14 @@ public class ServiceWorldImpl implements ServiceWorld {
                 DTOPopularPost dto = new DTOPopularPost();
 
                 int start = post.getText().indexOf("src=");
+                String image = "";
 
-                // post.getText() 에서 파일명만 발췌한다.
-                String image = post.getText().substring(start + 14, post.getText().indexOf("\"", start + 5));
+                if(start != -1) { // 게시글에 이미지를 첨부하지 않았을 경우 post.getText().indexOf("src="); 는 -1을 반환한다.
+                // if(start != -1) 이 조건문을 걸지 않으면 start 가 -1이 됐을 때도 image 에 데이터를 할당하려고 하기 때문에 에러가 발생한다.
+
+                    // post.getText() 에서 파일명만 발췌한다.
+                    image = post.getText().substring(start + 14, post.getText().indexOf("\"", start + 5));
+                }
 
                 String newImage = "/app/data/image/" + image; // 1. 실제(숨긴) 물리 경로를 붙여준다.
                 String thumbnailFilename = post.getPidx() + image; // 2. 다른 디렉토리에 저장할 썸네일 이미지 이름 설정.

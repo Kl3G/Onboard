@@ -115,7 +115,6 @@
 
       <!--첨부 파일-->
       <div class="postFiles__main">
-        <div>
           <span>添付ファイル</span>
           <span th:text="${sfileList.contains('') ? '0' : sfileList.size()}"></span><br>
           <a th:each="sfile, iter : ${sfileList}"
@@ -123,7 +122,6 @@
              th:download="${sfile}">
             <span th:utext="${ofileList[iter.index]} + '&nbsp;'"></span>
           </a>
-        </div>
       </div>
       <!--첨부 파일-->
 

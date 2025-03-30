@@ -343,7 +343,14 @@ public class MainController {
     }
 
     @PostMapping("/newPwd_proc")
-    public String setNewPwd(DTONewPwd dtoNewPwd, HttpSession session){
+    public String setNewPwd(@Valid DTONewPwd dtoNewPwd, HttpSession session, BindingResult bindingResult,
+                            RedirectAttributes redirectAttributes){
+
+        if (bindingResult.hasErrors()) {
+
+            redirectAttributes.addFlashAttribute("newPwdError", "newPwdError");
+            return "redirect:/index";
+        }
 
         session.removeAttribute("pwdCheckPassed");
         return serviceFindPwd.newPwd(dtoNewPwd);

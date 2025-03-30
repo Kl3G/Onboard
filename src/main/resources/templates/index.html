@@ -226,6 +226,9 @@
 <script th:if="${childcommentError != null}">
     alert("childcommentError\n入力したコメントが正しくありません、JavaScriptが作動していません。");
 </script>
+<script th:if="${newPwdError != null}">
+    alert("newPwdError\n入力した新しいパスワードが正しくありません、JavaScriptが作動していません。");
+</script>
 <script src="../js/global.js"></script>
 </body>
 </html>

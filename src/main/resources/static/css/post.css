@@ -392,25 +392,24 @@
 
     .postFiles__main {
 
-        border: 1px solid #d5d5d5; height: 60px; box-sizing: border-box;
+        padding: 8px 13px 9px;
+        box-sizing: border-box;
+        min-height: 60px;
+        height: auto;
+        border: 1px solid #d5d5d5;
     }
 
-    .postFiles__main > div {
-
-        padding: 8px 13px 9px; box-sizing: border-box;
-    }
-
-    .postFiles__main > div > span:nth-of-type(1) {
+    .postFiles__main > span:nth-of-type(1) {
 
         font-size: 12px; font-weight: bold;
     }
 
-    .postFiles__main > div > span:nth-of-type(2) {
+    .postFiles__main > span:nth-of-type(2) {
 
         color: #D31900; font-size: 12px; font-weight: bold;
     }
 
-    .postFiles__main > div > a > span {
+    .postFiles__main > a > span {
 
         font-size: 13px; color: #666666;
     }

@@ -351,9 +351,12 @@ public class ServiceWorldImpl implements ServiceWorld {
                 DTOPopularPost dto = new DTOPopularPost();
 
                 int start = post.getText().indexOf("src=");
+                String image = "";
 
-                String image = post.getText().substring(start + 14, post.getText().indexOf("\"", start + 5));
+                if (start != -1) {
 
+                    image = post.getText().substring(start + 14, post.getText().indexOf("\"", start + 5));
+                }
                 String newImage = "/app/data/image/" + image;
 
                 String thumbnailFilename = post.getPidx() + image;

@@ -306,13 +306,13 @@ public class ServiceWorldImpl implements ServiceWorld {
                 thumbnailFile.getParentFile().mkdirs(); // 썸네일 이미지를 저장할 디렉토리가 없으면 생성해 준다.
 
                 if (!thumbnailFile.exists()) {
+
                     try {
 
                         Thumbnails.of(new File(newImage)) // 5. 썸네일로 변환할 이미지 가져오기. (물리 경로)
                                 .size(180, 110) // 6. 너비와 높이 변환
                                 .outputQuality(0.6) // 7. 출력 이미지의 품질 70%로 설정, 파일 크기를 줄이면서 압축.
                                 .toFile(thumbnailFile); // 8. 썸네일로 변환한 이미지를 썸네일 디렉토리 경로에 저장.
-
 
                     } catch (IOException e) {
 
@@ -368,19 +368,21 @@ public class ServiceWorldImpl implements ServiceWorld {
 
                 thumbnailFile.getParentFile().mkdirs();
 
-                try {
+                if (!thumbnailFile.exists()) {
 
-                    Thumbnails.of(new File(newImage))
-                            .size(180, 110)
-                            .outputQuality(0.6)
-                            .toFile(thumbnailFile);
+                    try {
 
-                    dto.setText("/thumbnail/" + thumbnailFilename);
-                }catch (IOException e) {
+                        Thumbnails.of(new File(newImage))
+                                .size(180, 110)
+                                .outputQuality(0.6)
+                                .toFile(thumbnailFile);
 
-                    logger.error("이미지 변환 중 오류 발생", e);
-                };
+                    } catch (IOException e) {
 
+                        logger.error("이미지 변환 중 오류 발생", e);
+                    }
+                }
+                dto.setText("/thumbnail/" + thumbnailFilename);
 
                 dto.setPidx(post.getPidx());
                 dto.setBidx(post.getBoard().getBidx());

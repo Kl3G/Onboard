@@ -163,7 +163,9 @@ public class PostController {
     }
 
     @GetMapping("/postDelete")
-    public String checkDeletePwd(@RequestParam("bidx") Long bidx, @RequestParam("pidx") Long pidx, @RequestParam("userid") String userid, Model model){
+    public String checkDeletePwd(@RequestParam("bidx") Long bidx,
+                                 @RequestParam("pidx") Long pidx,
+                                 @RequestParam("userid") String userid, Model model){
 
         DTOBoardInfo boardInfo = serviceWorld.boardInfo(bidx);
         Optional<EntityPost> post2 = serviceCreatePost.createOrUpdate(pidx);
@@ -179,6 +181,21 @@ public class PostController {
         return "postDelete";
     }
 
+    @GetMapping("/deleteBoard")
+    public String getDeleteBoard(@RequestParam("bidx") Long bidx, RedirectAttributes redirectAttributes){
+
+        serviceWorld.deleteBoard(bidx);
+
+        redirectAttributes.addFlashAttribute("msg", "ボード削除完了!");
+
+        return "redirect:/deleteSuccess";
+    }
+
+    @GetMapping("/deleteSuccess")
+    public String getDeleteSuccessPage() {
+
+        return "deleteSuccess";
+    }
 
     @PostMapping("/createPost_proc")
     public String setCreatePost(@Valid DTOCreatePost dtoCreatePost, BindingResult bindingResult,

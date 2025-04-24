@@ -96,9 +96,10 @@
                         <strong>開設日</strong>
                         <span th:text="${date}"></span>
                     </div>
-                    <div>
-                        <button th:onclick="|location.href='@{/createPost(bidx=${boardInfo.bidx})}'|"
-                        style="width: 82px; background-color: #3b4890; font-weight: bold; color: white; border: none;">投稿する</button>
+                    <div class="divButton">
+                        <button th:onclick="|location.href='@{/createPost(bidx=${boardInfo.bidx})}'|">投稿する</button>
+                        <button th:onclick="|location.href='@{/deleteBoard(bidx=${boardInfo.bidx})}'|"
+                                th:if="${session.nick == 'onboard'}">ボード削除</button>
                     </div>
                 </div>
             </div>

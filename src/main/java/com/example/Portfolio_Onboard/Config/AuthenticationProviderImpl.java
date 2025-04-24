@@ -70,7 +70,7 @@ public class AuthenticationProviderImpl implements AuthenticationProvider {
         authorities.add(new SimpleGrantedAuthority("ROLE_USER"));
         // 위의 Exception을 통과 즉, 회원이면 모두에게 "ROLE_USER" 권한을 준다.
 
-        if(userid.equals("1")){
+        if(userid.equals("onboard01")){
             authorities.add(new SimpleGrantedAuthority("ROLE_MANAGER"));
         }
 

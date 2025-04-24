@@ -340,6 +340,29 @@
         flex-direction: column;
     }
 
+    .divButton {
+
+        gap: 40px;
+    }
+
+    .divButton button:nth-of-type(1) {
+
+        width: 82px;
+        background-color: #3b4890;
+        font-weight: bold;
+        color: white;
+        border: none;
+    }
+
+    .divButton button:nth-of-type(2) {
+
+        width: 82px;
+        background-color: #ff9900;
+        font-weight: bold;
+        color: white;
+        border: none;
+    }
+
     .boardManager div {
 
         flex: 1;

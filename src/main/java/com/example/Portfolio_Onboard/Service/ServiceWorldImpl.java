@@ -191,6 +191,15 @@ public class ServiceWorldImpl implements ServiceWorld {
     }
 
     @Override
+    public void deleteBoard(Long bidx) {
+
+        if (bidx != null && repoWorld.existsById(bidx)) {
+
+            repoWorld.deleteById(bidx);
+        }
+    }
+
+    @Override
     public Page<DTOPostView> postList(Long bidx, Pageable pageable) {
 
         Page<EntityPost> postsPage  = null;

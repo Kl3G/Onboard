@@ -14,6 +14,7 @@ public interface ServiceWorld {
 
     String setWorld(DTOCreateBoard dtoCreateBoard, RedirectAttributes redirectAttributes);
     DTOBoardInfo boardInfo(Long bidx);
+    void deleteBoard(Long bidx); // 보드 삭제
     Page<DTOPostView> postList(Long bidx, Pageable pageable); // 보드의 게시글 리스트 출력
     void incrementViewCount(Long pidx); // 조회수 카운트
     void incrementGoodCount(Long pidx);

@@ -612,6 +612,12 @@ public class MainController {
         return serviceWorld.setWorld(dtoCreateBoard, redirectAttributes);
     }
 
+    @GetMapping("/intro")
+    public String getIntro() {
+
+        return "intro";
+    }
+
     @GetMapping("/api/session-status")
     public ResponseEntity<?> checkSessionStatus(HttpSession session) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
